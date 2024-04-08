@@ -1,6 +1,0 @@
-- name: restart kvmd-oled
-  systemd:
-    name: kvmd-oled
-    state: restarted
-    enabled: yes
-    daemon_reload: yes

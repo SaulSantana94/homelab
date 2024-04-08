@@ -30,11 +30,11 @@ start() {
     then
         rm /etc/apagado
         message="$(hostname) started"
-        date | mail -s "$message" pando855@gmail.com
+        date | mail -s "$message" daniel.boluda.fdez@gmail.com
         send_telegram_message "$message"
     else
         message="$(hostname) started after improper shutdown"
-        date | mail -s "$message" pando855@gmail.com
+        date | mail -s "$message" daniel.boluda.fdez@gmail.com
         send_telegram_message "$message"
     fi
 }

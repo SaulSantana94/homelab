@@ -1,5 +1,5 @@
 - name: Enable etcd backup
-  hosts: grigri
+  hosts: dabol-gl752vw
   tasks:
     - name: Check dependencies
       ansible.builtin.apt:

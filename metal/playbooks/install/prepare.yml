@@ -9,15 +9,9 @@
 
 - name: Setup amd64
   hosts:
-    - grigri
-    - prusik
+    - dabol-gl752vw
   roles:
     - setup
-
-- name: Setup k8s-amd64-1
-  hosts: k8s-amd64-1
-  roles:
-    - k8s-amd64-1-setup
 
 - name: Setup NVIDA drivers
   hosts: nvidia
@@ -25,8 +19,3 @@
     - name: nvidia-container-runtime
       tags:
         - nvidia-container-runtime
-
-- name: Setup pikvm
-  hosts: prusik-ipmi
-  roles:
-    - pikvm
