@@ -1,7 +1,0 @@
-apiVersion: v2
-name: mintpsicologia
-version: 0.0.0
-dependencies:
-  - name: wordpress
-    version: 22.1.3
-    repository: https://charts.bitnami.com/bitnami

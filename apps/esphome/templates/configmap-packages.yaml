@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: esphome-config-packages
-data:
-{{ (.Files.Glob "config/packages/*.yaml").AsConfig | indent 2 }}

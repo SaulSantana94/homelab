@@ -1,6 +1,6 @@
 ---
-prepare_username: agil
-prepare_domain: grigri
+prepare_username: dabol
+prepare_domain: dabol
 
 prepare_password: "{{ lookup('passwordstore', 'k8s.grigri/prepare_password') }}"
 prepare_public_keys:

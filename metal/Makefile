@@ -1,18 +1,18 @@
 .POSIX:
 
 WORKON_HOME ?= .direnv
-PYTHON_VERSION:=$(shell python --version | cut -d " " -f 2)
+PYTHON_VERSION:=$(shell python3 --version | cut -d " " -f 2)
 VENV_BASE ?= $(WORKON_HOME)/python-$(PYTHON_VERSION)
 PYTHON := ${VENV_BASE}/bin/python3
 PYTHON_BIN_DIR := ${VENV_BASE}/bin
 
-SSH_KEY_FILE ?= ~/.ssh/id_ed25519
+SSH_KEY_FILE ?= ~/.ssh/id_rsa
 ANSIBLE_EXTRA_ARGS ?=
 
 default: prepare cluster
 
 $(SSH_KEY_FILE):
-	ssh-keygen -t ed25519 -f "$@"
+	ssh-keygen -t rsa -f "$@"
 
 .PHONY: venv
 venv:
