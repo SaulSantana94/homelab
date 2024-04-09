@@ -72,15 +72,12 @@ ingress-nginx:
             app.kubernetes.io/component: controller
             app.kubernetes.io/instance: ingress-nginx-external
             app.kubernetes.io/name: ingress-nginx
+    
     service:
       enabled: true
       annotations:
-        # Cilium v1.16+
-        lbipam.cilium.io/ips: "192.168.193.4"
-        # Cilium v1.15
-        io.cilium/lb-ipam-ips: "192.168.193.4"
-      loadBalancerClass: "io.cilium/bgp-control-plane"
-      externalTrafficPolicy: Local
+        metallb.universe.tf/loadBalancerIPs: "192.168.193.4"
+
       enableHttp: true
       enableHttps: true
 
@@ -93,6 +90,7 @@ ingress-nginx:
         https: https
 
       type: LoadBalancer
+      externalTrafficPolicy: Local
       internal:
         enabled: false
 
