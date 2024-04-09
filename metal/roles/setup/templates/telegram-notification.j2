@@ -2,9 +2,9 @@
 set -e
 
 # shellcheck disable=SC2089
-CHAT_ID="{{ lookup('passwordstore', 'grigri/telegram/chat_id') }}"
+CHAT_ID="{{ lookup('passwordstore', 'k8s.dabol/telegram/chat_id') }}"
 # shellcheck disable=SC2089
-TELEGRAM_BOT_TOKEN="{{ lookup('passwordstore', 'grigri/telegram/token') }}"
+TELEGRAM_BOT_TOKEN="{{ lookup('passwordstore', 'k8s.dabol/telegram/token') }}"
 
 send_telegram_message()
 {

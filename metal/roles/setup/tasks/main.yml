@@ -17,11 +17,11 @@
   tags:
     - setup
 
-- name: Backup user
-  import_tasks: backup-user.yml
-  tags:
-    - setup
-    - backup-user
+#- name: Backup user
+#  import_tasks: backup-user.yml
+#  tags:
+#    - setup
+#    - backup-user
 
 - name: Notifications
   import_tasks: notifications.yml
@@ -46,8 +46,8 @@
   tags:
     - setup
 
-- name: Configure ZFS
-  import_tasks: zfs.yml
-  tags:
-    - setup
-    - zfs
+#- name: Configure ZFS
+#  import_tasks: zfs.yml
+#  tags:
+#    - setup
+#    - zfs
