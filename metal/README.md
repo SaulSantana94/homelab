@@ -43,6 +43,31 @@ This README provides instructions for deploying using Ansible playbooks. Please 
         make cluster
         ```
 
+## Configuration Checks
+
+Before deploying, ensure the following configurations are correctly set up:
+
+- **Check Email Address Configuration**:
+    - Verify the email address configuration in the following files:
+        - `/metal/roles/setup/templates/sasl_passwd.j2`
+        - `bootstrap/argocd/values.yaml`
+        - `/metal/roles/setup/tasks/main.yml`
+        - `/metal/roles/setup/templates/telegram-notification.j2`
+
+- **Check Certificates**:
+    - Ensure the certificates are correctly configured in:
+        - `/metal/inventory/group_vars/all/prepare.yml`
+
+- **Check Inventory**:
+    - Verify the inventory in:
+        - `/metal/inventory/hosts.ini`
+
+- **Check Hosts Matching**:
+    - Make sure the hosts are matching in the following playbooks:
+        - `/metal/playbooks/install/backup-etcd.yml`
+        - `/metal/playbooks/install/cluster.yml`
+        - `/metal/playbooks/install/prepare.yml`
+
 ## About Ansible
 
 Ansible is an open-source automation tool used for configuration management, application deployment, and task automation. It allows you to automate repetitive tasks, making it easier to manage and deploy infrastructure.
