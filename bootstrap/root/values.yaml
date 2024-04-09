@@ -1,5 +1,5 @@
 gitops:
-  repo: https://github.com/pando85/homelab
+  repo: https://github.com/Daniel-Boluda/homelab
   revision: master
 stacks:
   - name: bootstrap

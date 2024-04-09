@@ -1,7 +1,7 @@
-# Pando85's Homelab
+# Dabol's Homelab
 
-[![document](https://img.shields.io/website?label=document&logo=gitbook&logoColor=white&style=flat-square&url=https%3A%2F%2Fpando85.github.io%2Fhomelab%2F)](https://pando85.github.io/homelab/)
-[![license](https://img.shields.io/github/license/pando85/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![document](https://img.shields.io/website?label=document&logo=gitbook&logoColor=white&style=flat-square&url=https%3A%2F%Daniel-Boluda.github.io%2Fhomelab%2F)](https://Daniel-Boluda.github.io/homelab/)
+[![license](https://img.shields.io/github/license/Daniel-Boluda/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
 
 This project utilizes [Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_code)
 and [GitOps](https://www.weave.works/technologies/gitops) to automate provisioning, operating, and
@@ -19,7 +19,7 @@ framework to build your own homelab.
 ## 📖 Overview
 
 This section provides a high level overview of the project. For further information, please see the
-[documentation](https://pando85.github.io/homelab/).
+[documentation](https://Daniel-Boluda.github.io/homelab/).
 
 ## ⛵ Kubernetes
 
@@ -70,8 +70,8 @@ bare-metal. We use custom Ansible playbooks and roles to setup the Kubernetes cl
 ### Images
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="https://raw.githubusercontent.com/pando85/homelab/master/docs/images/rack.jpg" width="50%" height="auto" />
-  <img src="https://raw.githubusercontent.com/pando85/homelab/master/docs/images/k8s-amd64-1.jpg" width="40%" height="auto" />
+  <img src="https://raw.githubusercontent.com/Daniel-Boluda/homelab/master/docs/images/rack.jpg" width="50%" height="auto" />
+  <img src="https://raw.githubusercontent.com/Daniel-Boluda/homelab/master/docs/images/k8s-amd64-1.jpg" width="40%" height="auto" />
 </div>
 
 ## ⭐ Features

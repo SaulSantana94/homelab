@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 
-site_name: Pando85's Homelab
+site_name: Dabol's Homelab
 
-repo_url: https://github.com/pando85/homelab
+repo_url: https://github.com/Daniel-Boluda/homelab
 
 theme:
   name: material
