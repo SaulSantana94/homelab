@@ -29,33 +29,6 @@ ingress-nginx:
         cpu: 40m
         memory: 150Mi
 
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
-                - key: name
-                  operator: In
-                  values:
-                    - grigri
-          - weight: 50
-            preference:
-              matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: In
-                  values:
-                    - amd64
-          - weight: 25
-            preference:
-              matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k8s-odroid-c4-1
-                    - k8s-odroid-c4-2
-                    - k8s-odroid-hc4-3
-
     autoscaling:
       enabled: true
       minReplicas: 2
@@ -118,6 +91,3 @@ ingress-nginx:
           medium: Memory
           # not working until v1.21? https://github.com/kubernetes/kubernetes/issues/63126
           sizeLimit: 303Mi
-
-  tcp:
-    29518: git/git-gitea-ssh:22

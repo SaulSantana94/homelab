@@ -2,18 +2,12 @@ apiVersion: "vault.banzaicloud.com/v1alpha1"
 kind: "Vault"
 metadata:
   name: "vault"
-  labels:
-    backup/retain: quaterly
 spec:
   size: 1
   # renovate: datasource=docker
   image: vault:1.13.3
   # specify a custom bank-vaults image with bankVaultsImage:
   # bankVaultsImage: ghcr.io/banzaicloud/bank-vaults:latest
-
-  # Common annotations for all created resources
-  annotations:
-    common/annotation: "true"
 
   # Vault Pods , Services and TLS Secret annotations
   vaultAnnotations:
@@ -76,7 +70,7 @@ spec:
     spec:
       ingressClassName: nginx-internal
       rules:
-        - host: &host vault.internal.grigri.cloud
+        - host: &host vault.internal.dabol.cloud
           http:
             paths:
               - backend:
@@ -98,19 +92,12 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: vault-file
-        labels:
-          backup/retain: quaterly
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
             storage: 1Gi
-
-  # Support for distributing the generated CA certificate Secret to other namespaces.
-  # Define a list of namespaces or use ["*"] for all namespaces.
-  caNamespaces:
-    - "vswh"
 
   # Describe where you would like to store the Vault unseal keys and root token.
   unsealConfig:
@@ -176,10 +163,6 @@ spec:
         rules: path "secret/*" {
           capabilities = ["create", "read", "update", "delete", "list"]
           }
-      - name: allow_iot_pki
-        rules: path "pki/iot/*" {
-          capabilities = ["create", "read", "update", "delete", "list"]
-          }
 
     auth:
       - type: kubernetes
@@ -195,14 +178,6 @@ spec:
             policies:
               - allow_secrets
             ttl: 1h
-          - name: allow-iot-pki
-            bound_service_account_names:
-              - cert-manager
-            bound_service_account_namespaces:
-              - cert-manager
-            policies:
-              - allow_iot_pki
-            ttl: 1h
 
     secrets:
       - path: secret
@@ -210,86 +185,4 @@ spec:
         description: General secrets.
         options:
           version: 2
-      # https://learn.hashicorp.com/tutorials/vault/pki-engine
-      - type: pki
-        path: pki/grigri
-        description: Grigri root CA
-        config:
-          default_lease_ttl: "9528h"  # 397 days -> max certificate validity
-          max_lease_ttl: "87600h"  # 10 years
-        configuration:
-          config:
-            - name: urls
-              issuing_certificates:
-                - https://vault.internal.grigri.cloud/v1/pki/grigri/ca
-              crl_distribution_points:
-                - https://vault.internal.grigri.cloud/v1/pki/grigri/crl
-          roles:
-            - name: internal-certificates-grigri
-              allow_localhost: false
-              ttl: "9528h"
-              max_ttl: "9528h"
-              allow_glob_domains: true
-              allowed_domains:
-                - "*.grigri"
-              allow_subdomains: true
-              server_flag: true
-              client_flag: false
-              key_type: "rsa"
-              key_bits: 4096
-              signature_bits: 256
-              organization: "grigri"
-              country: "ES"
-              locality: "Madrid"
-              province: "Madrid"
-              allowed_domains_template: false
-              issuer_ref: "default"
-      - type: pki
-        path: pki/iot
-        description: Grigri IoT root CA
-        config:
-          default_lease_ttl: "9528h"  # 397 days -> max certificate validity
-          max_lease_ttl: "87600h"  # 10 years
-        configuration:
-          config:
-            - name: urls
-              issuing_certificates:
-                - https://vault.internal.grigri.cloud/v1/pki/iot/ca
-              crl_distribution_points:
-                - https://vault.internal.grigri.cloud/v1/pki/iot/crl
-          root/generate:
-            - name: iot.grigri
-              common_name: iot.grigri
-              ttl: "87600h"
-              allow_subdomains: true
-              allow_wildcard_certificates: true
-              allowed_domains:
-                - "iot.grigri"
-                - "internal.grigri.cloud"
-              key_type: "rsa"
-              key_bits: 4096
-              organization: "grigri"
-              country: "ES"
-              locality: "Madrid"
-              province: "Madrid"
-          roles:
-            - name: internal-certificates-grigri-iot
-              allow_localhost: false
-              ttl: "9528h"
-              max_ttl: "9528h"
-              allow_glob_domains: true
-              allowed_domains:
-                - "*.iot.grigri"
-                - "*.internal.grigri.cloud"
-              allow_subdomains: true
-              server_flag: true
-              client_flag: false
-              key_type: "rsa"
-              key_bits: 4096
-              signature_bits: 256
-              organization: "grigri"
-              country: "ES"
-              locality: "Madrid"
-              province: "Madrid"
-              allowed_domains_template: false
-              issuer_ref: "default"
+     
