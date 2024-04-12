@@ -12,11 +12,6 @@ stacks:
         jsonPointers:
           - /spec/conversion/webhook/clientConfig/caBundle
       - group: '*'
-        kind: CustomResourceDefinition
-        name: 'bgppeers.metallb.io'
-        jsonPointers:
-          - /spec/conversion/webhook/clientConfig/caBundle
-      - group: '*'
         kind: Secret
         jsonPointers:
           - /data/ca.crt
@@ -24,4 +19,4 @@ stacks:
           - /data/tls.crt
           - /data/tls.key
   - name: platform
-  - name: apps
+  #- name: apps

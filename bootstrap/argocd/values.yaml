@@ -3,39 +3,10 @@ argo-cd:
     cm:
       create: true
 
-      url: https://argocd.internal.grigri.cloud
+      url: https://argocd.internal.dabol.cloud
 
       exec.enabled: "true"
 
-      oidc.config: |
-        name: idm.grigri.cloud
-        issuer: https://idm.grigri.cloud/oauth2/openid/argocd
-        clientID: $oidc.kanidm.clientID
-        clientSecret: $oidc.kanidm.clientSecret
-
-        # Optional list of allowed aud claims. If omitted or empty, defaults to the clientID value above (and the
-        # cliClientID, if that is also specified). If you specify a list and want the clientID to be allowed, you must
-        # explicitly include it in the list.
-        # Token verification will pass if any of the token's audiences matches any of the audiences in this list.
-        allowedAudiences:
-        - argocd
-
-        # Optional. If false, tokens without an audience will always fail validation. If true, tokens without an audience
-        # will always pass validation.
-        # Defaults to true for Argo CD < 2.6.0. Defaults to false for Argo CD >= 2.6.0.
-        skipAudienceCheckWhenTokenHasNoAudience: false
-
-        # Optional set of OIDC scopes to request. If omitted, defaults to: ["openid", "profile", "email", "groups"]
-        requestedScopes: ["openid", "profile", "email"]
-        # PKCE not working, it is not sending the code_challenge
-        # to enable:
-        # ```bash
-        # kanidm system oauth2 delete argocd
-        # kanidm system oauth2 create argocd argocd  https://argocd.internal.grigri.cloud/pkce/verify -D admin
-        # kanidm system oauth2 update-scope-map argocd argocd-users openid profile email\n
-        # kanidm system oauth2 set-landing-url argocd 'https://argocd.internal.grigri.cloud/auth/login?return_url=https%3A%2F%2Fargocd.internal.grigri.cloud%2Fapplications'
-        # ```
-        # enablePKCEAuthentication: true
       # Disable git polling
       timeout.reconciliation: "0"
 
@@ -103,12 +74,12 @@ argo-cd:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         external-dns.alpha.kubernetes.io/enabled: "true"
-      hostname: argocd.internal.grigri.cloud
+      hostname: argocd.internal.dabol.cloud
       tls: true
     metrics: &metrics
       enabled: true
       serviceMonitor:
-        enabled: true
+        enabled: false
         additionalLabels:
           release: monitoring
   dex:
@@ -127,7 +98,7 @@ argo-cd:
 
   repoServer:
     autoscaling:
-      enabled: true
+      enabled: false
       minReplicas: 1
       maxReplicas: 5
       targetCPUUtilizationPercentage: 150
@@ -174,7 +145,7 @@ argo-cd:
     enabled: true
 
     # -- Argo CD dashboard url; used in place of {{.context.argocdUrl}} in templates
-    argocdUrl: https://argocd.internal.grigri.cloud
+    argocdUrl: https://argocd.internal.dabol.cloud
     updateStrategy:
       type: Recreate
 
