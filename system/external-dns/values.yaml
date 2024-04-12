@@ -17,9 +17,9 @@ external-dns:
     - service
     - ingress
   domainFilters:
-    - grigri.cloud
+    - dabol.cloud
   serviceMonitor:
-    enabled: true
+    enabled: false
     additionalLabels:
       release: monitoring
   resources:

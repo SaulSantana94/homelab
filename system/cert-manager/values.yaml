@@ -18,7 +18,7 @@ cert-manager:
       namespace: cert-manager
 
   prometheus:
-    enabled: true
+    enabled: false
     servicemonitor:
       enabled: true
       labels:

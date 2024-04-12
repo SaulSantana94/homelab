@@ -26,3 +26,5 @@ metallb:
       enabled: true
       periodSeconds: 30
       timeoutSeconds: 5
+
+  protocol: "layer2" # Set protocol to "layer2" for ARP mode
