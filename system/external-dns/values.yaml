@@ -17,7 +17,7 @@ external-dns:
     - service
     - ingress
   domainFilters:
-    - dabol.cloud
+    - dbcloud.org
   serviceMonitor:
     enabled: false
     additionalLabels:

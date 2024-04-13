@@ -3,7 +3,7 @@ argo-cd:
     cm:
       create: true
 
-      url: https://argocd.internal.dabol.cloud
+      url: https://argocd.internal.dbcloud.org
 
       exec.enabled: "true"
 
@@ -74,7 +74,7 @@ argo-cd:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         external-dns.alpha.kubernetes.io/enabled: "true"
-      hostname: argocd.internal.dabol.cloud
+      hostname: argocd.internal.dbcloud.org
       tls: true
     metrics: &metrics
       enabled: true
@@ -145,7 +145,7 @@ argo-cd:
     enabled: true
 
     # -- Argo CD dashboard url; used in place of {{.context.argocdUrl}} in templates
-    argocdUrl: https://argocd.internal.dabol.cloud
+    argocdUrl: https://argocd.internal.dbcloud.org
     updateStrategy:
       type: Recreate
 

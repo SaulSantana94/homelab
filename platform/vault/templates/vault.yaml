@@ -70,7 +70,7 @@ spec:
     spec:
       ingressClassName: nginx-internal
       rules:
-        - host: &host vault.internal.dabol.cloud
+        - host: &host vault.internal.dbcloud.org
           http:
             paths:
               - backend:
