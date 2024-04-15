@@ -57,7 +57,7 @@ argo-cd:
       scopes: "[groups, email]"
 
     secret:
-      createSecret: true
+      createSecret: false
 
   server:
     resources:
