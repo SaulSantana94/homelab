@@ -38,26 +38,26 @@ argo-cd:
 
       server.insecure: true
 
-#    rbac:
-#      create: true
-#
-#      # policy.csv is an file containing user-defined RBAC policies and role definitions (optional).
-#      # Policy rules are in the form:
-#      #   p, subject, resource, action, object, effect
-#      # Role definitions and bindings are in the form:
-#      #   g, subject, inherited-subject
-#      # See https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md for additional information.
-#      policy.csv: |
-#        # Grant all members of each LDAP group
-#        p, role:none, *, *, */*, deny
-#        #g, wheel, role:admin
-#        # workaround until fix DN in dex (see LDAP config part)
-#        g, daniel.boluda.fdez@gmail.com, role:admin
-#      
-#      scopes: "[groups, email]"
+    rbac:
+      create: true
+
+      # policy.csv is an file containing user-defined RBAC policies and role definitions (optional).
+      # Policy rules are in the form:
+      #   p, subject, resource, action, object, effect
+      # Role definitions and bindings are in the form:
+      #   g, subject, inherited-subject
+      # See https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md for additional information.
+      policy.csv: |
+        # Grant all members of each LDAP group
+        p, role:none, *, *, */*, deny
+        #g, wheel, role:admin
+        # workaround until fix DN in dex (see LDAP config part)
+        g, daniel.boluda.fdez@gmail.com, role:admin
+
+      scopes: "[groups, email]"
 
     secret:
-      createSecret: true
+      createSecret: false
 
       # -- Enable local admin user
       ## Ref: https://argo-cd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
@@ -66,7 +66,7 @@ argo-cd:
       # -- Bcrypt hashed admin password
       ## Argo expects the password in the secret to be bcrypt hashed. You can create this hash with
       ## `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
-      argocdServerAdminPassword: "FWeepZo1ar9xqaNC"
+      argocdServerAdminPassword: "$2a$10$r/vG9lW729l6en1LL.L6HOYg87KnO.P6bKiylumbde6iE5YxQ1i3a"
 
 
   server:
@@ -160,7 +160,7 @@ argo-cd:
       type: Recreate
 
     secret:
-      create: true
+      create: false
 
     metrics:
       enabled: false
