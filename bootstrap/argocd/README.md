@@ -23,6 +23,7 @@ kubectl port-forward -n argocd service/argocd-server 8443:443
 Secrets:
 kubectl describe externalsecret argocd-secret  -n argocd
 kubectl get externalsecrets --all-namespaces
+Refresh secret: kubectl patch externalsecret argocd-secret -n argocd --type=merge -p '{"metadata":{"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{}"}}}'
 
 Logs:
 kubectl -n argocd logs  argocd-server-6dfc58bc9f-btxck
