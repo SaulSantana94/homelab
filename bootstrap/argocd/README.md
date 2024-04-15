@@ -15,8 +15,15 @@ kubectl -n argocd get secrets
 Delete all Pods from argo
 kubectl delete pods --all --namespace=argocd
 
-
 Forward ports
 kubectl port-forward -n vault service/vault 8200:8200
 kubectl port-forward -n argocd service/argocd-server 8443:443
+
+
+Secrets:
+kubectl describe externalsecret argocd-secret  -n argocd
+kubectl get externalsecrets --all-namespaces
+
+Logs:
+kubectl -n argocd logs  argocd-server-6dfc58bc9f-btxck
 

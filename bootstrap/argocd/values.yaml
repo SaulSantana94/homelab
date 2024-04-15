@@ -150,7 +150,7 @@ argo-cd:
       type: Recreate
 
     secret:
-      create: false
+      create: true
 
     metrics:
       enabled: false
