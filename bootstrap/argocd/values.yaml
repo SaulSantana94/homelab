@@ -57,7 +57,7 @@ argo-cd:
       scopes: "[groups, email]"
 
     secret:
-      createSecret: false
+      createSecret: true
 
       # -- Enable local admin user
       ## Ref: https://argo-cd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
@@ -160,7 +160,7 @@ argo-cd:
       type: Recreate
 
     secret:
-      create: false
+      create: true
 
     metrics:
       enabled: false
