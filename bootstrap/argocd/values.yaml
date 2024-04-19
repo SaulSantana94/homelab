@@ -38,6 +38,23 @@ argo-cd:
 
       server.insecure: true
 
+    rbac:
+      create: true
+
+      # policy.csv is an file containing user-defined RBAC policies and role definitions (optional).
+      # Policy rules are in the form:
+      #   p, subject, resource, action, object, effect
+      # Role definitions and bindings are in the form:
+      #   g, subject, inherited-subject
+      # See https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md for additional information.
+      policy.csv: |
+        # Grant all members of each LDAP group
+        p, role:none, *, *, */*, deny
+        #g, wheel, role:admin
+        # workaround until fix DN in dex (see LDAP config part)
+        g, daniel.boluda.fdez@gmail.com, role:admin
+
+      scopes: "[groups, email]"
 
     secret:
       createSecret: false
