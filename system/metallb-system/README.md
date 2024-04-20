@@ -60,8 +60,8 @@ Consequences:
 
 ### `metallb-system/templates/ipaddresspool.yaml`:
 
-This file defines the IP address pool that MetalLB will allocate from. In this case, it defines a pool named "default" with the CIDR 192.168.1.240/29.
-An IP address pool in MetalLB defines the range of IP addresses from which MetalLB can allocate addresses for load balancers. In this configuration, a pool named "default" with the CIDR 192.168.1.240/29 is specified. This means that MetalLB will allocate IP addresses from the range 192.168.1.240 to 192.168.1.247.
+This file defines the IP address pool that MetalLB will allocate from. In this case, it defines a pool named "default" with the CIDR 192.168.1.240-192.168.1.244.
+An IP address pool in MetalLB defines the range of IP addresses from which MetalLB can allocate addresses for load balancers. In this configuration, a pool named "default" with the CIDR 192.168.1.240-192.168.1.244 is specified. This means that MetalLB will allocate IP addresses from the range 192.168.1.240 to 192.168.1.244.
 
 Consequences of defining this pool named "default":
 
