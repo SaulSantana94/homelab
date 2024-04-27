@@ -1,5 +1,5 @@
 - name: Enable etcd backup
-  hosts: dabol-gl752vw
+  hosts: dabol-fractal
   tasks:
     - name: Check dependencies
       ansible.builtin.apt:

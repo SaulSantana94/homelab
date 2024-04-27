@@ -16,6 +16,6 @@
 #  ansible.builtin.import_playbook: backup-etcd.yml
 
 - name: Install zfs-exporter
-  hosts: dabol-gl752vw
+  hosts: dabol-fractal
   roles:
     - zfs_exporter
