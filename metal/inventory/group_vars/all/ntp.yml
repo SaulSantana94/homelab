@@ -6,3 +6,4 @@ ntp_servers:
   - 3.es.pool.ntp.org
 
 ntp_timezone: Europe/Madrid
+ntp_manage_config: true
