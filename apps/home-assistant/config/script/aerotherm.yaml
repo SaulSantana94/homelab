@@ -1,0 +1,39 @@
+set_heat_mode:
+  alias: Set Heat Mode
+  description: "Sets Heishamon heat mode for scheduler-card with notification"
+  icon: mdi:hvac
+  fields:
+    heatmode:
+      description: "Heashamon heat mode"
+      example: "Heat+DHW"
+      required: true
+      selector:
+        select:
+          options:
+            - Heat
+            - Cool
+            - Auto
+            - DHW
+            - Heat+DHW
+            - Cool+DHW
+            - Auto(Heat)+DHW
+            - Auto(Cool)
+            - Auto(Cool)+DHW
+  mode: single
+  sequence:
+    - alias: Check is not current state
+      condition: "{{ not is_state('input_select.heishamon_heatmode', heatmode)}}"
+    - alias: Check is a valid state
+      condition: "{{ heatmode in state_attr('input_select.heishamon_heatmode', 'options')}}"
+    - alias: Set heat mode
+      service: input_select.select_option
+      target:
+        entity_id: input_select.heishamon_heatmode
+      data:
+        option: "{{ heatmode }}"
+    - alias: Notify
+      service: notify.agil
+      data:
+        message: |
+          Set heat mode to `{{ heatmode }}`.
+          Heat mode is `{{ states('input_select.heishamon_heatmode') }}`.
