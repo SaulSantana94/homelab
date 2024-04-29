@@ -39,25 +39,19 @@ ingress-nginx:
       targetCPUUtilizationPercentage: 1250
       targetMemoryUtilizationPercentage: 200
     topologySpreadConstraints:
-    - maxSkew: 1
-      topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: DoNotSchedule
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/component: controller
-          app.kubernetes.io/instance: ingress-nginx-external
-          app.kubernetes.io/name: ingress-nginx
-
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: controller
+            app.kubernetes.io/instance: ingress-nginx-external
+            app.kubernetes.io/name: ingress-nginx
+    
     service:
       enabled: true
       annotations:
         metallb.universe.tf/loadBalancerIPs: "192.168.1.242"
-      labels: {}
-
-      ## List of IP addresses at which the controller services are available
-      ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
-      ##
-      externalIPs: []
 
       enableHttp: true
       enableHttps: true
@@ -71,18 +65,24 @@ ingress-nginx:
         https: https
 
       type: LoadBalancer
-      #externalTrafficPolicy: Local
+      externalTrafficPolicy: Local
       internal:
         enabled: false
-        annotations: {}
 
     extraVolumeMounts:
-    - name: dshm
-      mountPath: /dev/shm
+      - name: dshm
+        mountPath: /dev/shm
 
     extraVolumes:
-    - name: dshm
-      emptyDir:
-        medium: Memory
-        # not working until v1.21? https://github.com/kubernetes/kubernetes/issues/63126
-        sizeLimit: 303Mi
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          # not working until v1.21? https://github.com/kubernetes/kubernetes/issues/63126
+          sizeLimit: 303Mi
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          release: monitoring
