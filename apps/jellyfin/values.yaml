@@ -92,9 +92,6 @@ app-template:
       fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
 
-    nodeSelector:
-      name: grigri
-
   persistence:
     config:
       enabled: true
