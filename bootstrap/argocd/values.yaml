@@ -57,7 +57,7 @@ argo-cd:
       scopes: "[groups, email]"
 
     secret:
-      createSecret: false
+      createSecret: true
 
 
   server:
@@ -108,8 +108,8 @@ argo-cd:
         cpu: 2.5
         memory: 2Gi
     env:
-      - name: ARGOCD_EXEC_TIMEOUT
-        value: "300s"
+    - name: ARGOCD_EXEC_TIMEOUT
+      value: "300s"
 
     metrics: *metrics
 
@@ -164,11 +164,11 @@ argo-cd:
         memory: 128Mi
 
     subscriptions:
-      - recipients:
-          - telegram:-1001533258564
-        triggers:
-          - on-health-degraded
-          - on-sync-failed
+    - recipients:
+      - telegram:-1001533258564
+      triggers:
+      - on-health-degraded
+      - on-sync-failed
 
     templates:
       template.app-deployed: |
