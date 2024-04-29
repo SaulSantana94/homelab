@@ -22,7 +22,7 @@ ingress-nginx:
       default: false
       controllerValue: "k8s.io/ingress-nginx-external"
 
-    ingressClass: nginx-internal
+    ingressClass: nginx-external
 
     resources:
       limits:
@@ -52,6 +52,12 @@ ingress-nginx:
       enabled: true
       annotations:
         metallb.universe.tf/loadBalancerIPs: "192.168.1.242"
+      labels: {}
+
+      ## List of IP addresses at which the controller services are available
+      ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+      ##
+      externalIPs: []
 
       enableHttp: true
       enableHttps: true
@@ -65,9 +71,10 @@ ingress-nginx:
         https: https
 
       type: LoadBalancer
-      externalTrafficPolicy: Local
+      #externalTrafficPolicy: Local
       internal:
         enabled: false
+        annotations: {}
 
     extraVolumeMounts:
     - name: dshm
