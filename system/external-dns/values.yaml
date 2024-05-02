@@ -3,25 +3,22 @@ external-dns:
   # logLevel: debug
   provider: cloudflare
   env:
-    - name: CF_API_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: external-dns-cloudflare
-          key: token
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: external-dns-cloudflare
+        key: token
   extraArgs:
-    - --annotation-filter=external-dns.alpha.kubernetes.io/enabled in (true)
+  - --annotation-filter=external-dns.alpha.kubernetes.io/enabled in (true)
   # policy sync for fully handle the domain
   policy: upsert-only
 
   sources:
-    - service
-    - ingress
+  - service
+  - ingress
   domainFilters:
-    - dbcloud.org
-  serviceMonitor:
-    enabled: false
-    additionalLabels:
-      release: monitoring
+  - dbcloud.org
+
   resources:
     requests:
       cpu: 10m

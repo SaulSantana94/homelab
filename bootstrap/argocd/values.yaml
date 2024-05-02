@@ -79,10 +79,7 @@ argo-cd:
       tls: true
     metrics: &metrics
       enabled: true
-      serviceMonitor:
-        enabled: false
-        additionalLabels:
-          release: monitoring
+
   dex:
     enabled: false
 
