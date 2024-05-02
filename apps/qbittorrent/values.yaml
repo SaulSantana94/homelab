@@ -98,19 +98,6 @@ app-template:
           protocol: TCP
           targetPort: 50413
 
-  serviceMonitor:
-    qbittorrent:
-      enabled: true
-      serviceName: qbittorrent
-      labels:
-        release: monitoring
-      endpoints:
-      - port: metrics
-        scheme: http
-        path: /metrics
-        interval: 1m
-        scrapeTimeout: 30s
-
   ingress:
     qbittorrent:
       enabled: true
