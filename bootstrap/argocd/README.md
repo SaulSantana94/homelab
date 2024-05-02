@@ -32,3 +32,11 @@ Refresh secret: kubectl patch externalsecret argocd-secret -n argocd --type=merg
 Logs:
 kubectl -n argocd logs  argocd-server-6dfc58bc9f-btxck
 
+
+Identify mount path of persistent volume:
+mount | rg pvc-048a842f-a6f5-48ff-a5e1-aea53fef9c59
+
+Copy data to volume
+rsync -avz -e "ssh" dabol@192.168.1.249:/media/dabol/Data/data/MediaServer/Music/ /var/lib/kubelet/pods/39e85c56-cf58-4796-a716-9ca984b3ddbd/volumes/kubernetes.io~csi/pvc-048a842f-a6f5-48ff-a5e1-aea53fef9c59/mount
+
+
