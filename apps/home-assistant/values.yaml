@@ -224,11 +224,6 @@ app-template:
       ports:
         http:
           port: 10400
-    valetudopng:
-      controller: valetudopng
-      ports:
-        http:
-          port: 3000
 
   ingress:
     hass:
