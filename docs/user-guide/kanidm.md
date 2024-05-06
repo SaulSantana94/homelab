@@ -45,12 +45,12 @@ kanidm raw search '{"eq": ["name", "idm_self_acp_write"]}'
 ## Create user
 
 ```bash
-kanidm person create demo-user "demo-user" -D idm_admin
-kanidm person update demo-user --mail "demo-user@example.com" -D idm_admin
-kanidm person credential create-reset-token demo-user -D idm_admin
+kanidm person create daniel-boluda "daniel-boluda" -D idm_admin
+kanidm person update daniel-boluda --mail "daniel-boluda@example.com" -D idm_admin
+kanidm person credential create-reset-token daniel-boluda -D idm_admin
 
 kanidm group list -D idm_admin | rg name | rg users
-kanidm group add-members ${GROUP_NAME} demo-user -D idm_admin
+kanidm group add-members ${GROUP_NAME} daniel-boluda -D idm_admin
 ```
 
 ## Add app to SSO
