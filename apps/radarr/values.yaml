@@ -78,6 +78,7 @@ app-template:
       - hosts:
         - *host
         secretName: radarr-external-tls-certificate
+
   defaultPodOptions:
     securityContext:
       runAsUser: 995
