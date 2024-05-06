@@ -79,3 +79,19 @@ These configurations ensure that MetalLB is properly set up and configured withi
 MetalLB facilitates load-balancing in Kubernetes clusters, particularly useful in environments lacking native cloud-based load balancers. By following these steps, you can configure MetalLB in Layer 2 mode (ARP) to efficiently manage load balancing tasks within your Kubernetes cluster.
 
 By understanding these concepts and their roles within MetalLB, you can effectively configure and manage load balancing within your Kubernetes cluster.
+
+### IPs:
+
+- 192.168.1.241 : ingres internal
+- 192.168.1.242 : ingres external
+- 192.168.1.243 : kanidmd
+- 192.168.1.244 : 
+
+
+- 192.168.1.231 : #jellyfin
+- 192.168.1.232 : #navidrome
+- 192.168.1.233 : #radarr
+- 192.168.1.234 : #sonarr
+- 192.168.1.235 : #prowlarr
+- 192.168.1.236 : qbittorrent
+- 192.168.1.237 : 

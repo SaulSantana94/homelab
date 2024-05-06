@@ -81,6 +81,20 @@ app-template:
         metrics:
           port: *metrics_port
 
+    bittorrent:
+      controller: qbittorrent
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: "192.168.1.236"
+        external-dns.alpha.kubernetes.io/enabled: "true"
+      externalTrafficPolicy: Local
+      ports:
+        bittorrent:
+          enabled: true
+          port: 50413
+          protocol: TCP
+          targetPort: 50413
+
   ingress:
     qbittorrent:
       enabled: true

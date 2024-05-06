@@ -64,6 +64,19 @@ app-template:
       ports:
         http:
           port: *port
+    ldaps:
+      controller: kanidmd
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: "192.168.1.243"
+        external-dns.alpha.kubernetes.io/enabled: "true"
+        external-dns.alpha.kubernetes.io/hostname: ldaps.idm.internal.dbcloud.org
+      externalTrafficPolicy: Local
+      ports:
+        ldaps:
+          port: 636
+          protocol: TCP
+          targetPort: 3636
 
   ingress:
     kanidmd:
