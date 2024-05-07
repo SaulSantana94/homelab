@@ -46,7 +46,7 @@ kanidm raw search '{"eq": ["name", "idm_self_acp_write"]}'
 
 ```bash
 kanidm person create daniel-boluda "daniel-boluda" -D idm_admin
-kanidm person update daniel-boluda --mail "daniel-boluda@example.com" -D idm_admin
+kanidm person update daniel-boluda --mail "daniel-boluda.fdez@gmail.com" -D idm_admin
 kanidm person credential create-reset-token daniel-boluda -D idm_admin
 
 kanidm group list -D idm_admin | rg name | rg users
