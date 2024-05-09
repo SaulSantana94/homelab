@@ -64,7 +64,7 @@ app-template:
               return 200;
           }
       hosts:
-      - host: &host navidrome.internal.dbcloud.org
+      - host: &host music.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -92,7 +92,7 @@ app-template:
               return 200;
           }
       hosts:
-      - host: &host navidrome.dbcloud.org
+      - host: &host music.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
