@@ -117,7 +117,7 @@ app-template:
       tls:
       - hosts:
         - *host
-        #- ldaps.idm.internal.dbcloud.org
+        - ldaps.idm.internal.dbcloud.org
         secretName: idm-external-tls-certificate
 
   defaultPodOptions:
