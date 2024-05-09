@@ -39,4 +39,5 @@ mount | rg pvc-048a842f-a6f5-48ff-a5e1-aea53fef9c59
 Copy data to volume
 rsync -avz -e "ssh" dabol@192.168.1.249:/media/dabol/Data/data/MediaServer/Music/ /var/lib/kubelet/pods/39e85c56-cf58-4796-a716-9ca984b3ddbd/volumes/kubernetes.io~csi/pvc-048a842f-a6f5-48ff-a5e1-aea53fef9c59/mount
 
-
+In your Git provider, navigate to the settings page where webhooks can be configured. The payload URL configured in the Git provider should use the /api/webhook endpoint of your Argo CD instance (e.g. https://argocd.dbcloud.org/api/webhook). 
+When creating the webhook in GitHub, the "Content type" needs to be set to "application/json". The default value "application/x-www-form-urlencoded" is not supported by the library used to handle the hooks
