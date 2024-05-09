@@ -55,7 +55,7 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host jellyfin.internal.dbcloud.org
+      - host: &host pelis.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -74,7 +74,7 @@ app-template:
         external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host jellyfin.dbcloud.org
+      - host: &host pelis.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
