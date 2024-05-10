@@ -112,11 +112,19 @@ app-template:
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
+    #music:
+    #  enabled: true
+    #  globalMounts:
+    #  - path: /music
+    #  existingClaim: music-navidrome
     music:
       enabled: true
+      type: hostPath
+      hostPath: /datasets/music
       globalMounts:
-      - path: /music
-      existingClaim: music-navidrome
+      - path: /datasets/music
+        readOnly: true
+
     data:
       enabled: true
       globalMounts:
