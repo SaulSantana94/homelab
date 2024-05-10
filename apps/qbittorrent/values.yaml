@@ -156,3 +156,10 @@ app-template:
       hostPath: /datasets/peliculas/download
       globalMounts:
       - path: /datasets/peliculas/download
+
+    download:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/download
+      globalMounts:
+      - path: /datasets/download
