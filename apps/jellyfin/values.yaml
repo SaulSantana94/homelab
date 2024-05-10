@@ -115,3 +115,10 @@ app-template:
     transcode:
       enabled: true
       type: emptyDir
+    music:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/music
+      globalMounts:
+      - path: /datasets/music
+        readOnly: true
