@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: hass-appdaemon
-data:
-{{ (.Files.Glob "appdaemon/*").AsConfig | indent 2 }}
