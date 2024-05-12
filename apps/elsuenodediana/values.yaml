@@ -8,7 +8,7 @@ app-template:
         elsuenodediana:
           image:
             #AA: esto no veo de donde sale de la doc, mi wild gess es este por lo que dicen en Installing the Chart, el tag no se de donde sacarlo
-            repository: ghcr.io/onedr0p/prestashop
+            repository: prestashop/prestashop
             tag: 8.1.5
 
           env:
