@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app.kubernetes.io/name: prometheus-smartctl-exporter
+    release: monitoring
+  name: monitoring-prometheus-smartctl-exporter-custom.rules
+spec:
+  groups:
+    - name: smartctl-exporter-custom.rules
+      rules:
+        - alert: SmartCTLDeviceHighTemperature
+          annotations:
+            description: |
+              Device {{ $labels.device }} on instance {{ $labels.instance }} has
+              a temperature of {{ $value }} celsius degrees.
+          expr: smartctl_device_temperature{device=~"nvme.*"} > 45 or smartctl_device_temperature{device!~"nvme.*"} > 41
+          for: 60m
+          labels:
+            severity: warning

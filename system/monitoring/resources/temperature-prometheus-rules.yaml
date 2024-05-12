@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: monitoring-prometheus-cpu-temperature.rules
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: cpu-temperature.rules
+      rules:
+        - alert: HighTemperature
+          annotations:
+            description: |
+              Chip {{ $labels.chip }} on instance {{ $labels.instance }} has
+              a temperature of {{ $value }} celsius degrees.
+          expr: node_hwmon_temp_celsius > 65
+          for: 5m
+          labels:
+            severity: warning
+        - alert: HighTemperature
+          annotations:
+            description: |
+              Chip {{ $labels.chip }} on instance {{ $labels.instance }} has
+              a temperature of {{ $value }} celsius degrees.
+          expr: node_hwmon_temp_celsius > 70
+          for: 5m
+          labels:
+            severity: critical
