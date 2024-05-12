@@ -124,13 +124,3 @@ app-template:
       runAsGroup: 991
       fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
-
-  #AA: segun la docu en existing Persistent VolumeClaim
-  #helm install my-release --set persistence.existingClaim=PVC_NAME oci://REGISTRY_NAME/REPOSITORY_NAME/prestashop
-  # en mi caso? entiendo que el config hay que cambiarlo pero no tengo claro si tengo que meter "/REGISTRY_NAME/REPOSITORY_NAME/prestashop"
-  persistence:
-    config:
-      enabled: true
-      globalMounts:
-      - path: /var
-      existingClaim: config-elsuenodediana
