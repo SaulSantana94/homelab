@@ -132,5 +132,5 @@ app-template:
     config:
       enabled: true
       globalMounts:
-      - path: /config
+      - path: /var/www/html
       existingClaim: config-elsuenodediana
