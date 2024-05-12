@@ -145,11 +145,6 @@ app-template:
       ports:
         http:
           port: 8123
-    appdaemon:
-      controller: appdaemon
-      ports:
-        http:
-          port: 80
     whisper:
       controller: whisper
       ports:
