@@ -7,12 +7,15 @@ app-template:
       containers:
         elsuenodediana:
           image:
-            #AA: esto no veo de donde sale de la doc, mi wild gess es este por lo que dicen en Installing the Chart, el tag no se de donde sacarlo
             repository: prestashop/prestashop
             tag: 8.1.5
 
           env:
             TZ: Europe/Madrid
+            DB_SERVER: elsuenodediana-mysql
+            DB_NAME: prestashop
+            DB_USER: root
+            DB_PASSWD: admin
 
           resources:
             requests:
@@ -28,13 +31,45 @@ app-template:
               spec:
                 httpGet:
                   path: /ping
-                  port: &port 8989
+                  port: &port 80
             readiness: *probe
             startup:
               enabled: true
               spec:
                 failureThreshold: 60
                 periodSeconds: 10
+
+        elsuenodediana-mysql:
+          image:
+            repository: mysql
+            tag: 5.7
+
+          environment:
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_DATABASE: prestashop
+
+          resources:
+            requests:
+              cpu: 150m
+              memory: 170Mi
+            limits:
+              memory: 700Mi
+
+          probes:
+            liveness: &probe
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /ping
+                  port: &port 80
+            readiness: *probe
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 60
+                periodSeconds: 10
+
   service:
     elsuenodediana:
       controller: elsuenodediana
