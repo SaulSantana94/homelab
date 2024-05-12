@@ -224,9 +224,6 @@ nextcloud:
   securityContext:
     fsGroupChangePolicy: "OnRootMismatch"
 
-  nodeSelector:
-    name: grigri
-
 app-template:
   global:
     fullnameOverride: redis
@@ -258,10 +255,6 @@ app-template:
                 secretKeyRef:
                   name: nextcloud
                   key: redis_password
-
-  defaultPodOptions:
-    nodeSelector:
-      name: grigri
 
     affinity:
       podAffinity:

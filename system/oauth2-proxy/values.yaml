@@ -5,15 +5,15 @@ oauth2-proxy:
     className: nginx-external
     annotations:
       external-dns.alpha.kubernetes.io/enabled: "true"
-      external-dns.alpha.kubernetes.io/target: grigri.cloud
+      external-dns.alpha.kubernetes.io/target: dbcloud.org
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     path: /oauth2
     hosts:
-      - &host auth.grigri.cloud
+    - &host auth.dbcloud.org
     tls:
-      - hosts:
-          - *host
-        secretName: oauth2-proxy-tls-certificate
+    - hosts:
+      - *host
+      secretName: oauth2-proxy-tls-certificate
 
   proxyVarsAsSecrets: true
 
@@ -31,13 +31,13 @@ oauth2-proxy:
     pass-access-token: true
     set-authorization-header: true
     pass-authorization-header: true
-    oidc-issuer-url: https://idm.grigri.cloud/oauth2/openid/k8s-oauth2-proxy
+    oidc-issuer-url: https://idm.dbcloud.org/oauth2/openid/k8s-oauth2-proxy
     code-challenge-method: S256
     skip-provider-button: true
     reverse-proxy: true
     email-domain: "*"
-    cookie-domain: .grigri.cloud
-    whitelist-domain: .grigri.cloud
+    cookie-domain: .dbcloud.org
+    whitelist-domain: .dbcloud.org
     cookie-refresh: 24h
     cookie-expire: 168h
     cookie-secure: true
@@ -54,10 +54,10 @@ oauth2-proxy:
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                  - oauth2-proxy
-          topologyKey: "kubernetes.io/hostname"
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - oauth2-proxy
+        topologyKey: "kubernetes.io/hostname"

@@ -142,10 +142,6 @@ app-template:
         http:
           port: 6379
 
-  defaultPodOptions:
-    nodeSelector:
-      kubernetes.io/hostname: prusik
-
   ingress:
     immich:
       enabled: true
