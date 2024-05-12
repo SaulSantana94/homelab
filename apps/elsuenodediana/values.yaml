@@ -62,7 +62,7 @@ app-template:
               spec:
                 httpGet:
                   path: /ping
-                  port: &port 80
+                  port: &port 3306
             readiness: *probe
             startup:
               enabled: true
@@ -132,5 +132,5 @@ app-template:
     config:
       enabled: true
       globalMounts:
-      - path: /var/www/html
+      - path: /var
       existingClaim: config-elsuenodediana
