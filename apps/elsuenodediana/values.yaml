@@ -124,3 +124,10 @@ app-template:
       runAsGroup: 991
       fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
+
+  persistence:
+    config:
+      enabled: true
+      globalMounts:
+      - path: /config
+      existingClaim: config-elsuenodediana
