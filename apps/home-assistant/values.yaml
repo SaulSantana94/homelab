@@ -101,8 +101,7 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-      pod:
-        affinity: *affinity
+
 
     openwakeword:
       type: deployment
@@ -129,8 +128,7 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-      pod:
-        affinity: *affinity
+
 
   defaultPodOptions:
     terminationGracePeriodSeconds: 1
