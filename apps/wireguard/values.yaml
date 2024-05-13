@@ -51,9 +51,10 @@ app-template:
         bittorrent:
           enabled: true
           port: 51820
-          protocol: TCP
+          protocol: UDP
           targetPort: 51820
 
+  ingress:
     external:
       enabled: true
       className: nginx-external
