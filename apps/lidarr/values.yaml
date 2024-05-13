@@ -7,11 +7,14 @@ app-template:
       containers:
         lidarr:
           image:
-            repository: ghcr.io/onedr0p/lidarr-develop
-            tag: 5.4.5.8715@sha256:6745c175c397d9fe2365bf1986358dccc37f15a3189b5fca37f495bcceb9ad26
+            repository: ghcr.io/onedr0p/lidarr
+            tag: 2.2.5.4141
 
           env:
             TZ: Europe/Madrid
+            LIDARR__INSTANCE_NAME: Lidarr
+            LIDARR__PORT: &port 8686
+            LIDARR__LOG_LEVEL: info
 
           resources:
             requests:
