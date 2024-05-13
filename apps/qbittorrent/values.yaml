@@ -157,6 +157,13 @@ app-template:
       globalMounts:
       - path: /datasets/peliculas/download
 
+    music:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/music/download
+      globalMounts:
+      - path: /datasets/music/download
+
     download:
       enabled: true
       type: hostPath
