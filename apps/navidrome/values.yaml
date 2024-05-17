@@ -112,11 +112,6 @@ app-template:
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
-    #music:
-    #  enabled: true
-    #  globalMounts:
-    #  - path: /music
-    #  existingClaim: music-navidrome
     music:
       enabled: true
       type: hostPath
