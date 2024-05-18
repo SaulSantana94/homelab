@@ -55,9 +55,9 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         external-dns.alpha.kubernetes.io/enabled: "true"
-        #nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
-        #nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
-        #nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-Preferred-Username"
+        nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
+        nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-Preferred-Username"
         # Enable subsonic client
         nginx.ingress.kubernetes.io/auth-snippet: |
           if ( $request_uri ~ "/rest" ) {
@@ -83,9 +83,9 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        #nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
-        #nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
-        #nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-Preferred-Username"
+        nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
+        nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-Preferred-Username"
         # Enable subsonic client
         nginx.ingress.kubernetes.io/auth-snippet: |
           if ( $request_uri ~ "/rest" ) {
