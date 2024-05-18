@@ -24,15 +24,12 @@ oauth2-proxy:
     existingSecret: oauth2-proxy
 
   extraArgs:
-    provider: oidc
-    provider-display-name: Protected by Kanidm
+    provider: google
+    provider-display-name: Google
     set-xauthrequest: true
-    # Add X-Auth-Request-Access-Token to NginX response
     pass-access-token: true
     set-authorization-header: true
     pass-authorization-header: true
-    oidc-issuer-url: https://idm.dbcloud.org/oauth2/openid/k8s-oauth2-proxy
-    code-challenge-method: S256
     skip-provider-button: true
     reverse-proxy: true
     email-domain: "*"
@@ -41,8 +38,6 @@ oauth2-proxy:
     cookie-refresh: 24h
     cookie-expire: 168h
     cookie-secure: true
-    ## dex needs to support RFC2307bis
-    # allowed-groups: wheel
 
   resources:
     requests:
@@ -50,14 +45,3 @@ oauth2-proxy:
       memory: 14Mi
     limits:
       memory: 32Mi
-
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/name
-            operator: In
-            values:
-            - oauth2-proxy
-        topologyKey: "kubernetes.io/hostname"
