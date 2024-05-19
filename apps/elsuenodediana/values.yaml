@@ -131,7 +131,7 @@ app-template:
       globalMounts:
       - path: /var/www/html
       existingClaim: config-elsuenodediana
-    presta_db:
+    db:
       enabled: true
       globalMounts:
       - path: /var/lib/mysql
