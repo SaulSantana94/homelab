@@ -12,7 +12,7 @@ app-template:
 
           env:
             TZ: Europe/Madrid
-            DB_SERVER: elsuenodediana-mysql
+            DB_SERVER: mysql
             DB_NAME: prestashop
             DB_USER: root
             DB_PASSWD: admin
@@ -41,12 +41,12 @@ app-template:
                 failureThreshold: 60
                 periodSeconds: 10
 
-    elsuenodediana-mysql:
+    mysql:
       labels:
         backup/retain: quaterly
       type: statefulset
       containers:
-        elsuenodediana-mysql:
+        mysql:
           image:
             repository: mysql
             tag: 5.7
