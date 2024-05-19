@@ -63,30 +63,22 @@ app-template:
           - containerPort: 3306
             name: mysql
           probes:
-            liveness:
-              enabled: true
-              custom: true
-              spec:
-                tcpSocket:
-                  port: 3306
-                initialDelaySeconds: 30
-                periodSeconds: 10
-            readiness:
-              enabled: true
-              custom: true
-              spec:
-                tcpSocket:
-                  port: 3306
-                initialDelaySeconds: 5
-                periodSeconds: 10
-            startup:
-              enabled: true
-              spec:
-                tcpSocket:
-                  port: 3306
-                initialDelaySeconds: 10
-                periodSeconds: 10
-                failureThreshold: 60
+            startupProbe:
+              tcpSocket:
+                port: 3306
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              failureThreshold: 60
+            livenessProbe:
+              tcpSocket:
+                port: 3306
+              initialDelaySeconds: 30
+              periodSeconds: 10
+            readinessProbe:
+              tcpSocket:
+                port: 3306
+              initialDelaySeconds: 5
+              periodSeconds: 10
 
 
   service:
