@@ -2,7 +2,7 @@ app-template:
   controllers:
     elsuenodediana:
       labels:
-        backup/retain: quaterly
+        backup/retain: quarterly
       type: statefulset
       containers:
         elsuenodediana:
@@ -27,14 +27,24 @@ app-template:
               memory: 700Mi
 
           probes:
-            liveness: &probe
+            liveness:
               enabled: true
               custom: true
               spec:
                 httpGet:
                   path: /ping
-                  port: &port 80
-            readiness: *probe
+                  port: 80
+                initialDelaySeconds: 30
+                periodSeconds: 10
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /ping
+                  port: 80
+                initialDelaySeconds: 30
+                periodSeconds: 10
             startup:
               enabled: true
               spec:
@@ -43,7 +53,7 @@ app-template:
 
     mysql:
       labels:
-        backup/retain: quaterly
+        backup/retain: quarterly
       type: statefulset
       containers:
         mysql:
@@ -63,26 +73,33 @@ app-template:
               memory: 700Mi
 
           probes:
-            liveness: &probe
+            liveness:
               enabled: true
               custom: true
               spec:
-                httpGet:
-                  path: /ping
-                  port: &port 3306
-            readiness: *probe
-            #startup:
-            #  enabled: true
-            #  spec:
-            #    failureThreshold: 60
-            #    periodSeconds: 10
+                exec:
+                  command:
+                  - mysqladmin
+                  - ping
+                initialDelaySeconds: 30
+                periodSeconds: 10
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                exec:
+                  command:
+                  - mysqladmin
+                  - ping
+                initialDelaySeconds: 30
+                periodSeconds: 10
 
   service:
     elsuenodediana:
       controller: elsuenodediana
       ports:
         http:
-          port: *port
+          port: 80
 
   ingress:
     elsuenodediana:
@@ -92,7 +109,7 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host elsuenodediana.internal.dbcloud.org
+      - host: elsuenodediana.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -101,7 +118,7 @@ app-template:
             port: http
       tls:
       - hosts:
-        - *host
+        - elsuenodediana.internal.dbcloud.org
         secretName: elsuenodediana-tls-certificate
 
     external:
@@ -114,7 +131,7 @@ app-template:
         nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
         nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
       hosts:
-      - host: &host elsuenodediana.dbcloud.org
+      - host: elsuenodediana.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -123,8 +140,9 @@ app-template:
             port: http
       tls:
       - hosts:
-        - *host
+        - elsuenodediana.dbcloud.org
         secretName: elsuenodediana-external-tls-certificate
+
   defaultPodOptions:
     securityContext:
       runAsUser: 995
@@ -137,9 +155,9 @@ app-template:
       enabled: true
       globalMounts:
       - path: /var/www/html
-      existingClaim: config-elsuenodediana
+        existingClaim: config-elsuenodediana
     db:
       enabled: true
       globalMounts:
       - path: /var/lib/mysql
-      existingClaim: db-elsuenodediana
+        existingClaim: db-elsuenodediana
