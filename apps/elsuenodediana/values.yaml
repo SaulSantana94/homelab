@@ -2,13 +2,14 @@ app-template:
   controllers:
     elsuenodediana:
       labels:
-        backup/retain: quarterly
+        backup/retain: quaterly
       type: statefulset
       containers:
         elsuenodediana:
           image:
             repository: prestashop/prestashop
             tag: 8.1.5
+
           env:
             TZ: Europe/Madrid
             DB_SERVER: mysql
@@ -17,27 +18,23 @@ app-template:
             DB_PASSWD: admin
             PS_INSTALL_AUTO: 1
             PS_DOMAIN: localhost:8080
+
           resources:
             requests:
               cpu: 150m
               memory: 170Mi
             limits:
               memory: 700Mi
+
           probes:
-            liveness:
+            liveness: &probe
               enabled: true
               custom: true
               spec:
                 httpGet:
                   path: /ping
-                  port: 80
-            readiness:
-              enabled: true
-              custom: true
-              spec:
-                httpGet:
-                  path: /ping
-                  port: 80
+                  port: &port 80
+            readiness: *probe
             startup:
               enabled: true
               spec:
@@ -91,12 +88,13 @@ app-template:
                 periodSeconds: 10
                 failureThreshold: 60
 
+
   service:
     elsuenodediana:
       controller: elsuenodediana
       ports:
         http:
-          port: 80
+          port: *port
 
   ingress:
     elsuenodediana:
@@ -106,7 +104,7 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: elsuenodediana.internal.dbcloud.org
+      - host: &host elsuenodediana.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -115,7 +113,7 @@ app-template:
             port: http
       tls:
       - hosts:
-        - elsuenodediana.internal.dbcloud.org
+        - *host
         secretName: elsuenodediana-tls-certificate
 
     external:
@@ -128,7 +126,7 @@ app-template:
         nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
         nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
       hosts:
-      - host: elsuenodediana.dbcloud.org
+      - host: &host elsuenodediana.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -137,7 +135,7 @@ app-template:
             port: http
       tls:
       - hosts:
-        - elsuenodediana.dbcloud.org
+        - *host
         secretName: elsuenodediana-external-tls-certificate
   defaultPodOptions:
     securityContext:
@@ -151,9 +149,9 @@ app-template:
       enabled: true
       globalMounts:
       - path: /var/www/html
-        existingClaim: config-elsuenodediana
+      existingClaim: config-elsuenodediana
     db:
       enabled: true
       globalMounts:
       - path: /var/lib/mysql
-        existingClaim: db-elsuenodediana
+      existingClaim: db-elsuenodediana
