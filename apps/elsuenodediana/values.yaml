@@ -71,11 +71,11 @@ app-template:
                   path: /ping
                   port: &port 3306
             readiness: *probe
-            startup:
-              enabled: true
-              spec:
-                failureThreshold: 60
-                periodSeconds: 10
+            #startup:
+            #  enabled: true
+            #  spec:
+            #    failureThreshold: 60
+            #    periodSeconds: 10
 
   service:
     elsuenodediana:
