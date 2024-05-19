@@ -41,6 +41,11 @@ app-template:
                 failureThreshold: 60
                 periodSeconds: 10
 
+    elsuenodediana-mysql:
+      labels:
+        backup/retain: quaterly
+      type: statefulset
+      containers:
         elsuenodediana-mysql:
           image:
             repository: mysql
