@@ -62,27 +62,32 @@ app-template:
             limits:
               memory: 700Mi
 
+          args:
+          - --explicit_defaults_for_timestamp=1
+          - --tls_version=TLSv1.2
+          - --tls_version=TLSv1.3
+
           probes:
             liveness:
               enabled: true
               custom: true
               spec:
-                exec:
-                  command:
-                  - mysqladmin
-                  - ping
-                initialDelaySeconds: 30
-                periodSeconds: 10
+                httpGet:
+                  path: /ping
+                  port: 3306
             readiness:
               enabled: true
               custom: true
               spec:
-                exec:
-                  command:
-                  - mysqladmin
-                  - ping
-                initialDelaySeconds: 30
+                httpGet:
+                  path: /ping
+                  port: 3306
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 60
                 periodSeconds: 10
+
 
   service:
     elsuenodediana:
