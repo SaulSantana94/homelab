@@ -2,7 +2,7 @@ app-template:
   controllers:
     elsuenodediana:
       labels:
-        backup/retain: quaterly
+        backup/retain: quarterly
       type: statefulset
       containers:
         elsuenodediana:
@@ -16,8 +16,6 @@ app-template:
             DB_NAME: prestashop
             DB_USER: root
             DB_PASSWD: admin
-            PS_INSTALL_AUTO: 1
-            PS_DOMAIN: localhost:8080
 
           resources:
             requests:
@@ -139,11 +137,15 @@ app-template:
   persistence:
     config:
       enabled: true
-      globalMounts:
-      - path: /var/www/html
       existingClaim: config-elsuenodediana
+      advancedMounts:
+        elsuenodediana:
+          elsuenodediana:
+          - path: /var/www/html
     db:
       enabled: true
-      globalMounts:
-      - path: /var/lib/mysql
       existingClaim: db-elsuenodediana
+      advancedMounts:
+        mysql:
+          mysql:
+          - path: /var/lib/mysql
