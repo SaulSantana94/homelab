@@ -24,20 +24,6 @@ app-template:
             limits:
               memory: 700Mi
 
-          probes:
-            liveness: &probe
-              enabled: true
-              custom: true
-              spec:
-                httpGet:
-                  path: /ping
-                  port: &port 80
-            readiness: *probe
-            startup:
-              enabled: true
-              spec:
-                failureThreshold: 60
-                periodSeconds: 10
 
     mysql:
       labels:
@@ -60,23 +46,6 @@ app-template:
           ports:
           - containerPort: 3306
             name: mysql
-          probes:
-            startupProbe:
-              tcpSocket:
-                port: 3306
-              initialDelaySeconds: 10
-              periodSeconds: 10
-              failureThreshold: 60
-            livenessProbe:
-              tcpSocket:
-                port: 3306
-              initialDelaySeconds: 30
-              periodSeconds: 10
-            readinessProbe:
-              tcpSocket:
-                port: 3306
-              initialDelaySeconds: 5
-              periodSeconds: 10
 
 
   service:
