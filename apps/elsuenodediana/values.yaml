@@ -19,6 +19,17 @@ app-template:
             PS_FOLDER_ADMIN: admin8491
             PS_FOLDER_INSTALL: install8491
 
+          probes:
+            liveness:
+              enabled: true
+            readiness:
+              enabled: true
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 600
+                periodSeconds: 5
+
           resources:
             requests:
               cpu: 150m

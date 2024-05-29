@@ -17,7 +17,10 @@ This README provides instructions for deploying using Ansible playbooks. Please 
         - Open your terminal.
         - Run the following command to install `pass`:
             ```shell
+            sudo apt update
             sudo apt-get install pass
+            sudo apt install -y python3 python3-pip
+            sudo apt install -y ansible
             ```
 
 3. **Set Secrets in `pass`**
