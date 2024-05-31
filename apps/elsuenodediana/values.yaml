@@ -18,9 +18,6 @@ app-template:
             DB_PASSWD: admin
             PS_FOLDER_ADMIN: admin8491
             PS_FOLDER_INSTALL: install8491
-            #Autoinstall for demo
-            PS_INSTALL_AUTO: 1
-            PS_DOMAIN: localhost:8080
 
           probes:
             liveness:
