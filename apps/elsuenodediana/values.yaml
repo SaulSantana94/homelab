@@ -208,3 +208,11 @@ app-template:
         mysql:
           mysql:
           - path: /var/lib/mysql
+    phpconfig:
+      enabled: true
+      existingClaim: config-phpmyadmin
+      advancedMounts:
+        phpmyadmin:
+          phpmyadmin:
+          - path: /etc/phpmyadmin
+    
