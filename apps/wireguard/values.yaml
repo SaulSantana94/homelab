@@ -75,9 +75,9 @@ app-template:
 
   defaultPodOptions:
     securityContext:
-      runAsUser: 995
-      runAsGroup: 991
-      fsGroup: 991
+      runAsUser: 911
+      runAsGroup: 1001
+      fsGroup: 1001
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
@@ -88,4 +88,11 @@ app-template:
         wireguard:
           wireguard:
           - path: /config
+    etc:
+      enabled: true
+      existingClaim: etc-wireguard
+      advancedMounts:
+        wireguard:
+          wireguard:
+          - path: /etc
     
