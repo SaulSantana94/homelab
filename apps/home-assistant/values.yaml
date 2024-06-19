@@ -11,7 +11,7 @@ app-template:
         hass:
           image:
             repository: ghcr.io/onedr0p/home-assistant
-            tag: 2024.4.1@sha256:4becc28fe0ab06d0e8f64027aecb0953a7b7ebc6d50859d272e6dd7ce6eaa0d6
+            tag: 2024.6.1@sha256:abcff59b10e53ca8cc311afb44f9bfd180ef22b332aeee1daff2d08ddf9c17b6
           env:
             TZ: Europe/Madrid
             POSTGRES_USER:
@@ -42,6 +42,67 @@ app-template:
               memory: 350Mi
             limits:
               memory: 1Gi
+
+    appdaemon:
+      annotations:
+        reloader.stakater.com/auto: "true"
+      type: deployment
+      replicas: 1
+      initContainers:
+        01-init-config:
+          image:
+            repository: debian
+            tag: 12.5-slim
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >
+              cp -r /original/conf/* /conf/
+      containers:
+        appdaemon:
+          image:
+            repository: acockburn/appdaemon
+            tag: 4.4.2
+          env:
+            HA_URL: http://home-assistant-hass:8123
+            DASH_URL: https://appdaemon.grigri.cloud
+            TIMEZONE: Europe/Madrid
+          envFrom:
+            - secretRef:
+                name: hass-appdaemon
+          resources:
+            requests:
+              cpu: 30m
+              memory: 50Mi
+            limits:
+              memory: 200Mi
+          probes:
+            liveness:
+              enabled: true
+            readiness:
+              enabled: true
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
+      pod:
+        affinity: &affinity
+          podAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - home-assistant
+                    - key: app.kubernetes.io/component
+                      operator: In
+                      values:
+                        - hass
+                topologyKey: kubernetes.io/hostname
+
     whisper:
       type: deployment
       replicas: 1
@@ -128,8 +189,38 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
+      pod:
+        affinity: *affinity
 
-
+    valetudopng:
+      annotations:
+        reloader.stakater.com/auto: "true"
+      type: deployment
+      replicas: 1
+      containers:
+        valetudopng:
+          image:
+            repository: ghcr.io/erkexzcx/valetudopng
+            tag: v1.0.17
+          args:
+            - -config
+            - /config/config.yml
+          resources:
+            requests:
+              cpu: 15m
+              memory: 15Mi
+          probes:
+            liveness:
+              enabled: true
+            readiness:
+              enabled: true
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
+      pod:
+        affinity: *affinity
   defaultPodOptions:
     terminationGracePeriodSeconds: 1
 

@@ -8,13 +8,39 @@ zfs rollback ${ZFS_VOLUME}@{ZFS_SNAPSHOT}
 
 ## Postgres
 
+### Troubleshooting
+
+#### Exceeds maximum replication lag
+
 If after restore there are this kind of errors:
 
 > My wal position exceeds maximum replication lag
 
 Replica can be promoted to leader using `patronictl failover` command as root.
 
+#### Operator could not connect to database
+
+Update passwords using values in secrets. Inside a container:
+
+```bash
+psql -U postgres
+ALTER USER postgres WITH PASSWORD 'VALUE_FROM_SECRET';
+ALTER USER standby WITH PASSWORD 'VALUE_FROM_SECRET';
+ALTER USER APP_USER_NAME WITH PASSWORD 'VALUE_FROM_SECRET';
+```
+
 ## Velero
+
+### Steps
+
+- Remove nodeSelector
+- Create backup
+- Stop service (deployment and PVCs). Recommended manually: scale argocd-repo-server to 0 and proceed manually.
+- Change old PV `persistentVolumeReclaimPolicy` to `Retain`
+- Restore from backup
+- Enable service. Scale up argocd-repo-server.
+- Check everything is OK
+- Remove old PV
 
 ### Restoring to a Different Node
 
@@ -38,11 +64,13 @@ metadata:
     # this label identifies the name and kind of plugin
     # that this ConfigMap is for.
     velero.io/change-pvc-node-selector: RestoreItemAction
-data:**Warning**: ArgoCD labels are going to be restored too. If you are doing the restore into other namespace as in the example, disable ArgoCD or modify the labels.
+data:
   # add 1+ key-value pairs here, where the key is the old
   # node name and the value is the new node name.
   grigri: prusik
 ```
+
+**Warning**: ArgoCD labels are going to be restored too. If you are doing the restore into other namespace as in the example, disable ArgoCD or modify the labels.
 
 ### Restoring with a Different Storage Class
 

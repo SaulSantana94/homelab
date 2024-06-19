@@ -1,3 +1,30 @@
+variables:
+  env: &env
+    DB_PORT: "5432"
+    ENABLE_MAPBOX: "true"
+    # "IMMICH_LOG_LEVEL" must be one of [verbose, debug, log, warn, error, fatal]
+    IMMICH_LOG_LEVEL: log
+    NODE_ENV: "production"
+    REDIS_HOSTNAME: immich-redis
+    REDIS_PORT: "6379"
+    IMMICH_SERVER_URL: http://immich-server:3001
+    IMMICH_MACHINE_LEARNING_ENABLED: "true"
+    IMMICH_MACHINE_LEARNING_URL: http://immich-ml:3003
+    A_REPLACE_DB_HOSTNAME: immich-postgres
+    A_REPLACE_DB_DATABASE_NAME: immich
+    A_REPLACE_DB_USERNAME:
+      valueFrom:
+        secretKeyRef:
+          name: immich.immich-postgres.credentials.postgresql.acid.zalan.do
+          key: username
+    A_REPLACE_DB_PASSWORD:
+      valueFrom:
+        secretKeyRef:
+          name: immich.immich-postgres.credentials.postgresql.acid.zalan.do
+          key: password
+    DB_URL: postgresql://$(A_REPLACE_DB_USERNAME):$(A_REPLACE_DB_PASSWORD)@$(A_REPLACE_DB_HOSTNAME):5432/$(A_REPLACE_DB_DATABASE_NAME)?sslmode=no-verify
+    IMMICH_METRICS: true
+
 app-template:
   controllers:
     server:
@@ -14,35 +41,11 @@ app-template:
         main:
           image: &image
             repository: ghcr.io/immich-app/immich-server
-            tag: v1.102.3
-          command: /bin/sh
-          args:
-          - ./start-server.sh
-          env: &env
-            DB_PORT: "5432"
-            ENABLE_MAPBOX: "true"
-            # "LOG_LEVEL" must be one of [verbose, debug, log, warn, error, fatal]
-            LOG_LEVEL: log
-            NODE_ENV: "production"
-            REDIS_HOSTNAME: immich-redis
-            REDIS_PORT: "6379"
-            IMMICH_SERVER_URL: http://immich-server:3001
-            IMMICH_MACHINE_LEARNING_ENABLED: "true"
-            IMMICH_MACHINE_LEARNING_URL: http://immich-ml:3003
-            A_REPLACE_DB_HOSTNAME: immich-postgres
-            A_REPLACE_DB_DATABASE_NAME: immich
-            A_REPLACE_DB_USERNAME:
-              valueFrom:
-                secretKeyRef:
-                  name: immich.immich-postgres.credentials.postgresql.acid.zalan.do
-                  key: username
-            A_REPLACE_DB_PASSWORD:
-              valueFrom:
-                secretKeyRef:
-                  name: immich.immich-postgres.credentials.postgresql.acid.zalan.do
-                  key: password
-            DB_URL: postgresql://$(A_REPLACE_DB_USERNAME):$(A_REPLACE_DB_PASSWORD)@$(A_REPLACE_DB_HOSTNAME):5432/$(A_REPLACE_DB_DATABASE_NAME)?sslmode=no-verify
-            IMMICH_METRICS: true
+            tag: v1.106.4
+          env:
+            <<: *env
+            IMMICH_WORKERS_INCLUDE: 'api'
+            IMMICH_PORT: "3001"
           envFrom: &envFrom
           - secretRef:
               name: immich-secrets
@@ -51,13 +54,18 @@ app-template:
               cpu: 10m
               memory: 128Mi
             limits:
-              cpu: 500m
-              memory: 256Mi
+              cpu: "2"
+              memory: 2Gi
           probes: &probes
             liveness:
               enabled: true
             readiness:
               enabled: true
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
     microservices:
       strategy: RollingUpdate
       pod:
@@ -65,12 +73,10 @@ app-template:
       containers:
         main:
           image: *image
-          command: /bin/sh
-          args:
-          - ./start-microservices.sh
           env:
             TZ: Europe/Madrid
             NVIDIA_VISIBLE_DEVICES: all
+            IMMICH_WORKERS_EXCLUDE: 'api'
           envFrom: *envFrom
           resources:
             requests:
@@ -81,7 +87,6 @@ app-template:
               cpu: "10"
               memory: 20Gi
               nvidia.com/gpu: "1"
-          probes: *probes
     ml:
       strategy: RollingUpdate
       pod:
@@ -90,7 +95,7 @@ app-template:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
-            tag: v1.102.3
+            tag: v1.106.4
           env:
             NVIDIA_VISIBLE_DEVICES: all
             MPLCONFIGDIR: /.config/matplotlib
@@ -110,7 +115,7 @@ app-template:
         main:
           image:
             repository: public.ecr.aws/docker/library/redis
-            tag: 7.2.4
+            tag: 7.2.5
           env:
             REDIS_REPLICATION_MODE: master
           command: ["redis-server"]
@@ -122,13 +127,6 @@ app-template:
       ports:
         http:
           port: 3001
-        metrics:
-          port: 8081
-    microservices:
-      controller: microservices
-      ports:
-        http:
-          port: 3002
         metrics:
           port: 8081
     ml:
@@ -219,5 +217,18 @@ app-template:
       advancedMounts:
         ml:
           main:
-          - path: /cache
-          - path: /.config/matplotlib
+            - path: /cache
+            - path: /.config/matplotlib
+
+  serviceMonitor:
+    server:
+      enabled: true
+      serviceName: immich-server
+      labels:
+        release: monitoring
+      endpoints:
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 30s
+          scrapeTimeout: 10s

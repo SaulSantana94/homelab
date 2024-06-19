@@ -39,15 +39,14 @@ ingress-nginx:
       targetCPUUtilizationPercentage: 1250
       targetMemoryUtilizationPercentage: 200
     topologySpreadConstraints:
-    - maxSkew: 1
-      topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: DoNotSchedule
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/component: controller
-          app.kubernetes.io/instance: ingress-nginx-external
-          app.kubernetes.io/name: ingress-nginx
-
+      - maxSkew: 4
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: controller
+            app.kubernetes.io/instance: ingress-nginx-external
+            app.kubernetes.io/name: ingress-nginx
     service:
       enabled: true
       annotations:

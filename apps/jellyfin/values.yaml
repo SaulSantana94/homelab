@@ -4,11 +4,14 @@ app-template:
       labels:
         backup/retain: quaterly
       type: statefulset
+      pod:
+        enableServiceLinks: false
+        runtimeClassName: nvidia
       containers:
         jellyfin:
           image:
             repository: jellyfin/jellyfin
-            tag: 10.8.13
+            tag: 10.9.6
 
           probes:
             liveness: &probes
@@ -37,8 +40,10 @@ app-template:
             requests:
               cpu: 10m
               memory: 2.3Gi
+              nvidia.com/gpu: "1"
             limits:
               memory: 10Gi
+              nvidia.com/gpu: "1"
 
   service:
     jellyfin:

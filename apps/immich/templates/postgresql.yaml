@@ -18,7 +18,8 @@ spec:
       memory: 10Gi
 
   volume:
-    size: 1.5Gi
+    # for storing 3 months of snapshots
+    size: 10Gi
 
   users:
     immich:
@@ -52,6 +53,6 @@ spec:
       # ALTER SYSTEM SET shared_preload_libraries = "vectors.so"
       # CREATE EXTENSION vectors;
       # ```
-        cube: public
-        earthdistance: public
-        vectors: public
+        # cube: public
+        # earthdistance: public
+        # vectors: public

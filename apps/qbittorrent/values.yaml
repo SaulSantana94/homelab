@@ -3,11 +3,12 @@ app-template:
     qbittorrent:
       labels:
         backup/retain: quaterly
+      replicas: 1
       containers:
         qbittorrent:
           image:
             repository: ghcr.io/onedr0p/qbittorrent
-            tag: 4.6.4@sha256:85f185207a81ec03e84b8302db06f1694c533c99e0efdb2acf0316d554d332e3
+            tag: 4.6.5@sha256:c019af23966ebafcaf1713d4553bc043246858b711a7d57d8bee358a89990a3e
 
           env:
             UMASK: "022"
@@ -35,7 +36,7 @@ app-template:
         metrics:
           image:
             repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
-            tag: latest@sha256:3aef59197a9f14fc36a9963848d495f9a85e4f096b448a0ed4cb3aca122e793b
+            tag: latest@sha256:340a6d43797e2944a6babd6cadc7160e87d30b57bdf401aef57eccbd600d98ce
           env:
             QBITTORRENT_HOST: localhost
             QBITTORRENT_PORT: *port

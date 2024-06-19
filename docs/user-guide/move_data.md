@@ -108,9 +108,10 @@ In ZFS server:
 
 ```bash
 # variables
-PVC_NAME=nextcloud-nextcloud-data
-SIZE=1000G
-NAMESPACE=nextcloud
+PVC_NAME=minio-backup
+SIZE=2000G
+NAMESPACE=minio
+NODE_NAME=grigri
 
 DATASET=datasets/openebs
 NEW_DATASET=${DATASET}/${PVC_NAME}
@@ -146,8 +147,8 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - prusik
-  persistentVolumeReclaimPolicy: Delete
+          - ${NODE_NAME}
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: openebs-zfspv
   volumeMode: Filesystem
 EOF
@@ -164,7 +165,7 @@ metadata:
 spec:
   capacity: "$(echo "(${SIZE::-1} * 1024 * 1024 * 1024) / 1" | bc)" # size of the volume in bytes
   fsType: zfs
-  ownerNodeID: prusik
+  ownerNodeID: ${NODE_NAME}
   shared: "yes"
   poolName: ${DATASET}
   volumeType: DATASET
