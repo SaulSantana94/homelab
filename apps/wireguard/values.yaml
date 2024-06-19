@@ -75,9 +75,9 @@ app-template:
 
   defaultPodOptions:
     securityContext:
-      runAsUser: 911
-      runAsGroup: 1001
-      fsGroup: 1001
+      runAsUser: 995
+      runAsGroup: 991
+      fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
