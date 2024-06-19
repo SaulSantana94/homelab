@@ -1,98 +1,199 @@
-app-template:
-  controllers:
-    wireguard:
-      labels:
-        backup/retain: quarterly
-      type: statefulset
-      containers:
-        wireguard:
-          image:
-            repository: lscr.io/linuxserver/wireguard
-            tag: latest
+wireguard:
 
-          env:
-            TZ: Europe/Madrid
-            SERVERURL: wireguard.myhome.com # DNS dinámico
-            SERVERPORT: 51820
-            PEERS: 4 # 4 clientes
-            PEERDNS: 8.8.8.8
-            INTERNAL_SUBNET: 10.2.0.0/24 # Red WireGuard
-            ALLOWEDIPS: 192.168.1.0/24 # Red que se enruta
-            LOG_CONFS: false
+  image:
+    repository: ghcr.io/bryopsida/wireguard
+    tag: main
+    pullPolicy: Always
 
-          probes:
-            liveness:
-              enabled: true
-            readiness:
-              enabled: true
-            startup:
-              enabled: true
-              spec:
-                failureThreshold: 30
-                periodSeconds: 5
-
-          resources:
-            requests:
-              cpu: 150m
-              memory: 170Mi
-            limits:
-              memory: 700Mi
-
-          ports:
-          - containerPort: 51820
-            name: wireguard
-
-  service:
-    wireguard:
-      controller: wireguard
-      ports:
-        http:
-          port: 51820
-
-  ingress:
-
-    external:
-      enabled: true
-      className: nginx-external
-      annotations:
-        external-dns.alpha.kubernetes.io/enabled: "true"
-        external-dns.alpha.kubernetes.io/target: dbcloud.org
-        cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        #nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
-        #nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
-      hosts:
-      - host: &host wireguard.dbcloud.org
-        paths:
-        - path: /
-          pathType: Prefix
-          service:
-            identifier: wireguard
-            port: http
-      tls:
-      - hosts:
-        - *host
-        secretName: wireguard-external-tls-certificate
-
-  defaultPodOptions:
-    securityContext:
+  keygenJob:
+    image:
+      repository: ghcr.io/curium-rocks/wg-kubectl
+      tag: latest
+      pullPolicy: Always
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      fsGroup: 1000
+      fsGroupChangePolicy: Always
+    containerSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
-      fsGroup: 1000
-      fsGroupChangePolicy: "OnRootMismatch"
+      runAsNonRoot: true
+      privileged: false
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+  podAnnotations: {
+    #metallb.universe.tf/loadBalancerIPs: "192.168.1.236"
+    #external-dns.alpha.kubernetes.io/enabled: "true"
+  }
+  labels: {}
+  # -- Run pod on host network
+  runPodOnHostNetwork: false
+  # -- Expose VPN service on hostPort
+  useHostPort: false
+  # -- Host port to expose the VPN service on
+  hostPort: 51820
+  wireguard:
+    # -- Address of the VPN server
+    serverAddress: 10.34.0.1/24
+    # -- Subnet for your VPN, take care not to clash with cluster POD cidr
+    serverCidr: 10.34.0.0/24
+    # -- Add the serverCidr to the nat source net option
+    natAddSourceNet: true
+    # -- A collection of clients that will be added to wg0.conf, accepts objects with keys PublicKey and AllowedIPs (mandatory) and optional FriendlyName or FriendlyJson (https://github.com/MindFlavor/prometheus_wireguard_exporter#friendly-tags) and PersistentKeepalive (https://www.wireguard.com/quickstart/#nat-and-firewall-traversal-persistence), stored in secret
+    clients: []
+      # - FriendlyName: username1
+      #   ## FriendlyJson will override FriendlyName
+      #   # FriendlyJson:
+      #   #   username: "username1"
+      #   AllowedIPs: 10.34.0.101/32
+      #   PublicKey: QTxoajwVHWZ7qqVwY2F9T1L04M0j5GSNC15++LZw1iA=
+      #   # Normally PersistentKeepalive is not required
+      #   #PersistentKeepalive: 25
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: true
+    privileged: false
+  service:
+    # -- Whether the service will be created or not
+    enabled: true
+    # -- Service type, to keep internal to cluster use ClusterIP or NodePort
+    type: LoadBalancer
+    # -- Service port, default is 51820 UDP
+    port: 51820
+    # -- Node port, only valid with service type: NodePort
+    nodePort: 31820
+    # -- External Traffic Policy for the service
+    externalTrafficPolicy: ""
+    # -- IP to assign to the LoadBalancer service
+    loadBalancerIP: "192.168.1.236"
+    # -- Annotations
+    annotations: {}
+    # -- Extra ports that can be attached to the service object, these are passed directly to the port array on the service and must be well formed to the specification
+    extraPorts: []
+  # -- Name of a secret with a wireguard private key on key privatekey, if not provided on first install a hook generates one.
+  secretName: ~
+  replicaCount: 3
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: "100m"
+    limits:
+      memory: 256Mi
+      cpu: "100m"
+  # -- Override the default runtime class of the container, if not provided `runc` will most likely be used
+  runtimeClassName: ~
+  deploymentStrategy:
+    type: "RollingUpdate"
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  disruptionBudget:
+    enabled: true
+    minAvailable: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 75
+  # -- Provide additional environment variables to the wireguard container
+  extraEnv: {}
+  #  TEST_ENV_VAR: test-value
+  # -- Provide additional sidecars to the wireguard pod, these are directly attached to the pod and must be well formed ContainerSpec
+  extraSideCars: []
+  # -- Create storage claims that can be used by side cars
+  extraStorage: []
+  # - name: conf
+  #   storageClassName: default
+  #   storage: 8Gi
+  #   accessModes:
+  #     - ReadWriteMany
+  #   volumeMode: Filesystem
+  # -- Create additional configmaps that may be used in sidecars
+  extraConfigMaps: []
+  # - name: some-config
+  #    data:
+  #      key1: |
+  #        some config file data
+  # -- If provided, this secret will be used instead of the config created from the helm value scope
+  configSecretName: ~
+  # -- The property/key on the secret holding the wireguard configuration file
+  configSecretProperty: wg0.conf
+  # -- Disable creation and any mounting of a private key, this assumes another mechanism is provided/used at the container level to fetch the private key
+  disablePrivateKeyManagement: false
+  # -- Disable creation and any mount of the wireguard confifugration file, this assumes another mechanism is provided/used to manage a configuration file
+  disableConfigManagement: false
+  # -- Passthrough pod volumes
+  volumes: {}
+  # -- Passthrough pod volume mounts
+  volumeMounts: {}
+  # -- Set pod affinity or antiAffinity
+  affinity:
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: "example.com/vpn"
+    #         operator: Exists
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app: "{{ .Release.Name }}-wireguard"
+              role: vpn
+          topologyKey: kubernetes.io/hostname
+  # -- Set pod nodeSelector, a simplified version of affinity
+  nodeSelector: {}
+    # example.com/vpn: ""
+  # -- Set pod tolerations
+  tolerations: []
+    # - effect: NoSchedule
+    #   operator: Exists
 
-  persistence:
-    config:
+  ## Health sidecar configuration
+  healthSideCar:
+    # -- Opt in side car to expose a http health end point for external load balancers that are not kubernetes aware, in most cases this is not needed
+    enabled: false
+    # -- Secure settings by default, can be overriden to reduce security posture if needed
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      runAsGroup: 10001
+      runAsUser: 10001
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+    # -- set resource constraints, set to nil to remove
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: "100m"
+      limits:
+        memory: 256Mi
+        cpu: "100m"
+    image:
+      # -- Override repo if you prefer to use your own image
+      repository: ghcr.io/bryopsida/http-healthcheck-sidecar
+      # -- Rolling tag used by default to take patches automatically
+      tag: main
+      # -- Pull Policy always to avoid cached rolling tags, if you change this you should use a non rolling tag
+      pullPolicy: Always
+    service:
+      # -- Override service port if needed
+      port: 3000
+      # -- Toggle to enable the service, if the pod is a daemonset healthSideCar.useHostPort can be used instead
       enabled: true
-      existingClaim: config-wireguard
-      advancedMounts:
-        wireguard:
-          wireguard:
-          - path: /config
-    etc:
-      enabled: true
-      existingClaim: etc-wireguard
-      advancedMounts:
-        wireguard:
-          wireguard:
-          - path: /etc
+      # -- Service type, given the use case, in most cases this should be NodePort
+      type: NodePort
+      # -- The port for the service exposed on each node
+      nodePort: 31313
+    # -- When enabled the container will define a host port, in most cases this should only be used when deploying with daemonSet: true
+    useHostPort: false
+    # -- When useHostPort is true this is the host port defined
+    hostPort: 13000
     
