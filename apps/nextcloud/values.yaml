@@ -6,12 +6,13 @@ nextcloud:
   deploymentLabels:
     backup/retain: quaterly
 
+  replicaCount: 1
   ingress:
     enabled: true
     className: nginx-external
     annotations:
       external-dns.alpha.kubernetes.io/enabled: "true"
-      #external-dns.alpha.kubernetes.io/target: dbcloud.org
+      external-dns.alpha.kubernetes.io/target: dbcloud.org
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       # default Nextcloud timeout in:
       # `grep timeout /var/www/html/lib/private/Installer.php`
@@ -60,9 +61,9 @@ nextcloud:
 
       nginx.ingress.kubernetes.io/enable-global-auth: "false"
     tls:
-    - hosts:
-      - nextcloud.dbcloud.org
-      secretName: nextcloud-tls-certificate
+      - hosts:
+          - nextcloud.dbcloud.org
+        secretName: nextcloud-tls-certificate
 
   redis:
     enabled: false
@@ -93,7 +94,7 @@ nextcloud:
 
   resources:
     limits:
-      memory: 1Gi
+      memory: 2Gi
     requests:
       cpu: 400m
       memory: 200Mi
@@ -168,40 +169,40 @@ nextcloud:
         );
 
     extraEnv:
-    - name: REDIS_HOST
-      value: redis
-    - name: REDIS_HOST_PORT
-      value: "6379"
-    - name: REDIS_HOST_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud
-          key: redis_password
-    - name: SECRET
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud
-          key: secret
-    - name: PASSWORDSALT
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud
-          key: passwordsalt
+      - name: REDIS_HOST
+        value: redis
+      - name: REDIS_HOST_PORT
+        value: "6379"
+      - name: REDIS_HOST_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud
+            key: redis_password
+      - name: SECRET
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud
+            key: secret
+      - name: PASSWORDSALT
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud
+            key: passwordsalt
     extraInitContainers:
-    - name: replace-timeout
-      image: busybox
-      command: ["/bin/sh", "-c"]
-      args:
-      - |
-        sed -i 's/^\([[:space:]]*\)\$timeout = \$this->isCLI ? 0 : 120;/\1$timeout = $this->isCLI ? 0 : 1200;/' /var/www/html/lib/private/Installer.php
-      volumeMounts:
-      - mountPath: /var/www/html
-        name: nextcloud-main
-        subPath: html
+      - name: replace-timeout
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            sed -i 's/^\([[:space:]]*\)\$timeout = \$this->isCLI ? 0 : 120;/\1$timeout = $this->isCLI ? 0 : 1200;/' /var/www/html/lib/private/Installer.php
+        volumeMounts:
+          - mountPath: /var/www/html
+            name: nextcloud-main
+            subPath: html
 
     mail:
       enabled: true
-      fromAddress: grigriserver
+      fromAddress: serverdabol
       domain: gmail.com
       smtp:
         secure: tls
@@ -209,20 +210,23 @@ nextcloud:
         authtype: LOGIN
     # LDAP TLS connection
     extraVolumes:
-    - name: ca-bundle
-      hostPath:
-        path: /etc/ssl/certs/ca-certificates.crt
-        type: File
+      - name: ca-bundle
+        hostPath:
+          path: /etc/ssl/certs/ca-certificates.crt
+          type: File
     extraVolumeMounts:
-    - name: ca-bundle
-      mountPath: /etc/ssl/certs/ca-certificates.crt
-      readOnly: true
-    - name: nextcloud-config
-      mountPath: /etc/apache2/conf-enabled/limit-request-body.conf
-      subPath: limit-request-body.conf
+      - name: ca-bundle
+        mountPath: /etc/ssl/certs/ca-certificates.crt
+        readOnly: true
+      - name: nextcloud-config
+        mountPath: /etc/apache2/conf-enabled/limit-request-body.conf
+        subPath: limit-request-body.conf
 
   securityContext:
     fsGroupChangePolicy: "OnRootMismatch"
+
+  nodeSelector:
+    kubernetes.io/hostname: prusik
 
 app-template:
   global:
@@ -236,11 +240,11 @@ app-template:
             tag: 7.2.5
 
           command:
-          - sh
+            - sh
           args:
-          - -c
-          - >-
-            redis-server --requirepass $REDIS_PASSWORD
+            - -c
+            - >-
+              redis-server --requirepass $REDIS_PASSWORD
           resources:
             requests:
               cpu: 23m
@@ -256,6 +260,16 @@ app-template:
                   name: nextcloud
                   key: redis_password
 
+    affinity:
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - nextcloud
+            topologyKey: kubernetes.io/hostname
 
   service:
     redis:

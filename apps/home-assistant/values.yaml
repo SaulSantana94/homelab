@@ -66,7 +66,7 @@ app-template:
             tag: 4.4.2
           env:
             HA_URL: http://home-assistant-hass:8123
-            DASH_URL: https://appdaemon.grigri.cloud
+            DASH_URL: https://appdaemon.dbcloud.org
             TIMEZONE: Europe/Madrid
           envFrom:
             - secretRef:
@@ -87,31 +87,16 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-      pod:
-        affinity: &affinity
-          podAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: app.kubernetes.io/name
-                      operator: In
-                      values:
-                        - home-assistant
-                    - key: app.kubernetes.io/component
-                      operator: In
-                      values:
-                        - hass
-                topologyKey: kubernetes.io/hostname
 
     whisper:
       type: deployment
       replicas: 1
-      pod:
-        runtimeClassName: nvidia
+      #pod:
+      #  runtimeClassName: nvidia
       containers:
         whisper:
           image:
-            repository: pando85/wyoming-whisper
+            repository: rhasspy/wyoming-whisper
             tag: 1.1.0
           args:
           - --model
@@ -124,8 +109,8 @@ app-template:
             requests:
               cpu: 15m
               memory: 600Mi
-            limits:
-              nvidia.com/gpu: "1"
+            #limits:
+            #  nvidia.com/gpu: "1"
           probes:
             liveness:
               enabled: true
@@ -189,8 +174,6 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-      pod:
-        affinity: *affinity
 
     valetudopng:
       annotations:
@@ -219,8 +202,7 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-      pod:
-        affinity: *affinity
+
   defaultPodOptions:
     terminationGracePeriodSeconds: 1
 
@@ -290,30 +272,6 @@ app-template:
         hass:
           hass:
           - path: /config/gitops
-    secret:
-      enabled: true
-      type: secret
-      name: hass-secrets
-      advancedMounts:
-        hass:
-          hass:
-          - path: /config/gitops/secrets
-    configmap-integrations:
-      enabled: true
-      type: configMap
-      name: home-assistant-config-integrations
-      advancedMounts:
-        hass:
-          hass:
-          - path: /config/gitops/integrations
-    configmap-script:
-      enabled: true
-      type: configMap
-      name: home-assistant-config-script
-      advancedMounts:
-        hass:
-          hass:
-          - path: /config/gitops/script
     whisper:
       enabled: true
       type: emptyDir
