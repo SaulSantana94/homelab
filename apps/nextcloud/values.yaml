@@ -214,9 +214,6 @@ nextcloud:
   securityContext:
     fsGroupChangePolicy: "OnRootMismatch"
 
-  nodeSelector:
-    kubernetes.io/hostname: prusik
-
 app-template:
   global:
     fullnameOverride: redis
