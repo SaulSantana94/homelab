@@ -176,7 +176,6 @@ app-template:
         - *host
         secretName: hass-tls-certificate
 
-
     external:
       enabled: true
       className: nginx-external
