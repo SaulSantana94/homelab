@@ -20,7 +20,7 @@ wireguard:
 
   service:
     # -- Whether the service will be created or not
-    enabled: true
+    enabled: false
     # -- Service type, to keep internal to cluster use ClusterIP or NodePort
     type: LoadBalancer
     # -- Service port, default is 51820 UDP
@@ -49,8 +49,8 @@ wireguard:
     enabled: false
   autoscaling:
     enabled: false
-    minReplicas: 2
-    maxReplicas: 3
+    minReplicas: 1
+    maxReplicas: 1
     targetCPUUtilizationPercentage: 75
 
   # -- The property/key on the secret holding the wireguard configuration file
