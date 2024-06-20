@@ -39,14 +39,14 @@ wireguard:
     natAddSourceNet: true
     # -- A collection of clients that will be added to wg0.conf, accepts objects with keys PublicKey and AllowedIPs (mandatory) and optional FriendlyName or FriendlyJson (https://github.com/MindFlavor/prometheus_wireguard_exporter#friendly-tags) and PersistentKeepalive (https://www.wireguard.com/quickstart/#nat-and-firewall-traversal-persistence), stored in secret
     clients: []
-      # - FriendlyName: username1
-      #   ## FriendlyJson will override FriendlyName
-      #   # FriendlyJson:
-      #   #   username: "username1"
-      #   AllowedIPs: 10.34.0.101/32
-      #   PublicKey: QTxoajwVHWZ7qqVwY2F9T1L04M0j5GSNC15++LZw1iA=
-      #   # Normally PersistentKeepalive is not required
-      #   #PersistentKeepalive: 25
+       - FriendlyName: username1
+         ## FriendlyJson will override FriendlyName
+         # FriendlyJson:
+         #   username: "username1"
+         AllowedIPs: 10.34.0.101/32
+         PublicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtn/xhkTMFrsjNzFuMmIIAc6vSRL1hSrjeZw1Vo72D27ViO9KqZDtSaBJPURXuu9BM106fvdzkdFq4m3Kzf/YPcy4iadbikmyO7x2PvgRSQH5cM6M7KseKCah2QpDfCkNwkPJz7eWIxzM2CrgT52OK01bjRDdccxDnc73YqZLx/wIDAQAB
+         # Normally PersistentKeepalive is not required
+         #PersistentKeepalive: 25
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
