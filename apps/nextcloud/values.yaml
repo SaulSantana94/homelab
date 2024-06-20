@@ -249,17 +249,6 @@ app-template:
                   name: nextcloud
                   key: redis_password
 
-    affinity:
-      podAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                    - nextcloud
-            topologyKey: kubernetes.io/hostname
-
   service:
     redis:
       controller: redis
