@@ -49,8 +49,6 @@ wireguard:
     enabled: false
   autoscaling:
     enabled: false
-      minReplicas: 1
-      maxReplicas: 1
 
   # -- The property/key on the secret holding the wireguard configuration file
   configSecretProperty: wg0.conf
