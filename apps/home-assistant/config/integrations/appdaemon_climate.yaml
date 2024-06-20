@@ -1,0 +1,18 @@
+input_boolean:
+  appdaemon_climate_enable:
+    name: AppDaemon Climate Enable
+    icon: mdi:thermometer-auto
+
+input_number:
+  appdaemon_climate_min_hours_per_day:
+    name: AppDaemon Climate Min Hours Per Day
+    min: 0
+    max: 24
+    step: 1
+
+input_select:
+  appdaemon_climate_heat_mode:
+    name: Set Heat Mode
+    options:
+      - Heat+DHW
+      - Cool+DHW

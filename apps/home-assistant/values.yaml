@@ -66,7 +66,7 @@ app-template:
             tag: 4.4.2
           env:
             HA_URL: http://home-assistant-hass:8123
-            DASH_URL: https://appdaemon.dbcloud.org
+            DASH_URL: https://appdaemon.grigri.cloud
             TIMEZONE: Europe/Madrid
           envFrom:
             - secretRef:
@@ -87,30 +87,47 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
+      pod:
+        affinity: &affinity
+          podAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - home-assistant
+                    - key: app.kubernetes.io/component
+                      operator: In
+                      values:
+                        - hass
+                topologyKey: kubernetes.io/hostname
 
     whisper:
       type: deployment
       replicas: 1
-      #pod:
-      #  runtimeClassName: nvidia
+      pod:
+        runtimeClassName: nvidia
       containers:
         whisper:
           image:
-            repository: rhasspy/wyoming-whisper
-            tag: 1.1.0
+            repository: pando85/wyoming-whisper
+            tag: 2.0.0
           args:
-          - --model
-          - medium-int8
-          - --language
-          - es
-          - --device
-          - cuda
+            - --model
+            - large-v3
+            - --language
+            - es
+            - --device
+            - cuda
+            - --compute-type
+            - int8
           resources:
             requests:
               cpu: 15m
               memory: 600Mi
-            #limits:
-            #  nvidia.com/gpu: "1"
+            limits:
+              nvidia.com/gpu: "1"
           probes:
             liveness:
               enabled: true
@@ -130,9 +147,9 @@ app-template:
             repository: rhasspy/wyoming-piper
             tag: 1.5.0
           args:
-          - --voice
-          #- en_US-amy-medium
-          - es_ES-sharvard-medium
+            - --voice
+            #- en_US-amy-medium
+            - es_ES-sharvard-medium
           resources:
             requests:
               cpu: 15m
@@ -147,7 +164,8 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-
+      pod:
+        affinity: *affinity
 
     openwakeword:
       type: deployment
@@ -158,8 +176,8 @@ app-template:
             repository: rhasspy/wyoming-openwakeword
             tag: 1.10.0
           args:
-          - --preload-model
-          - alexa
+            - --preload-model
+            - alexa
           resources:
             requests:
               cpu: 15m
@@ -174,6 +192,8 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
+      pod:
+        affinity: *affinity
 
     valetudopng:
       annotations:
@@ -202,7 +222,8 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
-
+      pod:
+        affinity: *affinity
   defaultPodOptions:
     terminationGracePeriodSeconds: 1
 
@@ -218,6 +239,11 @@ app-template:
       ports:
         http:
           port: 8123
+    appdaemon:
+      controller: appdaemon
+      ports:
+        http:
+          port: 80
     whisper:
       controller: whisper
       ports:
@@ -233,6 +259,11 @@ app-template:
       ports:
         http:
           port: 10400
+    valetudopng:
+      controller: valetudopng
+      ports:
+        http:
+          port: 3000
 
   ingress:
     hass:
@@ -240,21 +271,59 @@ app-template:
       className: nginx-external
       annotations:
         external-dns.alpha.kubernetes.io/enabled: "true"
-        external-dns.alpha.kubernetes.io/target: dbcloud.org
+        external-dns.alpha.kubernetes.io/target: grigri.cloud
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host hass.dbcloud.org
-        paths:
-        - path: /
-          pathType: Prefix
-          service:
-            identifier: hass
-            port: http
+        - host: &host hass.grigri.cloud
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: hass
+                port: http
       tls:
-      - hosts:
-        - *host
-        secretName: home-assistant-external-tls-certificate
-
+        - hosts:
+            - *host
+          secretName: home-assistant-external-tls-certificate
+    appdaemon:
+      enabled: true
+      className: nginx-external
+      annotations:
+        external-dns.alpha.kubernetes.io/enabled: "true"
+        external-dns.alpha.kubernetes.io/target: grigri.cloud
+        cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+        nginx.ingress.kubernetes.io/auth-url: https://auth.grigri.cloud/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.grigri.cloud/oauth2/start
+      hosts:
+        - host: &host appdaemon.grigri.cloud
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: appdaemon
+                port: http
+      tls:
+        - hosts:
+            - *host
+          secretName: hass-appdaemon-tls-certificate
+    valetudopng:
+      enabled: true
+      className: nginx-internal
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+        external-dns.alpha.kubernetes.io/enabled: "true"
+      hosts:
+        - host: &host valetudopng.internal.grigri.cloud
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: valetudopng
+                port: http
+      tls:
+        - hosts:
+            - *host
+          secretName: hass-valetudopng-tls-certificate
 
   persistence:
     config:
@@ -263,7 +332,7 @@ app-template:
       advancedMounts:
         hass:
           hass:
-          - path: /config
+            - path: /config
     configmap:
       enabled: true
       type: configMap
@@ -271,7 +340,55 @@ app-template:
       advancedMounts:
         hass:
           hass:
-          - path: /config/gitops
+            - path: /config/gitops
+    secret:
+      enabled: true
+      type: secret
+      name: hass-secrets
+      advancedMounts:
+        hass:
+          hass:
+            - path: /config/gitops/secrets
+    configmap-integrations:
+      enabled: true
+      type: configMap
+      name: home-assistant-config-integrations
+      advancedMounts:
+        hass:
+          hass:
+            - path: /config/gitops/integrations
+    configmap-script:
+      enabled: true
+      type: configMap
+      name: home-assistant-config-script
+      advancedMounts:
+        hass:
+          hass:
+            - path: /config/gitops/script
+    appdaemon:
+      enabled: true
+      type: configMap
+      name: hass-appdaemon
+      advancedMounts:
+        appdaemon:
+          01-init-config:
+            - path: /original/conf
+    appdaemon-apps:
+      enabled: true
+      type: configMap
+      name: hass-appdaemon-apps
+      advancedMounts:
+        appdaemon:
+          01-init-config:
+            - path: /original/conf/apps
+    appdaemon-cache:
+      type: emptyDir
+      advancedMounts:
+        appdaemon:
+          01-init-config:
+            - path: /conf
+          appdaemon:
+            - path: /conf
     whisper:
       enabled: true
       type: emptyDir
@@ -279,7 +396,7 @@ app-template:
       advancedMounts:
         whisper:
           whisper:
-          - path: /data
+            - path: /data
     piper:
       enabled: true
       type: emptyDir
@@ -287,4 +404,25 @@ app-template:
       advancedMounts:
         piper:
           piper:
-          - path: /data
+            - path: /data
+    valetudopng:
+      enabled: true
+      type: secret
+      name: valetudopng-config
+      advancedMounts:
+        valetudopng:
+          valetudopng:
+            - path: /config
+  serviceMonitor:
+    hass:
+      enabled: true
+      # if directory != service name, it will be prefixed to the service name:
+      # ${directory}-${service}
+      # https://github.com/bjw-s/helm-charts/blob/45ec2d739fc787c95947e0f3d68b05e54fe5f077/charts/library/common/templates/lib/service/_valuesToObject.tpl#L20
+      serviceName: home-assistant-hass
+      labels:
+        operator.prometheus.io/instance: prometheus-long-term
+      endpoints:
+        - port: http
+          scheme: http
+          path: /api/prometheus
