@@ -58,7 +58,6 @@ wireguard:
   
   ## Health sidecar configuration
   healthSideCar:
-    
     resources:
       requests:
         memory: 256Mi
