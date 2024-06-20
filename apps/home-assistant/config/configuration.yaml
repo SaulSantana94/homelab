@@ -16,6 +16,12 @@ http:
   trusted_proxies:
     - 0.0.0.0/0
 
+recorder:
+  db_url: !env_var ZZ_DB_URL
+
+prometheus:
+  namespace: hass
+  requires_auth: false
 
 telegram_bot: !include secrets/telegram_bot.yaml
 notify: !include secrets/notify.yaml
