@@ -12,7 +12,7 @@ config:
   logLevel: info
   serverPort: 3101
   clients:
-  - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
+    - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
   snippets:
     # Add additional scrape config
     # https://grafana.com/docs/loki/latest/clients/promtail/scraping/#journal-scraping-linux-only
@@ -54,28 +54,32 @@ config:
 
 # Mount journal directory into promtail pods
 extraVolumes:
-- name: journal-run
-  hostPath:
-    path: /run/log/journal
-- name: journal-var
-  hostPath:
-    path: /var/log/journal
-- name: machine-id
-  hostPath:
-    path: /etc/machine-id
+  - name: journal-run
+    hostPath:
+      path: /run/log/journal
+  - name: journal-var
+    hostPath:
+      path: /var/log/journal
+  - name: machine-id
+    hostPath:
+      path: /etc/machine-id
 
 extraVolumeMounts:
-- name: journal-run
-  mountPath: /run/log/journal
-  readOnly: true
-- name: journal-var
-  mountPath: /var/log/journal
-  readOnly: true
-- name: machine-id
-  mountPath: /etc/machine-id
-  readOnly: true
+  - name: journal-run
+    mountPath: /run/log/journal
+    readOnly: true
+  - name: journal-var
+    mountPath: /var/log/journal
+    readOnly: true
+  - name: machine-id
+    mountPath: /etc/machine-id
+    readOnly: true
 
+serviceMonitor:
+  enabled: true
+  labels:
+    release: monitoring
 
 # Enable CRIO log format
 pipelineStages:
-- cri: {}
+  - cri: {}
