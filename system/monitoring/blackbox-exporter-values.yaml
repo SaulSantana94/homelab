@@ -9,7 +9,7 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     external-dns.alpha.kubernetes.io/enabled: "true"
   hosts:
-    - host: &host blackbox-exporter.internal.grigri.cloud
+    - host: &host blackbox-exporter.internal.dbcloud.org
       paths:
         - path: /
           pathType: Prefix
@@ -67,69 +67,9 @@ serviceMonitor:
     scrapeTimeout: 10s
 
   targets:
-    - module: http_2xx
-      name: rash-sh.github.io
-      url: https://rash-sh.github.io
-    - module: http_2xx
-      name: api.m.rajoy.grigri.cloud
-      url: https://api.m.rajoy.grigri.cloud/ping
-    - module: http_2xx
-      name: m.rajoy.grigri.cloud
-      url: https://m.rajoy.grigri.cloud
-    - module: http_2xx
-      name: www.mintpsicologia.es
-      url: https://www.mintpsicologia.es
-    - module: http_2xx
-      name: fame.grigri.cloud
-      url: https://fame.grigri.cloud
-    - module: ping
-      name: aerotherm
-      url: cz-taw1b.iot.grigri
-    - module: ping
-      name: su100-510-office-a
-      url: su100-510-office-a.iot.grigri
-    - module: ping
-      name: su100-510-bedroom
-      url: su100-510-bedroom.iot.grigri
-    - module: ping
-      name: su100-510-hall-kitchen
-      url: su100-510-hall-kitchen.iot.grigri
-    - module: ping
-      name: su100-510-office-t
-      url: su100-510-office-t.iot.grigri
-    - module: ping
-      name: shellyem-main
-      url: shellyem-main.iot.grigri
-    - module: ping
-      name: shellypmmini-servers
-      url: shellypmmini-servers.iot.grigri
-    - module: ping
-      name: shellyplus2pm-bedroom
-      url: shellyplus2pm-bedroom.iot.grigri
-    - module: ping
-      name: shellyplus2pm-office-t
-      url: shellyplus2pm-office-t.iot.grigri
-    - module: ping
-      name: shellyplus2pm-office-a
-      url: shellyplus2pm-office-a.iot.grigri
-    - module: tcp_connect
-      name: rack-controller
-      url: rack-controller.iot.grigri:6053
-    - module: tcp_connect
-      name: smart-plug-v2-snapmaker
-      url: smart-plug-v2-snapmaker.iot.grigri:6053
-    - module: tcp_connect
-      name: smart-plug-v2-terrace
-      url: smart-plug-v2-terrace.iot.grigri:6053
-    - module: tcp_connect
-      name: lilygo-higrow-2
-      url: lilygo-higrow-2.iot.grigri:6053
-    - module: tcp_connect
-      name: lilygo-higrow-1
-      url: lilygo-higrow-1.iot.grigri:6053
-    - module: tcp_connect
-      name: mini-switch-office-a
-      url: mini-switch-office-a.iot.grigri:6053
+    #- module: tcp_connect
+    #  name: mini-switch-office-a
+    #  url: mini-switch-office-a.iot.grigri:6053
 
 resources:
   requests:

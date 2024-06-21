@@ -188,11 +188,11 @@ app-template:
       hosts:
       - host: &host hass.dbcloud.org
         paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: hass
-              port: http
+        - path: /
+          pathType: Prefix
+          service:
+            identifier: hass
+            port: http
       tls:
         - hosts:
             - *host

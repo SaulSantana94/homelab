@@ -38,13 +38,13 @@ alertmanager:
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       external-dns.alpha.kubernetes.io/enabled: "true"
     hosts:
-      - alertmanager.internal.grigri.cloud
+      - alertmanager.internal.dbcloud.org
     paths:
       - /
     tls:
       - secretName: alertmanager-general-tls
         hosts:
-          - alertmanager.internal.grigri.cloud
+          - alertmanager.internal.dbcloud.org
 
 grafana:
   enabled: true
@@ -62,10 +62,10 @@ grafana:
     ingressClassName: nginx-external
     annotations:
       external-dns.alpha.kubernetes.io/enabled: "true"
-      external-dns.alpha.kubernetes.io/target: grigri.cloud
+      external-dns.alpha.kubernetes.io/target: dbcloud.org
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     hosts:
-      - &host grafana.grigri.cloud
+      - &host grafana.dbcloud.org
     tls:
       - secretName: grafana-general-tls
         hosts:
@@ -111,25 +111,26 @@ grafana:
 
   grafana.ini:
     server:
-      root_url: https://grafana.grigri.cloud
+      root_url: https://grafana.dbcloud.org
 
     log:
       level: info
 
-    auth.generic_oauth:
-      enabled: true
-      allow_sign_up: true
-      name: idm.grigri.cloud
-      client_id: $__env{GRAFANA_SSO_CLIENT_ID}
-      client_secret: $__env{GRAFANA_SSO_CLIENT_SECRET}
-      scopes: openid profile email
-      auth_url: https://idm.grigri.cloud/ui/oauth2
-      token_url: https://idm.grigri.cloud/oauth2/token
-      api_url: https://idm.grigri.cloud/oauth2/openid/grafana/userinfo
-      use_pkce: true
-      groups_attribute_path: scopes
-      name_attribute_path: preferred_username
-      role_attribute_path: contains(scopes[*], 'admin') && 'Admin' || 'Viewer'
+    ## AA: esto hay que adaptarlo a google.
+    #auth.generic_oauth:
+    #  enabled: true
+    #  allow_sign_up: true
+    #  name: idm.dbcloud.org
+    #  client_id: $__env{GRAFANA_SSO_CLIENT_ID}
+    #  client_secret: $__env{GRAFANA_SSO_CLIENT_SECRET}
+    #  scopes: openid profile email
+    #  auth_url: https://idm.dbcloud.org/ui/oauth2
+    #  token_url: https://idm.dbcloud.org/oauth2/token
+    #  api_url: https://idm.dbcloud.org/oauth2/openid/grafana/userinfo
+    #  use_pkce: true
+    #  groups_attribute_path: scopes
+    #  name_attribute_path: preferred_username
+    #  role_attribute_path: contains(scopes[*], 'admin') && 'Admin' || 'Viewer'
 
   revisionHistoryLimit: 2
 
@@ -222,10 +223,10 @@ prometheus:
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       external-dns.alpha.kubernetes.io/enabled: "true"
     hosts:
-      - prometheus.internal.grigri.cloud
+      - prometheus.internal.dbcloud.org
     paths:
       - /
     tls:
       - secretName: prometheus-general-tls
         hosts:
-          - prometheus.internal.grigri.cloud
+          - prometheus.internal.dbcloud.org

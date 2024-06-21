@@ -129,7 +129,7 @@ su - www-data
 
 ### Automatically upgrades fails
 
-Check `https://nextcloud.grigri.cloud/index.php/settings/integrity/failed`.
+Check `https://nextcloud.dbcloud.org/index.php/settings/integrity/failed`.
 
 Always fails in code integrity check without any errors, just hangs forever in the web browser auto updater.
 
