@@ -111,7 +111,7 @@ prestashop:
   ## Defaults to a random 10-character alphanumeric string if not set
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
   ##
-  prestashopPassword: ""
+  prestashopPassword: "mysecretpassword123"
   ## @param prestashopEmail Admin email
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
   ##
@@ -715,7 +715,7 @@ prestashop:
     user: bn_prestashop
     ## @param externalDatabase.password Password for the above username
     ##
-    password: ""
+    password: "mysecretpassword123"
     ## @param externalDatabase.database Name of the existing database
     ##
     database: bitnami_prestashop
