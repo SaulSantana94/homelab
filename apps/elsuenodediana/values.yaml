@@ -521,7 +521,7 @@ prestashop:
   ingress:
     ## @param ingress.enabled Enable ingress controller resource
     ##
-    enabled: true
+    enabled: false
     ## DEPRECATED: Use ingress.annotations instead of ingress.certManager
     ## certManager: false
     ##
