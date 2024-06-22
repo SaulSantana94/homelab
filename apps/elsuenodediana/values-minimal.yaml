@@ -1,0 +1,133 @@
+prestashop:
+  
+  image:
+    registry: docker.io
+    repository: bitnami/prestashop
+    tag: 8.1.6-debian-12-r1
+    
+  hostAliases:
+    ## Necessary for apache-exporter to work
+    ##
+    - ip: "127.0.0.1"
+      hostnames:
+        - "status.localhost"
+  ## @param replicaCount Number of PrestaShop Pods to run (requires ReadWriteMany PVC support)
+  ##
+  replicaCount: 1
+  ## @param prestashopSkipInstall Skip PrestaShop installation wizard. Useful for migrations and restoring from SQL dump
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopSkipInstall: false
+  
+  ## @param prestashopUsername User of the application
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopUsername: serverdabol@gmail.com
+  ## @param prestashopPassword Application password
+  ## Defaults to a random 10-character alphanumeric string if not set
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopPassword: "mytestpassword123"
+  ## @param prestashopEmail Admin email
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopEmail: serverdabol@gmail.com
+  ## @param prestashopFirstName First Name
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopFirstName: Server
+  ## @param prestashopLastName Last Name
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopLastName: Dabol
+  ## @param prestashopCookieCheckIP Whether to check the cookie's IP address or not
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopCountry: "es"
+  ## @param prestashopLanguage Default language of the store (ISO code)
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#configuration
+  ##
+  prestashopLanguage: "es"
+  ## @param allowEmptyPassword Allow DB blank passwords
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/prestashop#environment-variables
+  ##
+  
+  persistence:
+    ## @param persistence.enabled Enable persistence using PVC
+    ##
+    enabled: true
+    ## @param persistence.size PVC Storage Request for PrestaShop volume
+    ##
+    size: 8Gi
+    ## @param persistence.existingClaim An Existing PVC name
+    ## Requires persistence.enabled: true
+    ## If defined, PVC must be created manually before volume will be bound
+    ##
+    existingClaim: "config-elsuenodediana"
+  
+  ## Configure the ingress resource that allows you to access the
+  ## PrestaShop installation. Set up the URL
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
+  ##
+  ingress:
+    ## @param ingress.hostname Default host for the ingress resource
+    ##
+    hostname: prestashop.dbcloud.org
+    ## @param ingress.annotations Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
+    ## For a full list of possible ingress annotations, please see
+    ## ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md
+    ## Use this parameter to set the required annotations for cert-manager, see
+    ## ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+    ##
+    ## e.g:
+    ## annotations:
+    ##   kubernetes.io/ingress.class: nginx
+    ##   cert-manager.io/cluster-issuer: cluster-issuer-name
+    ##
+    annotations:
+        external-dns.alpha.kubernetes.io/enabled: "true"
+        external-dns.alpha.kubernetes.io/target: dbcloud.org
+        cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+        nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
+  
+    ## @param ingress.tls Create TLS Secret
+    ## TLS certificates will be retrieved from a TLS secret with name: {{- printf "%s-tls" .Values.ingress.hostname }}
+    ## You can use the ingress.secrets parameter to create this TLS secret or relay on cert-manager to create it
+    ##
+    tls: false
+
+  ## MariaDB chart configuration
+  ## https://github.com/bitnami/charts/blob/main/bitnami/mariadb/values.yaml
+  ##
+  mariadb:
+    auth:
+      ## @param mariadb.auth.rootPassword Password for the MariaDB `root` user
+      ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mariadb#setting-the-root-password-on-first-run
+      ##
+      rootPassword: "mysecretpassword123"
+      ## @param mariadb.auth.database Database name to create
+      ## ref: https://github.com/bitnami/containers/blob/main/bitnami/mariadb/README.md#creating-a-database-on-first-run
+      ##
+      database: bitnami_prestashop
+      ## @param mariadb.auth.username Database user to create
+      ## ref: https://github.com/bitnami/containers/blob/main/bitnami/mariadb/README.md#creating-a-database-user-on-first-run
+      ##
+      username: bn_prestashop
+      ## @param mariadb.auth.password Password for the database
+      ##
+      password: "mysecretpassword123"
+    primary:
+      ## Enable persistence using Persistent Volume Claims
+      ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+      ##
+      persistence:
+        ## @param mariadb.primary.persistence.enabled Enable database persistence using PVC
+        ##
+        enabled: true
+        ## @param mariadb.primary.persistence.size Database Persistent Volume Size
+        ##
+        size: 8Gi
+        ## @param mariadb.primary.persistence.existingClaim Name of an existing `PersistentVolumeClaim` for MariaDB primary replicas
+        ##
+        existingClaim: ""
