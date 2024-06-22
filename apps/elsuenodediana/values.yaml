@@ -244,7 +244,7 @@ prestashop:
   persistence:
     ## @param persistence.enabled Enable persistence using PVC
     ##
-    enabled: false
+    enabled: true
     ## @param persistence.storageClass PrestaShop Data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
     ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -658,7 +658,7 @@ prestashop:
       persistence:
         ## @param mariadb.primary.persistence.enabled Enable database persistence using PVC
         ##
-        enabled: false
+        enabled: true
         ## @param mariadb.primary.persistence.storageClass MariaDB primary persistent volume storage Class
         ## If defined, storageClassName: <storageClass>
         ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -679,7 +679,7 @@ prestashop:
         hostPath: ""
         ## @param mariadb.primary.persistence.existingClaim Name of an existing `PersistentVolumeClaim` for MariaDB primary replicas
         ##
-        existingClaim: ""
+        existingClaim: "db-elsuenodediana "
       ## MariaDB primary container's resource requests and limits
       ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
       ## We usually recommend not to specify default resources and to leave this as a conscious
