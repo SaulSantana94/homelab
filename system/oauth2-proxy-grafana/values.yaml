@@ -18,10 +18,10 @@ oauth2-proxy:
   proxyVarsAsSecrets: true
 
   deploymentAnnotations:
-    secret.reloader.stakater.com/reload: oauth2-proxy
+    secret.reloader.stakater.com/reload: oauth2-proxy-grafana
 
   config:
-    existingSecret: oauth2-proxy
+    existingSecret: oauth2-proxy-grafana
 
   extraArgs:
     provider: google
