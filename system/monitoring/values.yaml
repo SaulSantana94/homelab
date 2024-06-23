@@ -120,17 +120,16 @@ grafana:
     auth.generic_oauth:
       enabled: true
       allow_sign_up: true
-      name: auth.grafana.dbcloud.org
+      name: Google
       client_id: $__env{GRAFANA_SSO_CLIENT_ID}
       client_secret: $__env{GRAFANA_SSO_CLIENT_SECRET}
       scopes: openid profile email
-      auth_url: https://auth.grafana.dbcloud.org/ui/oauth2
-      token_url: https://auth.grafana.dbcloud.org/oauth2/token
-      api_url: https://auth.grafana.dbcloud.org/oauth2/openid/grafana/userinfo
+      auth_url: https://accounts.google.com/o/oauth2/auth
+      token_url: https://oauth2.googleapis.com/token
+      api_url: https://openidconnect.googleapis.com/v1/userinfo
       use_pkce: true
-      groups_attribute_path: scopes
-      name_attribute_path: preferred_username
-      role_attribute_path: contains(scopes[*], 'admin') && 'Admin' || 'Viewer'
+      email_attribute_path: email
+      role_attribute_path: contains(['daniel.boluda.fdez@gmail.com', 'serverdabol@gmail.com'], email) && 'Admin' || 'Viewer'
 
   revisionHistoryLimit: 2
 
