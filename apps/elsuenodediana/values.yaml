@@ -204,13 +204,6 @@ app-template:
         - *host
         secretName: elsuenodediana-external-tls-certificate
 
-  defaultPodOptions:
-    securityContext:
-      runAsUser: 999
-      runAsGroup: 999
-      fsGroup: 999
-      fsGroupChangePolicy: "OnRootMismatch"
-
   persistence:
     config:
       enabled: true
