@@ -41,6 +41,12 @@ app-template:
           - containerPort: 80
             name: elsuenodediana
 
+          securityContext:
+              runAsUser: 995
+              runAsGroup: 991
+              fsGroup: 991
+              fsGroupChangePolicy: "OnRootMismatch"
+
 
     mysql:
       labels:
@@ -78,6 +84,12 @@ app-template:
           - containerPort: 3306
             name: mysql
 
+          securityContext:
+              runAsUser: 999
+              runAsGroup: 999
+              fsGroup: 999
+              fsGroupChangePolicy: "OnRootMismatch"
+
 
     phpmyadmin:
       labels:
@@ -104,6 +116,12 @@ app-template:
           ports:
           - containerPort: 80
             name: phpmyadmin
+
+          securityContext:
+              runAsUser: 995
+              runAsGroup: 991
+              fsGroup: 991
+              fsGroupChangePolicy: "OnRootMismatch"
 
 
   service:
