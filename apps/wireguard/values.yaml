@@ -11,8 +11,10 @@ app-template:
             tag: latest
 
           env:
+            PUID: 1000
+            PGID: 1000          
             TZ: Europe/Madrid
-            SERVERURL: wireguard.myhome.com # DNS dinámico
+            SERVERURL: wireguard.dbcloud.org # DNS dinámico
             SERVERPORT: 51820
             PEERS: 4 # 4 clientes
             PEERDNS: 8.8.8.8
