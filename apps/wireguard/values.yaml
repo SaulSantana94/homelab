@@ -11,8 +11,8 @@ app-template:
             tag: latest
 
           env:
-            PUID: 1000
-            PGID: 1000          
+            PUID: 0
+            PGID: 0          
             TZ: Europe/Madrid
             SERVERURL: wireguard.dbcloud.org # DNS dinámico
             SERVERPORT: 51820
@@ -77,9 +77,9 @@ app-template:
 
   defaultPodOptions:
     securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
