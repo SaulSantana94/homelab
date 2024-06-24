@@ -103,7 +103,7 @@ app-template:
   persistence:
     config:
       enabled: true
-      existingClaim: config-algomar
+      existingClaim: config-prestashop-algomar
       advancedMounts:
         algomar:
           algomar:
