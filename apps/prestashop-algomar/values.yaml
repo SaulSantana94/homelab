@@ -17,10 +17,10 @@ app-template:
             PS_DOMAIN: algomar.dbcloud.org
           envFrom:
           - secretRef:
-              name: prestashop_folder_install
-              name: prestashop_folder_admin
-              name: prestashop_mariadb_user
-              name: prestashop_mariadb_psswd
+              name: prestashop-folder-install
+              name: prestashop-folder-admin
+              name: prestashop-mariadb-user
+              name: prestashop-mariadb-psswd
 
           probes:
             liveness:
