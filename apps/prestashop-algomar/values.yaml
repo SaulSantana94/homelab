@@ -1,24 +1,24 @@
 app-template:
   controllers:
-    elsuenodediana:
+    algomar:
       labels:
         backup/retain: quarterly
       type: statefulset
       containers:
-        elsuenodediana:
+        algomar:
           image:
             repository: prestashop/prestashop
             tag: 8.1.5
 
           env:
             TZ: Europe/Madrid
-            DB_SERVER: elsuenodedianadb-mariadb.elsuenodedianadb.svc
+            DB_SERVER: prestashop-algomar-mariadb.prestashop-algomar-db.svc
             DB_NAME: prestashop
-            DB_USER: root
-            DB_PASSWD: admin
-            PS_FOLDER_ADMIN: admin8491
-            PS_FOLDER_INSTALL: install8491
-            PS_DOMAIN: https://elsuenodediana.dbcloud.org
+            DB_USER: prestashop_mariadb_user
+            DB_PASSWD: prestashop_mariadb_psswd            
+            PS_FOLDER_ADMIN: prestashop_folder_admin
+            PS_FOLDER_INSTALL: prestashop_folder_install
+            PS_DOMAIN: algomar.dbcloud.org
 
           probes:
             liveness:
@@ -40,7 +40,7 @@ app-template:
 
           ports:
           - containerPort: 80
-            name: elsuenodediana
+            name: algomar
 
           securityContext:
               runAsUser: 995
@@ -51,32 +51,32 @@ app-template:
 
 
   service:
-    elsuenodediana:
-      controller: elsuenodediana
+    algomar:
+      controller: algomar
       ports:
         http:
           port: 80
 
 
   ingress:
-    elsuenodediana:
+    algomar:
       enabled: true
       className: nginx-internal
       annotations:
         external-dns.alpha.kubernetes.io/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host elsuenodediana.internal.dbcloud.org
+      - host: &host algomar.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
           service:
-            identifier: elsuenodediana
+            identifier: algomar
             port: http
       tls:
       - hosts:
         - *host
-        secretName: elsuenodediana-tls-certificate
+        secretName: algomar-tls-certificate
 
 
     external:
@@ -88,24 +88,24 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
 
       hosts:
-      - host: &host elsuenodediana.dbcloud.org
+      - host: &host algomar.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
           service:
-            identifier: elsuenodediana
+            identifier: algomar
             port: http
       tls:
       - hosts:
         - *host
-        secretName: elsuenodediana-external-tls-certificate
+        secretName: algomar-external-tls-certificate
 
   persistence:
     config:
       enabled: true
-      existingClaim: config-elsuenodediana
+      existingClaim: config-algomar
       advancedMounts:
-        elsuenodediana:
-          elsuenodediana:
+        algomar:
+          algomar:
           - path: /var/www/html
     
