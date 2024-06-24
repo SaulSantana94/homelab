@@ -14,7 +14,7 @@ app-template:
             TZ: Europe/Madrid
             DB_SERVER: mysql
             DB_NAME: prestashop
-            DB_USER: root
+            DB_USER: admin
             DB_PASSWD: admin
             PS_FOLDER_ADMIN: admin8491
             PS_FOLDER_INSTALL: install8491
