@@ -14,10 +14,11 @@ app-template:
             TZ: Europe/Madrid
             DB_SERVER: elsuenodedianadb-mariadb.elsuenodedianadb.svc
             DB_NAME: prestashop
-            DB_USER: root1
+            DB_USER: root
             DB_PASSWD: admin
             PS_FOLDER_ADMIN: admin8491
             PS_FOLDER_INSTALL: install8491
+            PS_DOMAIN: elsuenodediana.dbcloud.org
 
           probes:
             liveness:
