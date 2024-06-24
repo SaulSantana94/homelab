@@ -12,7 +12,7 @@ app-template:
 
           env:
             TZ: Europe/Madrid
-            DB_SERVER: mysql
+            DB_SERVER: elsuenodedianadb-mariadb.elsuenodedianadb.svc
             DB_NAME: prestashop
             DB_USER: admin
             DB_PASSWD: admin
