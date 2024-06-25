@@ -27,16 +27,13 @@ mariadb:
   ## MariaDB Authentication parameters
   ##
   auth:
-    database: prestashop
-    rootPassword: 
-      secretName: prestashop-algomar-db
-      key: auth.rootPassword
-    username: 
-      secretName: prestashop-algomar-db
-      key: auth.username
-    password: 
-      secretName: prestashop-algomar-db
-      key: auth.password
+    existingSecret: prestashop-algomar-db  # Name of the Kubernetes Secret managed by ExternalSecrets
+    database: prestashop  # Name for a custom database to create
+    rootPassword: ""
+    username: ""
+    password: ""
+
+      
     
 
   ## @section MariaDB Primary parameters
