@@ -27,24 +27,11 @@ mariadb:
   ## MariaDB Authentication parameters
   ##
   auth:
-    ## @param auth.rootPassword Password for the `root` user. Ignored if existing secret is provided.
-    ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mariadb#setting-the-root-password-on-first-run
-    ##
-    rootPassword: "admin"
-    ## @param auth.database Name for a custom database to create
-    ## ref: https://github.com/bitnami/containers/blob/main/bitnami/mariadb/README.md#creating-a-database-on-first-run
-    ##
-    database: prestashop
-    ## @param auth.username Name for a custom user to create
-    ## ref: https://github.com/bitnami/containers/blob/main/bitnami/mariadb/README.md#creating-a-database-user-on-first-run
-    ##
+    existingSecret: prestashop-elsuenodediana-db  # Name of the Kubernetes Secret managed by ExternalSecrets
+    database: prestashop  # Name for a custom database to create
     username: "root1"
-    ## @param auth.password Password for the new user. Ignored if existing secret is provided
-    ##
-    password: "admin"
-    ## @param auth.replicationUser MariaDB replication user
-    ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mariadb#setting-up-a-replication-cluster
-    ##
+
+      
     
 
   ## @section MariaDB Primary parameters
@@ -73,7 +60,7 @@ mariadb:
       ## @param primary.persistence.existingClaim Name of an existing `PersistentVolumeClaim` for MariaDB primary replicas
       ## NOTE: When it's set the rest of persistence parameters are ignored
       ##
-      existingClaim: "db-elsuenodedianadb"
+      existingClaim: "prestashop-elsuenodediana-db"
       ## @param primary.persistence.subPath Subdirectory of the volume to mount at
       ##
       subPath: ""

@@ -1,5 +1,5 @@
 apiVersion: v2
-name: elsuenodediana-db
+name: prestashop-elsuenodediana-db
 version: 0.0.0
 dependencies:
 - name: mariadb

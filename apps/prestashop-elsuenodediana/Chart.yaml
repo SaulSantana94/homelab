@@ -1,5 +1,5 @@
 apiVersion: v2
-name: elsuenodediana
+name: prestashop-elsuenodediana
 version: 0.0.0
 dependencies:
 - name: app-template

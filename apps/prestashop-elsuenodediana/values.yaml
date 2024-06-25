@@ -12,13 +12,12 @@ app-template:
 
           env:
             TZ: Europe/Madrid
-            DB_SERVER: elsuenodedianadb-mariadb.elsuenodedianadb.svc
+            DB_SERVER: prestashop-elsuenodediana-mariadb.prestashop-elsuenodediana-db.svc
             DB_NAME: prestashop
-            DB_USER: root
-            DB_PASSWD: admin
-            PS_FOLDER_ADMIN: admin8491
-            PS_FOLDER_INSTALL: install8491
-            PS_DOMAIN: https://elsuenodediana.dbcloud.org
+            PS_DOMAIN: elsuenodediana.dbcloud.org
+          envFrom:
+          - secretRef:
+              name: prestashop-elsuenodediana
 
           probes:
             liveness:
@@ -103,7 +102,7 @@ app-template:
   persistence:
     config:
       enabled: true
-      existingClaim: config-elsuenodediana
+      existingClaim: config-prestashop-elsuenodediana
       advancedMounts:
         elsuenodediana:
           elsuenodediana:
