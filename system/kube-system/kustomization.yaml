@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+resources:
+  - resources/cilium/bgp-peering-policy.yaml
+  - resources/cilium/load-balancer-ip-pool.yaml
+  - resources/runtime-class.yaml
+
+helmCharts:
+  - includeCRDs: true
+    name: nvidia-device-plugin
+    namespace: kube-system
+    releaseName: kube-system
+    repo: https://nvidia.github.io/k8s-device-plugin
+    valuesFile: nvidia-device-plugin-values.yaml
+    version: 0.15.0
+  - includeCRDs: true
+    name: gpu-feature-discovery
+    namespace: kube-system
+    releaseName: kube-system
+    repo: https://nvidia.github.io/gpu-feature-discovery
+    valuesFile: gpu-feature-discovery-values.yaml
+    version: 0.15.0
+
+patches:
+  - patch: |-
+      - op: remove
+        path: "/spec/template/metadata/annotations/rollme"
+    target:
+      group: apps
+      version: v1
+      kind: DaemonSet
+      name: kube-system-gpu-feature-discovery
