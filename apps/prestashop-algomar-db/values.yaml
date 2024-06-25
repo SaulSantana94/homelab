@@ -27,11 +27,16 @@ mariadb:
   ## MariaDB Authentication parameters
   ##
   auth:
-    ## @param auth.database Name for a custom database to create
-    ## ref: https://github.com/bitnami/containers/blob/main/bitnami/mariadb/README.md#creating-a-database-on-first-run
-    ##
     database: prestashop
-
+    rootPassword: 
+      secretName: prestashop-algomar-db
+      key: auth.rootPassword
+    username: 
+      secretName: prestashop-algomar-db
+      key: auth.username
+    password: 
+      secretName: prestashop-algomar-db
+      key: auth.password
     
 
   ## @section MariaDB Primary parameters
