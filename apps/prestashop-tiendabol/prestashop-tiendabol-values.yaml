@@ -1,23 +1,23 @@
 app-template:
   controllers:
-    algomar:
+    tiendabol:
       labels:
         backup/retain: quarterly
       type: statefulset
       containers:
-        algomar:
+        tiendabol:
           image:
             repository: prestashop/prestashop
             tag: 8.1.5
 
           env:
             TZ: Europe/Madrid
-            DB_SERVER: prestashop-algomar-mariadb.prestashop-algomar-db.svc
+            DB_SERVER: prestashop-tiendabol-mariadb.prestashop-tiendabol-db.svc
             DB_NAME: prestashop
-            PS_DOMAIN: algomar.dbcloud.org
+            PS_DOMAIN: tiendabol.dbcloud.org
           envFrom:
           - secretRef:
-              name: prestashop-algomar
+              name: prestashop-tiendabol
 
           probes:
             liveness:
@@ -39,7 +39,7 @@ app-template:
 
           ports:
           - containerPort: 80
-            name: algomar
+            name: tiendabol
 
           securityContext:
               runAsUser: 995
@@ -50,32 +50,32 @@ app-template:
 
 
   service:
-    algomar:
-      controller: algomar
+    tiendabol:
+      controller: tiendabol
       ports:
         http:
           port: 80
 
 
   ingress:
-    algomar:
+    tiendabol:
       enabled: true
       className: nginx-internal
       annotations:
         external-dns.alpha.kubernetes.io/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host algomar.internal.dbcloud.org
+      - host: &host tiendabol.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
           service:
-            identifier: algomar
+            identifier: tiendabol
             port: http
       tls:
       - hosts:
         - *host
-        secretName: algomar-tls-certificate
+        secretName: tiendabol-tls-certificate
 
 
     external:
@@ -87,24 +87,24 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
 
       hosts:
-      - host: &host algomar.dbcloud.org
+      - host: &host tiendabol.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
           service:
-            identifier: algomar
+            identifier: tiendabol
             port: http
       tls:
       - hosts:
         - *host
-        secretName: algomar-external-tls-certificate
+        secretName: tiendabol-external-tls-certificate
 
   persistence:
     config:
       enabled: true
-      existingClaim: config-prestashop-algomar
+      existingClaim: config-prestashop-tiendabol
       advancedMounts:
-        algomar:
-          algomar:
+        tiendabol:
+          tiendabol:
           - path: /var/www/html
     
