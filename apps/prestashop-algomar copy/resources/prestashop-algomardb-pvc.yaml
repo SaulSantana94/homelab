@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: prestashop-algomar-db
-    app.kubernetes.io/name: prestashop-algomar-db
+    app.kubernetes.io/name: prestashop-algomar
     backup: prestashop-algomar-db-zfs
     backup/retain: quaterly
   annotations:
