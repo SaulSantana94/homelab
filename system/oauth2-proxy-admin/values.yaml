@@ -47,7 +47,7 @@ oauth2-proxy:
   extraVolumes:
     - name: email-list
       configMap:
-        name: oauth2-proxy-emails
+        name: oauth2-proxy-admin-emails
 
   extraVolumeMounts:
     - name: email-list

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: oauth2-proxy-emails
+  name: oauth2-proxy-admin-emails
   namespace: {{ .Release.Namespace }}
 data:
   authenticated-emails.txt: |
