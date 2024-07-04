@@ -7,6 +7,13 @@ argo-cd:
 
       exec.enabled: "true"
 
+      #oidc.config: |
+      #  name: idm.grigri.cloud
+      #  issuer: https://idm.grigri.cloud/oauth2/openid/argocd
+      #  clientID: $oidc.kanidm.clientID
+      #  clientSecret: $oidc.kanidm.clientSecret
+
+
       # Disable git polling
       timeout.reconciliation: "0"
 
