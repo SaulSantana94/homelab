@@ -3,25 +3,9 @@ argo-cd:
     cm:
       create: true
 
-      url: https://argocd.dbcloud.org
+      url: https://argocd.internal.dbcloud.org
 
       exec.enabled: "true"
-
-      #oidc.config: |
-      #  name: Google
-      #  issuer: https://accounts.google.com
-      #  clientID: $oidc.kanidm.clientID
-      #  clientSecret: $oidc.kanidm.clientSecret
-      #  requestedScopes: ["openid", "email", "profile"]
-      #  requestedIDTokenClaims:
-      #    email:
-      #      essential: true
-      #    name:
-      #      essential: true
-      #  redirectURI: https://argocd.dbcloud.org/auth/callback    
-      #  allowedEmails:
-      #  - daniel.boluda.fdez@gmail.com
-        
 
       # Disable git polling
       timeout.reconciliation: "0"
@@ -54,6 +38,24 @@ argo-cd:
 
       server.insecure: true
 
+    rbac:
+      create: true
+
+      # policy.csv is an file containing user-defined RBAC policies and role definitions (optional).
+      # Policy rules are in the form:
+      #   p, subject, resource, action, object, effect
+      # Role definitions and bindings are in the form:
+      #   g, subject, inherited-subject
+      # See https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md for additional information.
+      policy.csv: |
+        # Grant all members of each LDAP group
+        p, role:none, *, *, */*, deny
+        #g, wheel, role:admin
+        # workaround until fix DN in dex (see LDAP config part)
+        g, daniel.boluda.fdez@gmail.com, role:admin
+
+      scopes: "[groups, email]"
+
     secret:
       createSecret: true
 
@@ -69,14 +71,11 @@ argo-cd:
 
     ingress:
       enabled: true
-      ingressClassName: nginx-external
+      ingressClassName: nginx-internal
       annotations:
-        external-dns.alpha.kubernetes.io/enabled: "true"
-        external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        nginx.ingress.kubernetes.io/auth-url: https://admin.auth.dbcloud.org/oauth2/auth
-        nginx.ingress.kubernetes.io/auth-signin: https://admin.auth.dbcloud.org/oauth2/start
-      hostname: argocd.dbcloud.org
+        external-dns.alpha.kubernetes.io/enabled: "true"
+      hostname: argocd.internal.dbcloud.org
       tls: true
     metrics: &metrics
       enabled: true

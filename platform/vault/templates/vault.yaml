@@ -65,15 +65,12 @@ spec:
 
   ingress:
     annotations:
-      external-dns.alpha.kubernetes.io/enabled: "true"
-      external-dns.alpha.kubernetes.io/target: dbcloud.org
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-      nginx.ingress.kubernetes.io/auth-url: https://admin.auth.dbcloud.org/oauth2/auth
-      nginx.ingress.kubernetes.io/auth-signin: https://admin.auth.dbcloud.org/oauth2/start
+      external-dns.alpha.kubernetes.io/enabled: "true"
     spec:
-      ingressClassName: nginx-external
+      ingressClassName: nginx-internal
       rules:
-        - host: &host vault.dbcloud.org
+        - host: &host vault.internal.dbcloud.org
           http:
             paths:
               - backend:
