@@ -3,16 +3,17 @@ argo-cd:
     cm:
       create: true
 
-      url: https://argocd.internal.dbcloud.org
+      url: https://argocd.dbcloud.org
 
       exec.enabled: "true"
 
-      #oidc.config: |
-      #  name: idm.grigri.cloud
-      #  issuer: https://idm.grigri.cloud/oauth2/openid/argocd
-      #  clientID: $oidc.kanidm.clientID
-      #  clientSecret: $oidc.kanidm.clientSecret
-
+      oidc.config: |
+        name: Google
+        issuer: https://accounts.google.com
+        clientID: $oidc.kanidm.clientID
+        clientSecret: $oidc.kanidm.clientSecret
+        redirectURI: https://argocd.dbcloud.org/auth/callback
+        
 
       # Disable git polling
       timeout.reconciliation: "0"
