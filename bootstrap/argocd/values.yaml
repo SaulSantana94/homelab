@@ -12,6 +12,12 @@ argo-cd:
         issuer: https://accounts.google.com
         clientID: $oidc.kanidm.clientID
         clientSecret: $oidc.kanidm.clientSecret
+        requestedScopes: ["openid", "email", "profile"]
+        requestedIDTokenClaims:
+          email:
+            essential: true
+          name:
+            essential: true
         redirectURI: https://argocd.dbcloud.org/auth/callback
         
 
