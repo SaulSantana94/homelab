@@ -1,11 +1,5 @@
 authenticatedEmails: |
   daniel.boluda.fdez@gmail.com
-  alexander.gil.casas@gmail.com
-  algomar8@gmail.com
-  dianacastillo.ideas@gmail.com
-  mt.lopezal@gmail.com
-  pablocorral7@gmail.com
-  victormarin515@gmail.com
 
 oauth2-proxy:
   replicaCount: 2
