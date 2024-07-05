@@ -1,6 +1,3 @@
-authenticatedEmails: |
-  daniel.boluda.fdez@gmail.com
-
 oauth2-proxy:
   replicaCount: 2
   ingress:
@@ -41,18 +38,7 @@ oauth2-proxy:
     cookie-refresh: 24h
     cookie-expire: 168h
     cookie-secure: true
-    authenticated-emails-file: /etc/oauth2-proxy/authenticated-emails.txt
-
-  extraVolumes:
-    - name: email-list
-      configMap:
-        name: oauth2-proxy-emails
-
-  extraVolumeMounts:
-    - name: email-list
-      mountPath: /etc/oauth2-proxy/
-      readOnly: true
-
+    allowed-groups: admindbcloud@googlegroups.com
 
   resources:
     requests:
