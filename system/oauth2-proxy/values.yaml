@@ -38,6 +38,7 @@ oauth2-proxy:
     cookie-refresh: 24h
     cookie-expire: 168h
     cookie-secure: true
+    allowed-groups: admindbcloud@googlegroups.com
 
   resources:
     requests:
