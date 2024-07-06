@@ -68,8 +68,6 @@ app-template:
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: "OnRootMismatch"
-    nodeSelector:
-      kubernetes.io/hostname: prusik
 
   persistence:
     config:
