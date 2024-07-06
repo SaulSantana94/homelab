@@ -39,6 +39,12 @@ oauth2-proxy:
     cookie-expire: 168h
     cookie-secure: true
 
+  authenticatedEmailsFile:
+    enabled: true
+    restricted_access: |-
+      daniel.boluda.fdez@gmail.com
+      daniel.boludafernandez@gmail.com
+
   resources:
     requests:
       cpu: 10m
