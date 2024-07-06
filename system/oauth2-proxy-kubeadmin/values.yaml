@@ -1,7 +1,7 @@
 oauth2-proxy:
 
   config:
-    existingSecret: oauth2-proxy
+    existingSecret: oauth2-proxy-kubeadmin
     # Override configFile to disable all email domains to be used
     configFile: |-
       email_domains = []
@@ -15,7 +15,6 @@ oauth2-proxy:
     # One email per line
     restricted_access: |
       daniel.boluda.fdez@gmail.com
-      daniel.boludafernandez@gmail.com
 
   ingress:
     enabled: true
@@ -26,11 +25,11 @@ oauth2-proxy:
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     path: /oauth2
     hosts:
-    - &host auth.dbcloud.org
+    - &host kubeadmin.auth.dbcloud.org
     tls:
     - hosts:
       - *host
-      secretName: oauth2-proxy-tls-certificate
+      secretName: oauth2-proxy-kubeadmin-tls-certificate
 
   extraArgs:
     provider: google

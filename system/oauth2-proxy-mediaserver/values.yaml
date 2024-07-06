@@ -1,0 +1,53 @@
+oauth2-proxy:
+
+  config:
+    existingSecret: oauth2-proxy-mediaserver
+    # Override configFile to disable all email domains to be used
+    configFile: |-
+      email_domains = []
+      upstreams = [ "file:///dev/null" ]
+
+  replicaCount: 1
+
+  # Won't work if email_domains = "*"
+  authenticatedEmailsFile:
+    enabled: true
+    # One email per line
+    restricted_access: |
+      daniel.boluda.fdez@gmail.com  
+      alexander.gil.casas@gmail.com
+      algomar8@gmail.com
+      dianacastillo.ideas@gmail.com
+      mt.lopezal@gmail.com
+      pablocorral7@gmail.com
+      victormarin515@gmail.com
+
+  ingress:
+    enabled: true
+    className: nginx-external
+    annotations:
+      external-dns.alpha.kubernetes.io/enabled: "true"
+      external-dns.alpha.kubernetes.io/target: dbcloud.org
+      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+    path: /oauth2
+    hosts:
+    - &host mediaserver.auth.dbcloud.org
+    tls:
+    - hosts:
+      - *host
+      secretName: oauth2-proxy-mediaserver-tls-certificate
+
+  extraArgs:
+    provider: google
+    provider-display-name: Google
+    skip-provider-button: "false"
+    pass-basic-auth: "false"
+    cookie-domain: .dbcloud.org
+    whitelist-domain: .dbcloud.org
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 14Mi
+    limits:
+      memory: 32Mi
