@@ -1,5 +1,22 @@
 oauth2-proxy:
-  replicaCount: 2
+
+  config:
+    existingSecret: oauth2-proxy
+    # Override configFile to disable all email domains to be used
+    configFile: |-
+      email_domains = []
+      upstreams = [ "file:///dev/null" ]
+
+  replicaCount: 1
+
+  # Won't work if email_domains = "*"
+  authenticatedEmailsFile:
+    enabled: true
+    # One email per line
+    restricted_access: |
+      daniel.boluda.fdez@gmail.com
+      daniel.boludafernandez@gmail.com
+
   ingress:
     enabled: true
     className: nginx-external
@@ -15,34 +32,13 @@ oauth2-proxy:
       - *host
       secretName: oauth2-proxy-tls-certificate
 
-  proxyVarsAsSecrets: true
-
-  deploymentAnnotations:
-    secret.reloader.stakater.com/reload: oauth2-proxy
-
-  config:
-    existingSecret: oauth2-proxy
-
   extraArgs:
     provider: google
     provider-display-name: Google
-    set-xauthrequest: true
-    pass-access-token: true
-    set-authorization-header: true
-    pass-authorization-header: true
-    skip-provider-button: true
-    reverse-proxy: true
+    skip-provider-button: "false"
+    pass-basic-auth: "false"
     cookie-domain: .dbcloud.org
     whitelist-domain: .dbcloud.org
-    cookie-refresh: 24h
-    cookie-expire: 168h
-    cookie-secure: true
-
-  authenticatedEmailsFile:
-    enabled: true
-    restricted_access: |-
-      daniel.boluda.fdez@gmail.com
-      daniel.boludafernandez@gmail.com
 
   resources:
     requests:
