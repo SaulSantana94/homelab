@@ -26,13 +26,14 @@ oauth2-proxy:
   extraArgs:
     provider: google
     provider-display-name: Google
-    #set-xauthrequest: true
-    #pass-access-token: true
-    #set-authorization-header: true
-    #pass-authorization-header: true
-    #skip-provider-button: true
-    #reverse-proxy: true
+    set-xauthrequest: true
+    pass-access-token: true
+    set-authorization-header: true
+    pass-authorization-header: true
+    skip-provider-button: true
+    reverse-proxy: true
     cookie-domain: .dbcloud.org
+    whitelist-domain: .dbcloud.org
     cookie-refresh: 24h
     cookie-expire: 168h
     cookie-secure: true
