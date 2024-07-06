@@ -22,6 +22,9 @@ oauth2-proxy:
 
   config:
     existingSecret: oauth2-proxy
+    google:
+      groups:
+       - admindbcloud@googlegroups.com
 
   extraArgs:
     provider: google
@@ -32,7 +35,6 @@ oauth2-proxy:
     pass-authorization-header: true
     skip-provider-button: true
     reverse-proxy: true
-    email-domain: "*"
     cookie-domain: .dbcloud.org
     whitelist-domain: .dbcloud.org
     cookie-refresh: 24h
