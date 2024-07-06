@@ -23,6 +23,19 @@ oauth2-proxy:
   config:
     existingSecret: oauth2-proxy
 
+  extraArgs:
+    provider: google
+    provider-display-name: Google
+    #set-xauthrequest: true
+    #pass-access-token: true
+    #set-authorization-header: true
+    #pass-authorization-header: true
+    #skip-provider-button: true
+    #reverse-proxy: true
+    cookie-domain: .dbcloud.org
+    cookie-refresh: 24h
+    cookie-expire: 168h
+    cookie-secure: true
 
   authenticatedEmailsFile:
     enabled: true
