@@ -7,6 +7,21 @@ argo-cd:
 
       exec.enabled: "true"
 
+      oidc.config: |
+        name: Google
+        issuer: https://accounts.google.com
+        clientID: $oidc.kanidm.clientID
+        clientSecret: $oidc.kanidm.clientSecret
+        requestedScopes: ["openid", "email", "profile"]
+        requestedIDTokenClaims:
+          email:
+            essential: true
+          name:
+            essential: true
+        redirectURI: https://argocd.dbcloud.org/auth/callback    
+        allowedEmails:
+        - daniel.boluda.fdez@gmail.com
+        
       # Disable git polling
       timeout.reconciliation: "0"
 
