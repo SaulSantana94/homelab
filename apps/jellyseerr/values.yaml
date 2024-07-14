@@ -50,7 +50,7 @@ app-template:
         nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
       hosts:
-        - host: &host requests.dbcloud.org
+        - host: &host pidepelis.dbcloud.org
           paths:
             - path: /
               pathType: Prefix
