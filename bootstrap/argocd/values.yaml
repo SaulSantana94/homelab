@@ -16,7 +16,7 @@ argo-cd:
           name:
             essential: true
         redirectURI: https://argocd.internal.dbcloud.org/auth/callback    
-        allowedAudiences:
+        allowedEmails:
           - daniel.boluda.fdez@gmail.com
 
       # Disable git polling
@@ -57,7 +57,7 @@ argo-cd:
         p, role:none, *, *, */*, deny
         # Allow specific user to be admin
         g, daniel.boluda.fdez@gmail.com, role:admin
-
+        
       scopes: "[groups, email]"
 
     secret:
