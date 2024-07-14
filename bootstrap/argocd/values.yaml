@@ -18,10 +18,10 @@ argo-cd:
             essential: true
           name:
             essential: true
-        redirectURI: https://argocd.dbcloud.org/auth/callback    
+        redirectURI: https://argocd.internal.dbcloud.org/auth/callback    
         allowedEmails:
         - daniel.boluda.fdez@gmail.com
-        
+
       # Disable git polling
       timeout.reconciliation: "0"
 
