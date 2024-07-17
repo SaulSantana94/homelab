@@ -62,6 +62,8 @@ argo-cd:
       policy.csv: |
         # Allow specific user to be admin
         g, daniel.boluda.fdez@gmail.com, role:admin
+        # Deny all other users
+        g, *, role:none
         
       scopes: "[groups, email]"
 
