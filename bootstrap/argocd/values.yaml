@@ -51,10 +51,8 @@ argo-cd:
 
     rbac:
       create: true
-      policy.default: role:none
+      policy.default: role:''
       policy.csv: |
-        # Deny all users by default
-        p, role:none, *, *, */*, deny
         # Allow specific user to be admin
         g, daniel.boluda.fdez@gmail.com, role:admin
         
