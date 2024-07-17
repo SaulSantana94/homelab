@@ -22,6 +22,7 @@ oauth2-proxy:
       pablocorral7@gmail.com
       victormarin515@gmail.com
       saulsantanacebrian@gmail.com
+      dibolma01@gmail.com
 
   ingress:
     enabled: true
