@@ -128,7 +128,7 @@ grafana:
       scopes: openid profile email
       auth_url: https://accounts.google.com/o/oauth2/auth
       token_url: https://oauth2.googleapis.com/token
-      #api_url: https://openidconnect.googleapis.com/v1/userinfo
+      api_url: https://openidconnect.googleapis.com/v1/userinfo
       use_pkce: true
       email_attribute_path: email
       role_attribute_path: contains(['daniel.boluda.fdez@gmail.com', 'serverdabol@gmail.com'], email) && 'Admin' || 'Viewer'
