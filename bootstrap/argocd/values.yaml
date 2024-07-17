@@ -51,7 +51,7 @@ argo-cd:
 
     rbac:
       create: true
-      policy.default: ''
+      policy.default: role:none
       policy.csv: |
         # Deny all users by default
         p, role:none, *, *, */*, deny
