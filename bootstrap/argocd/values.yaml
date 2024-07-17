@@ -9,6 +9,8 @@ argo-cd:
         issuer: https://accounts.google.com
         clientID: $oidc.kanidm.clientID
         clientSecret: $oidc.kanidm.clientSecret
+
+        
         requestedScopes: ["openid", "email", "profile"]
         requestedIDTokenClaims:
           email:
@@ -17,9 +19,12 @@ argo-cd:
             essential: true    
           groups:
             essential: true
-        redirectURI: https://argocd.internal.dbcloud.org/auth/callback           
-        allowedAudiences:
-        - daniel.boluda.fdez@gmail.com 
+        redirectURI: https://argocd.internal.dbcloud.org/auth/callback
+
+        # Optional. If false, tokens without an audience will always fail validation. If true, tokens without an audience
+        # will always pass validation.
+        # Defaults to true for Argo CD < 2.6.0. Defaults to false for Argo CD >= 2.6.0.
+        skipAudienceCheckWhenTokenHasNoAudience: false
 
       # Disable git polling
       timeout.reconciliation: "0"
