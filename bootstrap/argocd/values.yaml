@@ -14,10 +14,10 @@ argo-cd:
           email:
             essential: true
           name:
+            essential: true    
+          groups:
             essential: true
         redirectURI: https://argocd.internal.dbcloud.org/auth/callback    
-        allowedEmails:
-          - daniel.boluda.fdez@gmail.com
 
       # Disable git polling
       timeout.reconciliation: "0"
@@ -51,7 +51,7 @@ argo-cd:
 
     rbac:
       create: true
-      policy.default: role:readonly
+      policy.default: ''
       policy.csv: |
         # Deny all users by default
         p, role:none, *, *, */*, deny
