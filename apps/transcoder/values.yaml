@@ -116,6 +116,7 @@ app-template:
             TZ: Europe/Madrid
             CONFIG_PATH: /etc/transcoder/config.yaml
             broker.host: transcoder-rabbit.internal.dbcloud.org
+            broker.user:
               valueFrom:
                 secretKeyRef:
                   name: rabbit-credentials
