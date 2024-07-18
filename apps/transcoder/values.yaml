@@ -98,7 +98,6 @@ app-template:
             tag: "latest-worker"
           env:
             TZ: Europe/Madrid
-            CONFIG_PATH: /etc/transcoder/config.yaml
             broker.host: transcoder-rabbit.internal.dbcloud.org
             broker.user:
               valueFrom:
@@ -126,7 +125,6 @@ app-template:
             tag: "latest-worker-pgs"
           env:
             TZ: Europe/Madrid
-            CONFIG_PATH: /etc/transcoder/config.yaml
             worker.pgsJobs: 2
             worker.acceptedJobs: pgstosrt
             log-level: info
