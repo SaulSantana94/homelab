@@ -133,7 +133,7 @@ app-template:
             limits:
               memory: 400Mi
       
-    worker:
+    workerpgs:
       type: statefulset
       containers:
         transcoder:
