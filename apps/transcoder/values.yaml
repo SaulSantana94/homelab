@@ -46,6 +46,7 @@ app-template:
               memory: 200Mi
             limits:
               memory: 400Mi
+
     rabbit:
       type: statefulset
       containers:
@@ -87,6 +88,97 @@ app-template:
               memory: 200Mi
             limits:
               memory: 2Gi
+
+    worker:
+      type: statefulset
+      containers:
+        transcoder:
+          image:
+            repository: ghcr.io/pando85/gearr
+            tag: "latest-worker"
+
+          probes:
+            liveness: &probes
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /-/healthy
+                  port: &port 8080
+                initialDelaySeconds: 0
+                periodSeconds: 10
+                timeoutSeconds: 1
+                failureThreshold: 3
+            readiness: *probes
+            startup:
+              enabled: true
+          env:
+            TZ: Europe/Madrid
+            CONFIG_PATH: /etc/transcoder/config.yaml
+            broker.host: transcoder-rabbit.internal.dbcloud.org
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-credentials
+                  key: username
+            broker.password:
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-credentials
+                  key: password
+          resources:
+            requests:
+              cpu: 10m
+              memory: 200Mi
+            limits:
+              memory: 400Mi
+      
+    worker:
+      type: statefulset
+      containers:
+        transcoder:
+          image:
+            repository: ghcr.io/pando85/gearr
+            tag: "latest-worker-pgs"
+
+          probes:
+            liveness: &probes
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /-/healthy
+                  port: &port 8080
+                initialDelaySeconds: 0
+                periodSeconds: 10
+                timeoutSeconds: 1
+                failureThreshold: 3
+            readiness: *probes
+            startup:
+              enabled: true
+          env:
+            TZ: Europe/Madrid
+            CONFIG_PATH: /etc/transcoder/config.yaml
+            worker.pgsJobs: 2
+            worker.acceptedJobs: pgstosrt
+            log-level: info
+            broker.host: transcoder-rabbit.internal.dbcloud.org
+            broker.user:
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-credentials
+                  key: username
+            broker.password:
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-credentials
+                  key: password
+          resources:
+            requests:
+              cpu: 10m
+              memory: 200Mi
+            limits:
+              memory: 400Mi
+              
   service:
     transcoder:
       controller: transcoder
