@@ -98,13 +98,13 @@ app-template:
             tag: "latest-worker"
           env:
             TZ: Europe/Madrid
-            broker.host: transcoder-rabbit.internal.dbcloud.org
-            broker.user:
+            BROKER_HOST: transcoder-rabbit.internal.dbcloud.org
+            BROKER_USER:
               valueFrom:
                 secretKeyRef:
                   name: rabbit-credentials
                   key: username
-            broker.password:
+            BROKER_PASSWORD:
               valueFrom:
                 secretKeyRef:
                   name: rabbit-credentials
@@ -125,16 +125,16 @@ app-template:
             tag: "latest-worker-pgs"
           env:
             TZ: Europe/Madrid
-            worker.pgsJobs: 2
-            worker.acceptedJobs: pgstosrt
-            log-level: info
-            broker.host: transcoder-rabbit.internal.dbcloud.org
-            broker.user:
+            WORKER_PGJOBS: 2
+            WORKER_ACCEPTEDJOBS: pgstosrt
+            LOG_LEVEL: info
+            BROKER_HOST: transcoder-rabbit.internal.dbcloud.org
+            BROKER_USER:
               valueFrom:
                 secretKeyRef:
                   name: rabbit-credentials
                   key: username
-            broker.password:
+            BROKER_PASSWORD:
               valueFrom:
                 secretKeyRef:
                   name: rabbit-credentials
