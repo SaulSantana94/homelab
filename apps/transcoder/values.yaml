@@ -96,22 +96,6 @@ app-template:
           image:
             repository: ghcr.io/pando85/gearr
             tag: "latest-worker"
-
-          probes:
-            liveness: &probes
-              enabled: true
-              custom: true
-              spec:
-                httpGet:
-                  path: /-/healthy
-                  port: &port 8080
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                timeoutSeconds: 1
-                failureThreshold: 3
-            readiness: *probes
-            startup:
-              enabled: true
           env:
             TZ: Europe/Madrid
             CONFIG_PATH: /etc/transcoder/config.yaml
@@ -140,22 +124,6 @@ app-template:
           image:
             repository: ghcr.io/pando85/gearr
             tag: "latest-worker-pgs"
-
-          probes:
-            liveness: &probes
-              enabled: true
-              custom: true
-              spec:
-                httpGet:
-                  path: /-/healthy
-                  port: &port 8080
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                timeoutSeconds: 1
-                failureThreshold: 3
-            readiness: *probes
-            startup:
-              enabled: true
           env:
             TZ: Europe/Madrid
             CONFIG_PATH: /etc/transcoder/config.yaml
