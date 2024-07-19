@@ -131,7 +131,7 @@ grafana:
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       use_pkce: true
       email_attribute_path: email
-      role_attribute_path: contains(['daniel.boluda.fdez@gmail.com', 'serverdabol@gmail.com'], email) && 'Admin' || 'Viewer'
+      role_attribute_path: contains(['daniel.boludafernandez@holcim.com', 'daniel.boluda.fdez@gmail.com', 'serverdabol@gmail.com'], email) && 'Admin' || 'Viewer'
 
   revisionHistoryLimit: 2
 
