@@ -12,9 +12,9 @@ app-template:
 
           env:
             TZ: Europe/Madrid
-            LOG_LEVEL: ${LOG_LEVEL:-info}
-            LOG_HTML: ${LOG_HTML:-false}
-            CAPTCHA_SOLVER: ${CAPTCHA_SOLVER:-none}
+            LOG_LEVEL: info
+            LOG_HTML: alse
+            CAPTCHA_SOLVER: none
 
           resources:
             requests:
