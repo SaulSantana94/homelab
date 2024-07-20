@@ -81,3 +81,10 @@ ingress-nginx:
         medium: Memory
         # not working until v1.21? https://github.com/kubernetes/kubernetes/issues/63126
         sizeLimit: 303Mi
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          release: monitoring
