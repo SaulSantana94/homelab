@@ -1,0 +1,50 @@
+app-template:
+  controllers:
+    flaresolverr:
+      labels:
+        backup/retain: quaterly
+      type: statefulset
+      containers:
+        flaresolverr:
+          image:
+            repository: ghcr.io/flaresolverr/flaresolverr
+            tag: latest
+
+          env:
+            TZ: Europe/Madrid
+            LOG_LEVEL: ${LOG_LEVEL:-info}
+            LOG_HTML: ${LOG_HTML:-false}
+            CAPTCHA_SOLVER: ${CAPTCHA_SOLVER:-none}
+
+          resources:
+            requests:
+              cpu: 10m
+              memory: 180Mi
+            limits:
+              memory: 400Mi
+          probes:
+            liveness:
+              enabled: true
+            readiness:
+              enabled: true
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
+
+  service:
+    flaresolverr:
+      controller: flaresolverr
+      ports:
+        http:
+          port: 8191
+
+
+  defaultPodOptions:
+    securityContext:
+      runAsUser: 995
+      runAsGroup: 991
+      fsGroup: 991
+      fsGroupChangePolicy: "OnRootMismatch"
+
