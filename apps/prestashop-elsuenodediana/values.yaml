@@ -14,7 +14,7 @@ app-template:
             TZ: Europe/Madrid
             DB_SERVER: prestashop-elsuenodediana-mariadb.prestashop-elsuenodediana-db.svc
             DB_NAME: prestashop
-            PS_DOMAIN: elsuenodediana.dbcloud.org
+            PS_DOMAIN: presentiacreaciones.dbcloud.org
           envFrom:
           - secretRef:
               name: prestashop-elsuenodediana
@@ -65,7 +65,7 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       hosts:
-      - host: &host elsuenodediana.internal.dbcloud.org
+      - host: &host presentiacreaciones.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
@@ -87,7 +87,7 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
 
       hosts:
-      - host: &host elsuenodediana.dbcloud.org
+      - host: &host presentiacreaciones.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
