@@ -181,7 +181,7 @@ app-template:
         nginx.ingress.kubernetes.io/proxy-buffering: "off"
         nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
       hosts:
-      - host: &host transcoder.internal.dbcloud.org
+      - host: &host transcoderr.internal.dbcloud.org
         paths:
         - path: /
           pathType: Prefix
