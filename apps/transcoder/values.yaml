@@ -92,7 +92,7 @@ app-template:
     worker:
       type: statefulset
       containers:
-        transcoder:
+        worker:
           image:
             repository: ghcr.io/pando85/gearr
             tag: "latest-worker"
@@ -119,7 +119,7 @@ app-template:
     workerpgs:
       type: statefulset
       containers:
-        transcoder:
+        workerpgs:
           image:
             repository: ghcr.io/pando85/gearr
             tag: "latest-worker-pgs"
@@ -241,3 +241,21 @@ app-template:
         rabbit:
           rabbitmq:
           - path: /var/lib/rabbitmq
+    worker:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        worker:
+          worker:
+          - path: /tmp
+    workerpgs:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        workerpgs:
+          workerpgs:
+          - path: /tmp

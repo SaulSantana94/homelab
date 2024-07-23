@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: media
+namespace: flaresolverr
 
 resources:
   # Add any additional resources if needed
@@ -8,8 +8,10 @@ resources:
 
 helmCharts:
   - name: app-template
-    namespace: flux-system
+    namespace: flaresolverr
     releaseName: flaresolverr
-    repo: https://charts.example.com/bjw-s
+    repo: https://bjw-s.github.io/helm-charts/
     valuesFile: values-flaresolverr.yaml
     version: 3.2.1
+
+# from https://github.com/tyzbit/fleet-infra/blob/main/clusters/corpus/apps/media/flaresolverr/ks.yaml
