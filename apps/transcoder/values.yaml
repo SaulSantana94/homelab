@@ -245,7 +245,7 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 50Gi
+      size: 200Gi
       advancedMounts:
         worker:
           worker:
