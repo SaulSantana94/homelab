@@ -8,7 +8,7 @@ app-template:
         sonarr:
           image:
             repository: ghcr.io/onedr0p/sonarr-develop
-            tag: 4.0.5.1740@sha256:3890ecfb9628a528b2e8c511addc08ed5b875868d8e72bcbc9a1828af477444d
+            tag: 4.0.8.1967@sha256:7c4d54f11cd69ae6631c9f850b3b239ce9006b4dc3259de21806ef0f15da8216
 
           env:
             TZ: Europe/Madrid

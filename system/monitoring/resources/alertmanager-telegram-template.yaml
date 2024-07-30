@@ -38,11 +38,19 @@ data:
             {{- end }}
             {{- if le $alertsLen 10 }}
     <a href="{{ .GeneratorURL }}">Prometheus</a>
+
             {{- end }}
         {{ end }}
+    {{- end }}
+
+    {{ define "__alert_silence_url" -}}
+    {{- if and (eq .Status "firing") (le (len .Alerts) 10) -}}
+    <a href="https://grafana.dbcloud.org/alerting/silence/new?alertmanager=Alertmanager&matcher=alertname%3D{{ .CommonLabels.alertname }}&matcher=severity%3D{{ .CommonLabels.severity }}&comment=Silence%20with%20telegram%20link">Silence alerts</a>
+    {{- end }}
     {{- end }}
 
     {{ define "telegram.custom.message" -}}
     {{ template "__alert_severity_title" . }}
     {{ template "__alert_severity_text" . }}
+    {{ template "__alert_silence_url" . }}
     {{- end }}
