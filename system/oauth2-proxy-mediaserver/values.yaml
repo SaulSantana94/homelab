@@ -24,6 +24,7 @@ oauth2-proxy:
       saulsantanacebrian@gmail.com
       dibolma01@gmail.com
       Alemartmart.92@gmail.com
+      jorge_gamarra@hotmail.com
 
   ingress:
     enabled: true
