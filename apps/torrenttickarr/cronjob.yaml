@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
           - name: torrenttickarr-script
-            image: python:3.9-slim
+            image: joyzoursky/python-chromedriver:3.9-selenium
             command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/torrenttickarr_script.py"]
             volumeMounts:
             - name: script-volume
