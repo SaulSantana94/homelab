@@ -13,8 +13,8 @@ spec:
         spec:
           containers:
           - name: torrenttickarr-script
-            image: selenium/standalone-chrome:latest  # Prebuilt Selenium image with Chrome
-            command: ["sh", "-c", "python /scripts/torrenttickarr_script.py"]
+            image: selenium/standalone-chrome-debug:latest  # Selenium image with Chrome and Python
+            command: ["sh", "-c", "pip install -r /scripts/requirements.txt && python /scripts/torrenttickarr_script.py"]
             volumeMounts:
             - name: script-volume
               mountPath: /scripts
