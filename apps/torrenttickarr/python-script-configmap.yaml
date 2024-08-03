@@ -222,7 +222,7 @@ data:
         login_torrentleech()
 
   requirements.txt: |
-
+    selenium>=4.0.0
 
   setup.sh: |
 
