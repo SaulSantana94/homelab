@@ -11,17 +11,10 @@ spec:
     spec:
       template:
         spec:
-          initContainers:
-          - name: install-packages
-            image: python:3.9-slim
-            command: ['pip', 'install', 'requests']
-            volumeMounts:
-            - name: script-volume
-              mountPath: /scripts
           containers:
           - name: hello-world
             image: python:3.9-slim
-            command: ["python", "/scripts/hello_world.py"]
+            command: ["sh", "-c", "pip install -r /scripts/requirements.txt && python /scripts/hello_world.py"]
             volumeMounts:
             - name: script-volume
               mountPath: /scripts

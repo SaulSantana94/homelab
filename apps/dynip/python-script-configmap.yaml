@@ -139,3 +139,5 @@ data:
     # Create CNAME record for wireguard.dbcloud.org
     create_or_update_dns_record(api_token, zone_id, 'wireguard.dbcloud.org', domain_name, record_type='CNAME')
 
+  requirements.txt: |
+    requests
