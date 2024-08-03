@@ -5,6 +5,8 @@ metadata:
   namespace: dynip
 spec:
   schedule: "*/1 * * * *" # Every minute
+  successfulJobsHistoryLimit: 2  # Number of successful jobs to keep
+  failedJobsHistoryLimit: 2      # Number of failed jobs to keep
   jobTemplate:
     spec:
       template:
