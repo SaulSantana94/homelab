@@ -4,7 +4,7 @@ metadata:
   name: torrenttickarr-script-cronjob
   namespace: torrenttickarr
 spec:
-  schedule: "*/60 * * * *"  # Every 60 minutes
+  schedule: "0 */12 * * *"  # Every 60 minutes
   successfulJobsHistoryLimit: 2
   failedJobsHistoryLimit: 2
   jobTemplate:
