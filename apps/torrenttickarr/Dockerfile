@@ -25,12 +25,12 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     rm -rf /var/lib/apt/lists/*
 
 # Install Chromedriver
-RUN CHROMEDRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
-    wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
-    unzip chromedriver_linux64.zip && \
-    mv chromedriver /usr/local/bin/ && \
+RUN wget -q "https://storage.googleapis.com/chrome-for-testing-public/127.0.6533.72/linux64/chromedriver-linux64.zip" -O /tmp/chromedriver-linux64.zip && \
+    unzip /tmp/chromedriver-linux64.zip -d /tmp && \
+    ls -l /tmp/chromedriver-linux64 && \
+    mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm chromedriver_linux64.zip
+    rm -rf /tmp/chromedriver-linux64.zip /tmp/chromedriver-linux64
 
 # Install Python packages
 COPY requirements.txt /
@@ -43,4 +43,4 @@ WORKDIR /app
 COPY . /app
 
 # Default command to run your application
-CMD ["python", "your_script.py"]
+CMD ["python", "torrenttickarr_script.py"]
