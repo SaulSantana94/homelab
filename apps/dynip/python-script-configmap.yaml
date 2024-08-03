@@ -5,8 +5,15 @@ metadata:
   namespace: dynip
 data:
   hello_world.py: |
-    import datetime
     import logging
+    import time
 
-    # Open the log file in append mode
+    # Configure the logging system
+    logging.basicConfig(filename='/logs/hello_world.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+    # Log "hello world"
     logging.info("hello world")
+
+    # Wait for 60 seconds
+    time.sleep(60)
+
