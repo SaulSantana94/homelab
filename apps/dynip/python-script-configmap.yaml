@@ -4,7 +4,7 @@ metadata:
   name: python-script
   namespace: dynip
 data:
-  hello_world.py: |
+  dynip_script.py: |
     import logging
     import requests
     import subprocess

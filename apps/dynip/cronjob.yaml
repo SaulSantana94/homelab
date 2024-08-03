@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: hello-world-cronjob
+  name: dynip-script-cronjob
   namespace: dynip
 spec:
   schedule: "*/1 * * * *"  # Every minute
@@ -12,9 +12,9 @@ spec:
       template:
         spec:
           containers:
-          - name: hello-world
+          - name: dynip-script
             image: python:3.9-slim
-            command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/hello_world.py"]
+            command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/dynip_script.py"]
             volumeMounts:
             - name: script-volume
               mountPath: /scripts
