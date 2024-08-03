@@ -6,7 +6,7 @@ metadata:
 data:
   hello_world.py: |
     import datetime
+    import logging
 
     # Open the log file in append mode
-    with open('/logs/hello_world.log', 'a') as f:
-        f.write(f"{datetime.datetime.now()}: hello world\n")
+    logging.info("hello world")
