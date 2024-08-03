@@ -14,7 +14,7 @@ spec:
           containers:
           - name: hello-world
             image: python:3.9-slim
-            command: ["sh", "-c", "pip install -r /scripts/requirements.txt && python /scripts/hello_world.py"]
+            command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/hello_world.py"]
             volumeMounts:
             - name: script-volume
               mountPath: /scripts
