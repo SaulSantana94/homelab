@@ -24,11 +24,22 @@ data:
     PASSWORD_TORRENTLAND = os.getenv('PASSWORD_TORRENTLAND')
     PASSWORD_TORRENTLEECH = os.getenv('PASSWORD_TORRENTLEECH')
 
+    # Set up Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Run Chrome in headless mode (no GUI)
+    chrome_options.add_argument("--no-sandbox")  # Required for running Chrome in Docker
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+    chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration (optional but often needed in headless mode)
+
+    # Path to chromedriver
+    chrome_driver_path = '/usr/local/bin/chromedriver'
+
+
     # Function to log in to the page
     def login_hdo():
-        # Set up Chrome WebDriver (you can use other browsers as well)
-        service = Service('/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(service=service)
+        # Set up Chrome WebDriver
+        service = Service(chrome_driver_path)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
 
         try:
             # Navigate to the initial URL
@@ -72,9 +83,9 @@ data:
             driver.quit()
 
     def login_torrenteros():
-        # Set up Chrome WebDriver (you can use other browsers as well)
-        service = Service('/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(service=service)
+        # Set up Chrome WebDriver
+        service = Service(chrome_driver_path)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
 
         try:
             # Navigate to the initial URL
@@ -120,9 +131,9 @@ data:
 
 
     def login_torrentland():
-        # Set up Chrome WebDriver (you can use other browsers as well)
-        service = Service('/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(service=service)
+        # Set up Chrome WebDriver
+        service = Service(chrome_driver_path)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
 
         try:
             # Navigate to the initial URL
@@ -168,9 +179,9 @@ data:
 
 
     def login_torrentleech():
-        # Set up Chrome WebDriver (you can use other browsers as well)
-        service = Service('/usr/local/bin/chromedriver')
-        driver = webdriver.Chrome(service=service)
+        # Set up Chrome WebDriver
+        service = Service(chrome_driver_path)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
 
         try:
             # Navigate to the initial URL
