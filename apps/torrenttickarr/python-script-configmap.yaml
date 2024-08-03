@@ -226,6 +226,8 @@ data:
 
   setup.sh: |
     #!/bin/bash
+    # Install necessary packages
+    apt-get update && apt-get install -y wget gnupg unzip
     # Install Google Chrome
     apt-get update && apt-get install -y wget gnupg
     wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
