@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: python-script
+  namespace: dynip
+data:
+  hello_world.py: |
+    import datetime
+
+    # Open the log file in append mode
+    with open('/logs/hello_world.log', 'a') as f:
+        f.write(f"{datetime.datetime.now()}: hello world\n")

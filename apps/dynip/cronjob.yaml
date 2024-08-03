@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello-world-cronjob
+  namespace: dynip
+spec:
+  schedule: "*/1 * * * *" # Every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello-world
+            image: python:3.9-slim
+            command: ["python", "/scripts/hello_world.py"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+              readOnly: true
+            - name: log-storage
+              mountPath: /logs
+          volumes:
+          - name: script-volume
+            configMap:
+              name: python-script
+          - name: log-storage
+            emptyDir: {}
+          restartPolicy: OnFailure
