@@ -25,7 +25,6 @@ spec:
             volumeMounts:
             - name: script-volume
               mountPath: /scripts
-              readOnly: true
             env:
             - name: API_TOKEN
               valueFrom:
