@@ -4,9 +4,9 @@ metadata:
   name: hello-world-cronjob
   namespace: dynip
 spec:
-  schedule: "*/1 * * * *" # Every minute
-  successfulJobsHistoryLimit: 2  # Number of successful jobs to keep
-  failedJobsHistoryLimit: 2      # Number of failed jobs to keep
+  schedule: "*/1 * * * *"  # Every minute
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
@@ -19,12 +19,19 @@ spec:
             - name: script-volume
               mountPath: /scripts
               readOnly: true
-            - name: log-storage
-              mountPath: /logs
+            env:
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: dynip-secrets
+                  key: api_token
+            - name: ZONE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dynip-secrets
+                  key: zone_id
           volumes:
           - name: script-volume
             configMap:
               name: python-script
-          - name: log-storage
-            emptyDir: {}
           restartPolicy: OnFailure
