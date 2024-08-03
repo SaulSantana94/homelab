@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: torrenttickarr-script-cronjob
+  namespace: torrenttickarr
+spec:
+  schedule: "*/60 * * * *"  # Every 60 minutes
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: torrenttickarr-script
+            image: python:3.9-slim
+            command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/torrenttickarr_script.py"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+            env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: USERNAME
+            - name: PASSWORD_HDO
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_HDO
+            - name: PASSWORD_TORRENTEROS
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_TORRENTEROS
+            - name: PASSWORD_TORRENTLAND
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_TORRENTLAND
+            - name: PASSWORD_TORRENTLEECH
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_TORRENTLEECH
+          volumes:
+          - name: script-volume
+            configMap:
+              name: python-script
+          restartPolicy: OnFailure
