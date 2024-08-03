@@ -14,27 +14,9 @@ data:
     import os
     import logging
     import time
-    from datetime import datetime
-    import pytz
-    
-
-    # Set the timezone to Madrid
-    timezone = pytz.timezone('Europe/Madrid')
 
     # Configure the logging system to log to stdout
-    class MadridFormatter(logging.Formatter):
-        def format(self, record):
-            # Get the time in Madrid timezone
-            local_time = datetime.now(timezone).strftime('%Y-%m-%d %H:%M:%S')
-            record.asctime = local_time
-            return super().format(record)
-
-    # Create a handler and set the formatter
-    handler = logging.StreamHandler()
-    formatter = MadridFormatter('%(asctime)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-
-    logging.basicConfig(level=logging.INFO, handlers=[handler])
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     # Environment variables for secrets
     USERNAME = os.getenv('USERNAME')
@@ -253,7 +235,6 @@ data:
 
   requirements.txt: |
     selenium>=4.0.0
-    pytz
 
   setup.sh: |
 
