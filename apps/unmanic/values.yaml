@@ -103,9 +103,15 @@ app-template:
     peliculas:
       enabled: true
       type: hostPath
-      hostPath: /datasets/download
+      hostPath: /datasets/peliculas
       globalMounts:
-      - path: /library
+      - path: /library/peliculas
+    series:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/series
+      globalMounts:
+      - path: /library/series
     tmp:
       enabled: true
       globalMounts:
