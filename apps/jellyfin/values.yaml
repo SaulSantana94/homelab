@@ -6,7 +6,7 @@ app-template:
       type: statefulset
       pod:
         enableServiceLinks: false
-        #runtimeClassName: nvidia
+        runtimeClassName: nvidia
       containers:
         jellyfin:
           image:
@@ -40,10 +40,10 @@ app-template:
             requests:
               cpu: 10m
               memory: 2.3Gi
-              #nvidia.com/gpu: "1"
+              nvidia.com/gpu: "1"
             limits:
               memory: 10Gi
-              #nvidia.com/gpu: "1"
+              nvidia.com/gpu: "1"
 
   service:
     jellyfin:

@@ -4,6 +4,9 @@ app-template:
       labels:
         backup/retain: quaterly
       type: statefulset
+      pod:
+        enableServiceLinks: false
+        runtimeClassName: nvidia
       containers:
         unmanic:
           image:
@@ -14,13 +17,16 @@ app-template:
             TZ: Europe/Madrid
             PUID: 995
             PGID: 991
+            NVIDIA_VISIBLE_DEVICES: 0
 
           resources:
             requests:
               cpu: 10m
               memory: 180Mi
+              nvidia.com/gpu: "1"
             limits:
               memory: 400Mi
+              nvidia.com/gpu: "1"
           probes:
             liveness:
               enabled: true
