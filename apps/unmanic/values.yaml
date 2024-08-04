@@ -91,10 +91,9 @@ app-template:
   persistence:
     config:
       enabled: true
-      type: hostPath
-      hostPath: /srv/Compose/unmanic/config
       globalMounts:
       - path: /config
+      existingClaim: config-unmanic
     peliculas:
       enabled: true
       type: hostPath
