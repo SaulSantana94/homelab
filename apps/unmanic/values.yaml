@@ -106,9 +106,8 @@ app-template:
       hostPath: /datasets/download
       globalMounts:
       - path: /library
-    peliculas:
+    tmp:
       enabled: true
-      type: hostPath
-      hostPath: /srv/Compose/unmanic/tmp
       globalMounts:
       - path: /tmp/unmanic
+      existingClaim: tmp-unmanic
