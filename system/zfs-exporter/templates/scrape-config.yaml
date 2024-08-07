@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: zfs-exporter
+  labels:
+    release: monitoring
+spec:
+  staticConfigs:
+    - targets:
+        - grigri.grigri:9134
+        - prusik.grigri:9134
+  scrapeInterval: 30s
+  scrapeTimeout: 3s
