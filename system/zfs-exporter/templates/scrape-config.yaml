@@ -7,7 +7,6 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - grigri.grigri:9134
-        - prusik.grigri:9134
+        - 192.168.1.248:9134
   scrapeInterval: 30s
   scrapeTimeout: 3s
