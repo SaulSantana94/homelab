@@ -125,5 +125,5 @@ app-template:
       type: hostPath
       hostPath: /datasets/music
       globalMounts:
-      - path: /datasets/music
+      - path: /music
         readOnly: true
