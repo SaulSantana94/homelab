@@ -7,8 +7,11 @@ app-template:
       containers:
         jellyseerr:
           image:
-            repository: docker.io/fallenbagel/jellyseerr
-            tag: preview-pr184
+            #repository: docker.io/fallenbagel/jellyseerr
+            #tag: preview-pr184
+            #developement branch with lidarr
+            repository: ano002/overseerr-lidarr
+            tag: latest
 
           env:
             TZ: Europe/Madrid
