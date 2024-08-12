@@ -13,8 +13,8 @@ app-template:
           env:
             TZ: Europe/Madrid
             LOG_LEVEL: "info"
-            PUID: 1000
-            PGID: 1000
+            PUID: 0
+            PGID: 0
 
           resources:
             requests:
@@ -66,9 +66,9 @@ app-template:
 
   defaultPodOptions:
     securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
