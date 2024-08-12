@@ -77,3 +77,9 @@ app-template:
       globalMounts:
         - path: /config
       existingClaim: ombi-config
+    run:
+      enabled: true
+      type: emptyDir
+      sizeLimit: 5Gi
+      globalMounts:
+        - path: /run
