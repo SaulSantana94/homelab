@@ -7,7 +7,7 @@ app-template:
       containers:
         picard:
           image:
-            repository: docker.io/mikenye/picard:latest
+            repository: docker.io/mikenye/picard
             tag: 2.11
 
           env:
