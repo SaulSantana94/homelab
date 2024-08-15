@@ -10,7 +10,9 @@ app-template:
             repository: docker.io/spotdl/spotify-downloader
             tag: latest
           
-          command: ["web --config"]
+          # Breaking the command into executable and its arguments
+          command: ["web"]
+          args: ["--config"]
 
           env:
             TZ: Europe/Madrid
