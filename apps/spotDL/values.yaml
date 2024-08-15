@@ -7,8 +7,8 @@ app-template:
       containers:
         spotDL:
           image:
-            repository: docker.io/mikenye/spotDL
-            tag: 2.11
+            repository: docker.io/spotdl/spotify-downloader
+            tag: latest
 
           env:
             TZ: Europe/Madrid
