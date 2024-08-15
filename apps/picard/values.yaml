@@ -55,7 +55,7 @@ app-template:
       tls:
         - hosts:
             - *host
-          secretName: picard-external-tls-certificate
+          secretName: picard-tls-certificate
 
     external:
       enabled: true
