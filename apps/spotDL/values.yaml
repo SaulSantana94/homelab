@@ -1,0 +1,80 @@
+app-template:
+  controllers:
+    spotDL:
+      labels:
+        backup/retain: quaterly
+      type: statefulset
+      containers:
+        spotDL:
+          image:
+            repository: docker.io/mikenye/spotDL
+            tag: 2.11
+
+          env:
+            TZ: Europe/Madrid
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 300Mi
+            limits:
+              memory: 5000Mi
+          probes:
+            liveness:
+              enabled: true
+            readiness:
+              enabled: true
+            startup:
+              enabled: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
+  service:
+    spotDL:
+      controller: spotDL
+      ports:
+        http:
+          port: 8098
+  ingress:
+    spotDL:
+      enabled: true
+      className: nginx-external
+      annotations:
+        external-dns.alpha.kubernetes.io/enabled: "true"
+        external-dns.alpha.kubernetes.io/target: dbcloud.org
+        cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+        nginx.ingress.kubernetes.io/auth-url: https://mediaserver.auth.dbcloud.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://mediaserver.auth.dbcloud.org/oauth2/start
+      hosts:
+        - host: &host spotDL.dbcloud.org
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: spotDL
+                port: http
+      tls:
+        - hosts:
+            - *host
+          secretName: spotDL-external-tls-certificate
+
+  defaultPodOptions:
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
+      fsGroupChangePolicy: "OnRootMismatch"
+
+  persistence:
+    config:
+      enabled: true
+      globalMounts:
+        - path: /root/.spotdl
+      existingClaim: spotDL-config
+    music:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/music/spotdl
+      globalMounts:
+      - path: /music
+        readOnly: true
