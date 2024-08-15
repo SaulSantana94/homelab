@@ -9,6 +9,8 @@ app-template:
           image:
             repository: docker.io/spotdl/spotify-downloader
             tag: latest
+          
+          command: ["web --config"]
 
           env:
             TZ: Europe/Madrid
