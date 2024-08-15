@@ -1,11 +1,11 @@
 apiVersion: snapscheduler.backube/v1
 kind: SnapshotSchedule
 metadata:
-  name: picard-zfs-backups
+  name: spotdl-zfs-backups
 spec:
   retention:
     maxCount: 20
   schedule: "0 1 * * *" # UTC
   claimSelector:
     matchLabels:
-      snapshots: picard-zfs
+      snapshots: spotdl-zfs

@@ -2,13 +2,13 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app.kubernetes.io/instance: spotDL
-    app.kubernetes.io/name: spotDL
-    snapshots: spotDL-zfs
+    app.kubernetes.io/instance: spotdl
+    app.kubernetes.io/name: spotdl
+    snapshots: spotdl-zfs
     backup/retain: quaterly
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
-  name: spotDL-config
+  name: spotdl-config
 spec:
   accessModes:
     - ReadWriteOnce

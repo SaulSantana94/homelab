@@ -1,11 +1,11 @@
 app-template:
   controllers:
-    spotDL:
+    spotdl:
       labels:
         backup/retain: quaterly
       type: statefulset
       containers:
-        spotDL:
+        spotdl:
           image:
             repository: docker.io/spotdl/spotify-downloader
             tag: latest
@@ -30,13 +30,13 @@ app-template:
                 failureThreshold: 30
                 periodSeconds: 5
   service:
-    spotDL:
-      controller: spotDL
+    spotdl:
+      controller: spotdl
       ports:
         http:
           port: 8098
   ingress:
-    spotDL:
+    spotdl:
       enabled: true
       className: nginx-external
       annotations:
@@ -46,17 +46,17 @@ app-template:
         nginx.ingress.kubernetes.io/auth-url: https://mediaserver.auth.dbcloud.org/oauth2/auth
         nginx.ingress.kubernetes.io/auth-signin: https://mediaserver.auth.dbcloud.org/oauth2/start
       hosts:
-        - host: &host spotDL.dbcloud.org
+        - host: &host spotdl.dbcloud.org
           paths:
             - path: /
               pathType: Prefix
               service:
-                identifier: spotDL
+                identifier: spotdl
                 port: http
       tls:
         - hosts:
             - *host
-          secretName: spotDL-external-tls-certificate
+          secretName: spotdl-external-tls-certificate
 
   defaultPodOptions:
     securityContext:
@@ -70,7 +70,7 @@ app-template:
       enabled: true
       globalMounts:
         - path: /root/.spotdl
-      existingClaim: spotDL-config
+      existingClaim: spotdl-config
     music:
       enabled: true
       type: hostPath
