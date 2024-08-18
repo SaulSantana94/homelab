@@ -112,6 +112,12 @@ app-template:
       hostPath: /datasets/series
       globalMounts:
       - path: /library/series
+    series:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/music
+      globalMounts:
+      - path: /library/music
     tmp:
       enabled: true
       globalMounts:
