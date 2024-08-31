@@ -15,22 +15,10 @@ app-template:
             POSTGRES_DB: youtarr
             POSTGRES_HOST: db
             POSTGRES_PORT: 5432
-            GOOGLE_OAUTH_CLIENT_ID:
-              valueFrom:
-                secretKeyRef:
-                  name: youtarr-secrets
-                  key: GOOGLE_OAUTH_CLIENT_ID
-           POSTGRES_USER:
-              valueFrom:
-                secretKeyRef:
-                  name: youtarr-secrets
-                  key: POSTGRES_USER
-           POSTGRES_PASSWORD:
-              valueFrom:
-                secretKeyRef:
-                  name: youtarr-secrets
-                  key: POSTGRES_PASSWORD
-
+          envFrom:
+          - secretRef:
+              name: youtarr-secrets
+         
           resources:
             requests:
               cpu: 10m
