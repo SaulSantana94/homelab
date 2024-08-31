@@ -13,7 +13,7 @@ app-template:
           env:
             TZ: Europe/Madrid
             POSTGRES_DB: youtarr
-            POSTGRES_HOST: db
+            POSTGRES_HOST: youtarr-postgres
             POSTGRES_PORT: 5432
           envFrom:
           - secretRef:
