@@ -25,18 +25,13 @@ app-template:
               memory: 1800Mi
             limits:
               memory: 4000Mi
-          #probes:
-          #  liveness:
-          #    enabled: true
-          #  readiness:
-          #    enabled: true
-          #  startup:
-          #    enabled: true
-          #    spec:
-          #      failureThreshold: 30
-          #      periodSeconds: 5
 
-        scheduled-task:
+    worker:
+      labels:
+        backup/retain: quaterly
+      type: statefulset
+      containers:
+        worker:
           image:
             repository: bolferdocker/youtarr
             tag: latest
@@ -49,15 +44,14 @@ app-template:
           envFrom:
           - secretRef:
               name: youtarr-secrets
-
+         
           resources:
             requests:
-              cpu: 200m
-              memory: 500Mi
+              cpu: 500m
+              memory: 1800Mi
             limits:
-              memory: 1000Mi
-          restartPolicy: Always
-          
+              memory: 4000Mi
+
   service:
     youtarr:
       controller: youtarr
