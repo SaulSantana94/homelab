@@ -36,6 +36,28 @@ app-template:
           #      failureThreshold: 30
           #      periodSeconds: 5
 
+        scheduled-task:
+          image:
+            repository: bolferdocker/youtarr
+            tag: latest
+          command: ["python", "scheduled_task.py"]
+          env:
+            TZ: Europe/Madrid
+            POSTGRES_DB: youtarr
+            POSTGRES_HOST: youtarr-postgres
+            POSTGRES_PORT: 5432
+          envFrom:
+          - secretRef:
+              name: youtarr-secrets
+
+          resources:
+            requests:
+              cpu: 200m
+              memory: 500Mi
+            limits:
+              memory: 1000Mi
+          restartPolicy: Always
+          
   service:
     youtarr:
       controller: youtarr
