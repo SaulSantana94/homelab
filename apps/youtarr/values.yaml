@@ -109,9 +109,15 @@ app-template:
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
-    peliculas:
+    downloads:
       enabled: true
       type: hostPath
       hostPath: /datasets/music/Youtarr
       globalMounts:
       - path: /app/Downloads
+    music:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/music
+      globalMounts:
+      - path: /app/music
