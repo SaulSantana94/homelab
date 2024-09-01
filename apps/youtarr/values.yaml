@@ -25,16 +25,16 @@ app-template:
               memory: 1800Mi
             limits:
               memory: 4000Mi
-          probes:
-            liveness:
-              enabled: true
-            readiness:
-              enabled: true
-            startup:
-              enabled: true
-              spec:
-                failureThreshold: 30
-                periodSeconds: 5
+          #probes:
+          #  liveness:
+          #    enabled: true
+          #  readiness:
+          #    enabled: true
+          #  startup:
+          #    enabled: true
+          #    spec:
+          #      failureThreshold: 30
+          #      periodSeconds: 5
 
   service:
     youtarr:
