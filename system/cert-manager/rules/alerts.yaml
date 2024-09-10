@@ -1,14 +1,14 @@
 # source: https://github.com/monitoring-mixins/website/blob/b731a997db12f62dc1cab953fb97f7b867c35ecd/assets/cert-manager/alerts.yaml
-- alert: CertManagerAbsent
-  annotations:
-    description: New certificates will not be able to be minted, and existing ones
-      can't be renewed until cert-manager is back.
-    runbook_url: https://github.com/imusmanmalik/cert-manager-mixin/blob/main/RUNBOOK.md#certmanagerabsent
-    summary: Cert Manager has disappeared from Prometheus service discovery.
-  expr: absent(up{job="cert-manager"})
-  for: 10m
-  labels:
-    severity: critical
+#- alert: CertManagerAbsent
+#  annotations:
+#    description: New certificates will not be able to be minted, and existing ones
+#      can't be renewed until cert-manager is back.
+#    runbook_url: https://github.com/imusmanmalik/cert-manager-mixin/blob/main/RUNBOOK.md#certmanagerabsent
+#    summary: Cert Manager has disappeared from Prometheus service discovery.
+#  expr: absent(up{job="cert-manager"})
+#  for: 10m
+#  labels:
+#    severity: critical
 - alert: CertManagerCertExpirySoon
   annotations:
     dashboard_url: https://grafana.example.com/d/TvuRo2iMk/cert-manager
