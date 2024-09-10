@@ -33,9 +33,6 @@ resources:
   - resources/long-term-metrics/prometheus.yaml
   - resources/long-term-metrics/prometheus-rules.yaml
   - resources/long-term-metrics/service.yaml
-  - resources/pfsense-darkstat-scrape-config.yaml
-  - resources/pfsense-node-exporter-dashboard-configmap.yaml
-  - resources/pfsense-node-exporter-scrape-config.yaml
   - resources/smartctl-exporter-dashboard-configmap.yaml
   - resources/smartctl-exporter-prometheus-rules.yaml
   - resources/temperature-dashboard-configmap.yaml
