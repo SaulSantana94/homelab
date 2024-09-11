@@ -1,23 +1,6 @@
 climate_control:
-  module: climate_control
-  class: ClimateControl
-  input_boolean:
-    enable: input_boolean.appdaemon_climate_enable
-  input_number:
-    min_hours_per_day: input_number.appdaemon_climate_min_hours_per_day
-  input_select_heat_mode: input_select.appdaemon_climate_heat_mode
-  sensor:
-    pvpc_price: sensor.esios_pvpc
-  notify:
-    enabled: true
-    target: agil
-  climate:
-    enabled: true
-    entity: input_select.heishamon_heatmode
-    on_mode: Heat+DHW
-    off_mode: DHW
-  fallback_cheap_electricity_price: 0.09
-  log_level: INFO
+  module: RiegoTerrazaControl
+  class: RiegoTerrazaControl
 
 last_connection_sensor:
   module: last_connection_sensor
