@@ -7,7 +7,7 @@ app-template:
       containers:
         youtarr:
           image:
-            repository: crccheck/hello-world
+            repository: bolferdocker/youtarr
             tag: latest
 
           env:
