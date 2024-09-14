@@ -7,7 +7,7 @@ app-template:
       containers:
         youtarr:
           image:
-            repository: nginx
+            repository: crccheck/hello-world
             tag: latest
 
           env:
@@ -57,7 +57,7 @@ app-template:
       controller: youtarr
       ports:
         http:
-          port: 80
+          port: 8000
 
   ingress:
     youtarr:
