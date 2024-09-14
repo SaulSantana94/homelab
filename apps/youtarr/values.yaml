@@ -7,7 +7,7 @@ app-template:
       containers:
         youtarr:
           image:
-            repository: bolferdocker/youtarr
+            repository: nginx
             tag: latest
 
           env:
@@ -57,7 +57,7 @@ app-template:
       controller: youtarr
       ports:
         http:
-          port: 8000
+          port: 80
 
   ingress:
     youtarr:
