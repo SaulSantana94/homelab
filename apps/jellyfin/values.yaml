@@ -109,14 +109,14 @@ app-template:
       hostPath: /datasets/series
       globalMounts:
       - path: /datasets/series
-        readOnly: true
+        readOnly: false
     peliculas:
       enabled: true
       type: hostPath
       hostPath: /datasets/peliculas
       globalMounts:
       - path: /datasets/peliculas
-        readOnly: true
+        readOnly: false
     transcode:
       enabled: true
       type: emptyDir
@@ -126,4 +126,4 @@ app-template:
       hostPath: /datasets/music
       globalMounts:
       - path: /music
-        readOnly: true
+        readOnly: false
