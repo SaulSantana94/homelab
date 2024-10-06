@@ -8,13 +8,13 @@ helmCharts:
     releaseName: monitoring
     repo: https://prometheus-community.github.io/helm-charts
     valuesFile: values.yaml
-    version: 61.5.0
+    version: 63.1.0
   - name: prometheus-blackbox-exporter
     namespace: monitoring
     releaseName: monitoring
     repo: https://prometheus-community.github.io/helm-charts
     valuesFile: blackbox-exporter-values.yaml
-    version: 8.17.0
+    version: 9.0.0
   - name: prometheus-smartctl-exporter
     namespace: monitoring
     releaseName: monitoring
@@ -47,6 +47,24 @@ patches:
       group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: alertmanagers.monitoring.coreos.com
+      version: v1
+  - patch: |-
+      - op: add
+        path: "/metadata/annotations/argocd.argoproj.io~1sync-options"
+        value: "Replace=true"
+    target:
+      group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: alertmanagerconfigs.monitoring.coreos.com
+      version: v1
+  - patch: |-
+      - op: add
+        path: "/metadata/annotations/argocd.argoproj.io~1sync-options"
+        value: "Replace=true"
+    target:
+      group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: scrapeconfigs.monitoring.coreos.com
       version: v1
   - patch: |-
       - op: add

@@ -14,18 +14,11 @@
 
 - name: Create user and enable login
   import_tasks: user.yml
+  tags:
+    - user
 
 - name: Set up sshd
   import_tasks: sshd.yml
-
-- name: Set max speed
-  lineinfile:
-    path: /etc/default/cpufrequtils
-    regex: "^MAX_SPEED="
-    line: 'MAX_SPEED={{ prepare_max_cpu_freq }}'
-  ignore_errors: true
-  when: prepare_max_cpu_freq is defined
-  notify: restart cpufrequtils
 
 - name: Ensure handlers are executed
   meta: flush_handlers
@@ -130,17 +123,6 @@
     - ansible_os_family == "Debian"
   tags:
     - logs2ram
-
-- name: Disable swap usage per cgroups
-  lineinfile:
-    path: /etc/default/grub
-    regex: "^GRUB_CMDLINE_LINUX="
-    line: 'GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
-  ignore_errors: true
-  when: ansible_distribution == "Debian"
-  notify:
-    - update grub
-    - restart server
 
 - name: Remove unused cron
   file:

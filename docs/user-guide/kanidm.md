@@ -92,3 +92,44 @@ If PKCE needs to be disabled:
 ```bash
 kanidm system oauth2 warning-insecure-client-disable-pkce ${CLIENT}
 ```
+
+## Use groups in SSO
+
+To pass groups in JWT you need to ask for `openid groups` scopes.
+
+After next login, you will receive groups `uuid` and groups `spn` in the token:
+
+```json
+    ...
+  "scopes": [
+    "email",
+    "groups",
+    "openid",
+    "profile"
+  ],
+  "groups": [
+    "idm_all_persons@idm.grigri.cloud",
+    "00000000-0000-0000-0000-000000000035",
+    "idm_all_accounts@idm.grigri.cloud",
+    "00000000-0000-0000-0000-000000000036",
+    "XXXXXX@idm.grigri.cloud",
+    "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    ...
+  ]
+}
+```
+
+**Note**: When groups scope is activated your header size will be above 4k so you will need to add
+this annotation to your ingress:
+
+```yaml
+nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+```
+
+## Upgrade
+
+Check if upgrade is possible:
+
+```bash
+kanidmd domain upgrade-check
+```

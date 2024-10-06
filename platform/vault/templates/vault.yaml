@@ -5,7 +5,7 @@ metadata:
 spec:
   size: 1
   # renovate: datasource=docker
-  image: vault:1.13.3
+  image: hashicorp/vault:1.17.6
   # specify a custom bank-vaults image with bankVaultsImage:
   # bankVaultsImage: ghcr.io/banzaicloud/bank-vaults:latest
 
@@ -67,6 +67,7 @@ spec:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
       external-dns.alpha.kubernetes.io/enabled: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     spec:
       ingressClassName: nginx-internal
       rules:
@@ -120,12 +121,8 @@ spec:
     listener:
       tcp:
         address: "0.0.0.0:8200"
-        # TODO enable TLS?
-        tls_disable: true
-        # tls_cert_file: /vault/tls/server.crt
-        # tls_key_file: /vault/tls/server.key
-    telemetry:
-      statsd_address: localhost:9125
+        tls_cert_file: /vault/tls/server.crt
+        tls_key_file: /vault/tls/server.key
     ui: true
 
   vaultEnvsConfig:
