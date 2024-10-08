@@ -1,0 +1,24 @@
+app-template:
+  controllers:
+    dynip:
+      labels:
+        backup/retain: quaterly
+      type: statefulset
+      containers:
+        dynip:
+          image:
+            repository: bolferdocker/dynip
+            tag: latest
+
+          env:
+            TZ: Europe/Madrid
+          envFrom:
+          - secretRef:
+              name: dynip-secrets
+         
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1800Mi
+            limits:
+              memory: 4000Mi

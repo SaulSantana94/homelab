@@ -1,0 +1,93 @@
+ventilador_despacho_velocidad_1:
+  alias: ventilador_despacho_velocidad_1
+  sequence:
+  - service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_despacho
+      command: velocidad_1
+    target:
+      entity_id: remote.rfbridge_broadlink
+    alias: ventilador_despacho-velocidad_1
+  - service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_despacho
+      command: velocidad_3
+    target:
+      entity_id: remote.rfbridge_broadlink
+    alias: ventilador_despacho-velocidad_3
+  - service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_despacho
+      command: velocidad_6
+    target:
+      entity_id: remote.rfbridge_broadlink
+    alias: ventilador_despacho-velocidad_6
+  - service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_despacho
+      command: 'off'
+    target:
+      entity_id: remote.rfbridge_broadlink
+    alias: ventilador_despacho-off
+  - alias: ventilador_salon-velocidad_1
+    service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_salon
+      command: velocidad_1
+    target:
+      entity_id: remote.rfbridge_broadlink
+  - alias: ventilador_salon-velocidad_3
+    service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_salon
+      command: velocidad_3
+    target:
+      entity_id: remote.rfbridge_broadlink
+  - alias: ventilador_salon-velocidad_6
+    service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_salon
+      command: velocidad_6
+    target:
+      entity_id: remote.rfbridge_broadlink
+  - alias: ventilador_salon-off
+    service: remote.send_command
+    metadata: {}
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      device: ventilador_salon
+      command: 'off'
+    target:
+      entity_id: remote.rfbridge_broadlink
+  description: ''
+  icon: mdi:fan-speed-1
