@@ -7,7 +7,5 @@ helmCharts:
     namespace: flaresolverr
     releaseName: flaresolverr
     repo: https://bjw-s.github.io/helm-charts/
-    valuesFile: values-flaresolverr.yaml
-    version: 3.4.0
-
-# from https://github.com/tyzbit/fleet-infra/blob/main/clusters/corpus/apps/media/flaresolverr/ks.yaml
+    valuesFile: values.yaml
+    version: 3.5.0
