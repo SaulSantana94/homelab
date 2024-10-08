@@ -10,13 +10,13 @@ cert-manager:
       memory: 128Mi
 
   extraArgs:
-  # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
-  - --enable-certificate-owner-ref=true
+    # When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted
+    - --enable-certificate-owner-ref=true
 
   global:
     leaderElection:
       namespace: cert-manager
-      
+
   prometheus:
     enabled: true
     servicemonitor:
