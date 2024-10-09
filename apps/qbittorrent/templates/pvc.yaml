@@ -16,3 +16,5 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: openebs-zfspv
+  volumeMode: Filesystem
+  volumeName: config-qbittorrent
