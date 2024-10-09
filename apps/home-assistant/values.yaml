@@ -11,7 +11,7 @@ app-template:
         hass:
           image:
             repository: ghcr.io/onedr0p/home-assistant
-            tag: 2024.6.1
+            tag: 2024.10.1@sha256:04614835418d2bdacd64685b516e58e7c5446f72485d446e7635282ba1a06c43
           env:
             TZ: Europe/Madrid
             POSTGRES_USER:
@@ -52,7 +52,7 @@ app-template:
         01-init-config:
           image:
             repository: debian
-            tag: 12.6-slim
+            tag: 12.7-slim
           command:
             - /bin/sh
             - -c
