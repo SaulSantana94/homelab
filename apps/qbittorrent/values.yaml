@@ -21,7 +21,7 @@ app-template:
               memory: 5.0Gi
             limits:
               memory: 5.0Gi
-
+ 
           probes:
             liveness: &probe
               enabled: true
