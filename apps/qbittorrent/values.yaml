@@ -8,7 +8,7 @@ app-template:
         qbittorrent:
           image:
             repository: ghcr.io/onedr0p/qbittorrent
-            tag: 4.6.7@sha256:5391f94b321d563c3b44136a5e799b7e4e4888926c1c31d3081a1cf3e74a9aec
+            tag: 4.6.5@sha256:c019af23966ebafcaf1713d4553bc043246858b711a7d57d8bee358a89990a3e
 
           env:
             UMASK: "022"
@@ -17,10 +17,10 @@ app-template:
 
           resources:
             requests:
-              cpu: 330m
-              memory: 1.4Gi
+              cpu: 600m
+              memory: 5.0Gi
             limits:
-              memory: 2.4Gi
+              memory: 5.0Gi
 
           probes:
             liveness: &probe
@@ -36,7 +36,7 @@ app-template:
         metrics:
           image:
             repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
-            tag: latest@sha256:f56b3fb159128dc3fb50513fe7edfe9cb895a1c42d4f74d56125cc6bb801ca2e
+            tag: latest@sha256:340a6d43797e2944a6babd6cadc7160e87d30b57bdf401aef57eccbd600d98ce
           env:
             QBITTORRENT_HOST: localhost
             QBITTORRENT_PORT: *port
@@ -48,9 +48,9 @@ app-template:
               memory: 100Mi
 
           ports:
-            - name: metrics
-              containerPort: &metrics_port 8000
-              protocol: TCP
+          - name: metrics
+            containerPort: &metrics_port 8000
+            protocol: TCP
 
           probes:
             liveness: &metrics_probe
@@ -67,15 +67,11 @@ app-template:
   defaultPodOptions:
     securityContext:
       runAsUser: 995
-      runAsGroup: 501
-      fsGroup: 501
+      runAsGroup: 991
+      fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
 
     hostname: qbittorrent
-
-    # uncomment after restore:
-    #nodeSelector:
-    #  kubernetes.io/hostname: prusik
 
   service:
     qbittorrent:
@@ -90,10 +86,7 @@ app-template:
       controller: qbittorrent
       type: LoadBalancer
       annotations:
-        # Cilium v1.16+
-        lbipam.cilium.io/ips: "192.168.193.7"
-        # Cilium v1.15
-        io.cilium/lb-ipam-ips: "192.168.193.7"
+        metallb.universe.tf/loadBalancerIPs: "192.168.1.236"
         external-dns.alpha.kubernetes.io/enabled: "true"
       externalTrafficPolicy: Local
       ports:
@@ -103,19 +96,6 @@ app-template:
           protocol: TCP
           targetPort: 50413
 
-  serviceMonitor:
-    qbittorrent:
-      enabled: true
-      serviceName: qbittorrent
-      labels:
-        release: monitoring
-      endpoints:
-        - port: metrics
-          scheme: http
-          path: /metrics
-          interval: 1m
-          scrapeTimeout: 30s
-
   ingress:
     qbittorrent:
       enabled: true
@@ -124,45 +104,44 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         external-dns.alpha.kubernetes.io/enabled: "true"
       hosts:
-        - host: &host qbittorrent.internal.grigri.cloud
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: qbittorrent
-                port: http
+      - host: &host qbittorrent.internal.dbcloud.org
+        paths:
+        - path: /
+          pathType: Prefix
+          service:
+            identifier: qbittorrent
+            port: http
       tls:
-        - hosts:
-            - *host
-          secretName: qbittorrent-tls-certificate
+      - hosts:
+        - *host
+        secretName: qbittorrent-tls-certificate
 
     external:
       enabled: true
       className: nginx-external
       annotations:
         external-dns.alpha.kubernetes.io/enabled: "true"
-        external-dns.alpha.kubernetes.io/target: grigri.cloud
+        external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        nginx.ingress.kubernetes.io/auth-url: https://auth.grigri.cloud/oauth2/auth?allowed_groups=qbittorrent-users@idm.grigri.cloud
-        nginx.ingress.kubernetes.io/auth-signin: https://auth.grigri.cloud/oauth2/start
-        nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+        nginx.ingress.kubernetes.io/auth-url: https://mediaserver.auth.dbcloud.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://mediaserver.auth.dbcloud.org/oauth2/start
       hosts:
-        - host: &host qbittorrent.grigri.cloud
-          paths:
-            - path: /
-              service:
-                identifier: qbittorrent
-                port: http
+      - host: &host qbittorrent.dbcloud.org
+        paths:
+        - path: /
+          service:
+            identifier: qbittorrent
+            port: http
       tls:
-        - hosts:
-            - *host
-          secretName: qbittorrent-external-tls-certificate
+      - hosts:
+        - *host
+        secretName: qbittorrent-external-tls-certificate
 
   persistence:
     config:
       enabled: true
       globalMounts:
-        - path: /config
+      - path: /config
       existingClaim: config-qbittorrent
 
     series:
@@ -170,11 +149,25 @@ app-template:
       type: hostPath
       hostPath: /datasets/series/download
       globalMounts:
-        - path: /datasets/series/download
+      - path: /datasets/series/download
 
     peliculas:
       enabled: true
       type: hostPath
       hostPath: /datasets/peliculas/download
       globalMounts:
-        - path: /datasets/peliculas/download
+      - path: /datasets/peliculas/download
+
+    music:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/music/download
+      globalMounts:
+      - path: /datasets/music/download
+
+    download:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/download
+      globalMounts:
+      - path: /datasets/download
