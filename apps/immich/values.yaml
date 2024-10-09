@@ -87,7 +87,7 @@ app-template:
               nvidia.com/gpu: "1"
             limits:
               cpu: "10"
-              memory: 10Gi
+              memory: 20Gi
               nvidia.com/gpu: "1"
     ml:
       strategy: RollingUpdate
