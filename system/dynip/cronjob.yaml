@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dynip-script-cronjob
+  namespace: dynip
+spec:
+  schedule: "*/1 * * * *"  # Every minute
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dynip-script
+            image: python:3.9-slim
+            command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/dynip_script.py"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+            env:
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: dynip-secrets
+                  key: api_token
+            - name: ZONE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dynip-secrets
+                  key: zone_id
+          volumes:
+          - name: script-volume
+            configMap:
+              name: python-script
+          restartPolicy: OnFailure

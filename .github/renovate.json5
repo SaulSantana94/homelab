@@ -62,15 +62,6 @@
     },
     {
       matchDatasources: ["docker"],
-      matchUpdateTypes: ["minor"],
-      matchPackageNames: ["kanidm"],
-      matchCurrentVersion: "!/^0/",
-      automerge: false,
-      ignoreTests: false,
-      platformAutomerge: false,
-    },
-    {
-      matchDatasources: ["docker"],
       matchUpdateTypes: ["digest"],
       automerge: true,
       ignoreTests: true,
@@ -79,7 +70,7 @@
     },
     {
       matchPackageNames: [
-        "hashicorp/vault",
+        "vault",
         "registry.k8s.io/sig-storage/csi-provisioner",
         "registry.k8s.io/sig-storage/csi-snapshotter",
       ],
