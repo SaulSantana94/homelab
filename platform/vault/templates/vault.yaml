@@ -2,12 +2,18 @@ apiVersion: "vault.banzaicloud.com/v1alpha1"
 kind: "Vault"
 metadata:
   name: "vault"
+  labels:
+    backup/retain: quaterly
 spec:
   size: 1
   # renovate: datasource=docker
-  image: vault:1.13.3
+  image: hashicorp/vault:1.17.6
   # specify a custom bank-vaults image with bankVaultsImage:
   # bankVaultsImage: ghcr.io/banzaicloud/bank-vaults:latest
+
+  # Common annotations for all created resources
+  annotations:
+    common/annotation: "true"
 
   # Vault Pods , Services and TLS Secret annotations
   vaultAnnotations:
@@ -92,6 +98,8 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: vault-file
+        labels:
+          backup/retain: quaterly
       spec:
         accessModes:
           - ReadWriteOnce
@@ -185,4 +193,4 @@ spec:
         description: General secrets.
         options:
           version: 2
-     
+          
