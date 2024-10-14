@@ -111,6 +111,12 @@ minio:
   #   # set objectlocking for
   #   # bucket [true|false] NOTE: versioning is enabled by default if you use locking
   #   objectlocking: false
+
+  extraVolumes:
+  - name: policies
+    configMap:
+      name: minio-policies
+
   extraVolumeMounts:
   - name: policies
     mountPath: "/policies"
