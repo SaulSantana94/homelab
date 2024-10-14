@@ -111,9 +111,15 @@ minio:
   #   # set objectlocking for
   #   # bucket [true|false] NOTE: versioning is enabled by default if you use locking
   #   objectlocking: false
+  extraVolumeMounts:
+  - name: policies
+    mountPath: "/policies"
+    readOnly: true
 
   environment:
     MINIO_IDENTITY_OPENID_ROLE_POLICY: consoleAdmin
+    MINIO_POLICY_OPA_URL: "file:///policies/restricted-policy.json"
+
   ## OpenID Identity Management
   ## The following section documents environment variables for enabling external identity management using an OpenID Connect (OIDC)-compatible provider.
   ## See https://min.io/docs/minio/linux/operations/external-iam/configure-openid-external-identity-management.html for a tutorial on using these variables.
