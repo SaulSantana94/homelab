@@ -6,7 +6,7 @@
   rebaseWhen: "conflicted",
   commitMessagePrefix: "{{parentDir}}: ",
   timezone: "Europe/Madrid",
-  schedule: ["at any time"],
+  schedule: ["after 4am and before 10am on Monday"],
   enabledManagers: ["argocd", "github-actions", "helm-values", "helmv3", "kustomize", "pre-commit", "regex"],
   regexManagers: [
     {
