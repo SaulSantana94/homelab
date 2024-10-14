@@ -1,0 +1,119 @@
+velero:
+  resources: # https://velero.io/docs/v1.10/performance-guidance/#case-3-1062510k-files-781-directories-1000mb-per-file-total-10376gb-content
+    requests:
+      cpu: 200m
+      memory: 500Mi
+    limits:
+      cpu: "2"
+      memory: 2Gi
+
+  initContainers:
+  - name: velero-plugin-for-aws
+    # https://github.com/vmware-tanzu/velero-plugin-for-aws#compatibility
+    image: velero/velero-plugin-for-aws:v1.10.1
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: plugins
+      mountPath: "/target"
+  - name: velero-openebs-plugin
+    image: openebs/velero-plugin:3.6.0
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: plugins
+      mountPath: "/target"
+
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
+  configuration:
+    backupStorageLocation:
+    - name: default
+      # https://velero.io/docs/v1.13/supported-providers/
+      provider: aws
+      default: true
+      bucket: velero
+      config:
+        region: minio
+        s3ForcePathStyle: true
+        s3Url: http://192.168.1.249:9000
+        publicUrl: http://192.168.1.249:9000
+    # Is configured but not currenlty in use in velero schedules.
+    # Probably will use it in the future if they add a feature to upload snapshots to S3
+    # or if we decide to mirror them between different Cephs. SnapshotClass are already annotated.
+    volumeSnapshotLocation:
+    - name: zfspv-full
+      provider: openebs.io/zfspv-blockstore
+      config:
+        bucket: velero
+        prefix: zfs
+        multiPartChunkSize: 100Mi
+        # this is the namespace where ZFS-LocalPV creates all the CRs, passed as OPENEBS_NAMESPACE env in the ZFS-LocalPV deployment
+        namespace: zfs-localpv
+        provider: aws
+        region: minio
+        s3ForcePathStyle: "true"
+        s3Url: http://192.168.1.249:9000
+    - name: zfspv-incr
+      provider: openebs.io/zfspv-blockstore
+      default: true
+      config:
+        bucket: velero
+        prefix: zfs
+        # You can specify the multipart_chunksize  here for explicitness.
+        # multiPartChunkSize can be from 5Mi(5*1024*1024 Bytes) to 5Gi
+        # For more information: https://docs.min.io/docs/minio-server-limits-per-tenant.html
+        # If not set then it will be calculated from the file size
+        # Default is set to 5Mi in AWS: https://github.com/openebs/velero-plugin/blob/cea57783e3ed887d2b7b0e7bafc436ff26bd9a7b/pkg/clouduploader/conn.go#L110
+        # Default MaxUploadParts: 10000
+        # Max default size: 5Mi * 10000 = 50Gi
+        # Another alternative is to change to 0 and use calculated size:
+        # https://github.com/openebs/velero-plugin/blob/cea57783e3ed887d2b7b0e7bafc436ff26bd9a7b/pkg/clouduploader/operation.go#L54
+        multiPartChunkSize: 100Mi
+        # number of incremental backups we want to have
+        # 3 weekly incremental + 1 full to have the full month backup
+        incrBackupCount: "11"
+        # this is the namespace where ZFS-LocalPV creates all the CRs, passed as OPENEBS_NAMESPACE env in the ZFS-LocalPV deployment
+        namespace: zfs-localpv
+        provider: aws
+        region: minio
+        s3ForcePathStyle: "true"
+        s3Url: http://192.168.1.249:9000
+
+    uploaderType: restic
+    fsBackupTimeout: 32h
+    defaultItemOperationTimeout: 32h
+    garbageCollectionFrequency: 24h
+    logLevel: info
+
+  credentials:
+    existingSecret: velero-bucket-credentials
+
+  # The number of seconds to allow for graceful termination of the pod. defaults is 1h
+  terminationGracePeriodSeconds: 1800
+
+  metrics:
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: monitoring
+    prometheusRule:
+      additionalLabels:
+        release: monitoring
+      enabled: true
+      spec:
+      - alert: VeleroBackupPartialFailures
+        annotations:
+          message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partialy failed backups.
+        expr: |-
+          velero_backup_partial_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
+        for: 15m
+        labels:
+          severity: warning
+      - alert: VeleroBackupFailures
+        annotations:
+          message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} failed backups.
+        expr: |-
+          velero_backup_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
+        for: 15m
+        labels:
+          severity: warning
