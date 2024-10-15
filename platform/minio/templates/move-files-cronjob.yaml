@@ -28,5 +28,9 @@ spec:
             - >
               mc alias set source-minio http://minio.minio.svc:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc alias set dest-minio http://192.168.1.249:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
-              mc mv --recursive source-minio/velero dest-minio/velero
-          restartPolicy: OnFailure
+              if [ "$(mc ls source-minio/velero | wc -l)" -gt 0 ]; then
+                mc mv --recursive source-minio/velero dest-minio/velero;
+              else
+                echo "No files to move";
+              fi
+          restartPolicy: Never
