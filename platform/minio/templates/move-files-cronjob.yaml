@@ -26,7 +26,7 @@ spec:
             command: ["/bin/sh", "-c"]
             args:
             - >
-              mc alias set source-minio http://s3.internal.dbcloud.org $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
+              mc alias set source-minio http://minio.minio.svc:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc alias set dest-minio http://192.168.1.249:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc mv --recursive source-minio/velero dest-minio/velero
           restartPolicy: OnFailure
