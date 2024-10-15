@@ -28,10 +28,11 @@ spec:
             - >
               mc alias set source-minio http://minio.minio.svc:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc alias set dest-minio http://192.168.1.249:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
-              if [ "$(mc ls source-minio/velero | wc -l)" -gt 0 ]; then
+              files_to_move=$(mc ls source-minio/velero | grep -v '/$') &&
+              if [ -n "$files_to_move" ]; then
                 echo "Files to move:" &&
-                mc ls source-minio/velero && 
-                mc mv --recursive source-minio/velero dest-minio/velero;
+                echo "$files_to_move" &&
+                mc mv --recursive source-minio/velero/* dest-minio/velero/;
               else
                 echo "No files to move";
               fi
