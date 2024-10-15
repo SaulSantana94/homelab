@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: minio-move-files
 spec:
-  schedule: "0 */24 * * *"  # Runs every 24 hours
+  schedule: "0 */24 * * *"  # Runs once every 24 hours
   concurrencyPolicy: Forbid  # Ensures only one job runs at a time
   jobTemplate:
     spec:
@@ -29,8 +29,10 @@ spec:
               mc alias set source-minio http://minio.minio.svc:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc alias set dest-minio http://192.168.1.249:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               if [ "$(mc ls source-minio/velero | wc -l)" -gt 0 ]; then
+                echo "Files to move:" &&
+                mc ls source-minio/velero && 
                 mc mv --recursive source-minio/velero dest-minio/velero;
               else
                 echo "No files to move";
               fi
-          restartPolicy: OnFailure
+          restartPolicy: Never
