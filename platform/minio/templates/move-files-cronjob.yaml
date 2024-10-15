@@ -30,7 +30,7 @@ spec:
             - >
               mc alias set source-minio http://minio.minio.svc:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc alias set dest-minio http://192.168.1.249:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
-              if mc ls source-minio/velero | sed '1d' | awk '{print $5}' | grep -q .; then
+              if mc ls source-minio/velero | wc -l | xargs test 1 -lt; then
                 mc mv --recursive source-minio/velero dest-minio/velero &&
                 mc rm --recursive --force --dangerous source-minio/velero;
               else
