@@ -3,10 +3,10 @@ kind: CronJob
 metadata:
   name: minio-move-files
 spec:
-  schedule: "0 */2 * * *"  # Runs every 2 hours
-  concurrencyPolicy: Forbid  # Ensures only one job runs at a time
-  successfulJobsHistoryLimit: 1  # Retain the last 1 successful jobs
-  failedJobsHistoryLimit: 1      # Retain the last 1 failed jobs
+  schedule: "0 */2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
@@ -30,5 +30,10 @@ spec:
             - >
               mc alias set source-minio http://minio.minio.svc:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
               mc alias set dest-minio http://192.168.1.249:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY &&
-              mc mv --recursive source-minio/velero dest-minio/velero
+              if mc ls source-minio/velero | sed '1d' | awk '{print $5}' | grep -q .; then
+                mc mv --recursive source-minio/velero dest-minio/velero &&
+                mc rm --recursive --force --dangerous source-minio/velero;
+              else
+                echo "No files found in source-minio/velero. Skipping move operation.";
+              fi
           restartPolicy: Never
