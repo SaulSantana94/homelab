@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: minio-move-files
 spec:
-  schedule: "*/5 * * * *"  # Runs every 5 minutes
+  schedule: "0 */24 * * *"  # Runs every 24 hours
   concurrencyPolicy: Forbid  # Ensures only one job runs at a time
   jobTemplate:
     spec:
@@ -33,4 +33,4 @@ spec:
               else
                 echo "No files to move";
               fi
-          restartPolicy: Never
+          restartPolicy: OnFailure
