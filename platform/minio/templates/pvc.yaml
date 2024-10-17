@@ -12,5 +12,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2000Gi
+      storage: 4000Gi
   storageClassName: backups-zfspv  # Add this line to specify the new storage class
