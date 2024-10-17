@@ -4,7 +4,7 @@ metadata:
   name: retain-weekly
   namespace: velero
 spec:
-  schedule: 30 15 * * 4
+  schedule: 15 14 * * 4
   template:
     includedNamespaces:
       - "*"
