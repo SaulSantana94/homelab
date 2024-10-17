@@ -21,11 +21,11 @@ app-template:
 
           resources:
             requests:
-              cpu: 10m
-              memory: 180Mi
+              cpu: 100m
+              memory: 1800Mi
               nvidia.com/gpu: "1"
             limits:
-              memory: 400Mi
+              memory: 4000Mi
               nvidia.com/gpu: "1"
           probes:
             liveness:
@@ -112,7 +112,7 @@ app-template:
       hostPath: /datasets/series
       globalMounts:
       - path: /library/series
-    series:
+    music:
       enabled: true
       type: hostPath
       hostPath: /datasets/music
