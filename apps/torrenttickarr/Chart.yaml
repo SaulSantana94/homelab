@@ -1,5 +1,7 @@
 apiVersion: v2
 name: torrenttickarr
-description: A Helm chart for the TorrentTickarr application
-version: 0.1.0
-type: application
+version: 0.0.0
+dependencies:
+- name: app-template
+  version: 3.5.1
+  repository: https://bjw-s.github.io/helm-charts/
