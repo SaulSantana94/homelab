@@ -119,7 +119,7 @@ minio:
   ## See https://min.io/docs/minio/linux/operations/external-iam/configure-openid-external-identity-management.html for a tutorial on using these variables.
   oidc:
     enabled: true
-    configUrl: https://kubeadmin.auth.dbcloud.org/.well-known/openid-configuration
+    configUrl: https://kubeadmin.auth.dbcloud.org
     existingClientSecretName: minio-oidc
     existingClientIdKey: clientId
     existingClientSecretKey: clientSecret
