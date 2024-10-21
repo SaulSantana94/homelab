@@ -4,7 +4,7 @@ metadata:
   name: torrenttickarr-script-cronjob
   namespace: torrenttickarr
 spec:
-  schedule: "0 */12 * * *"  # Every 60 minutes
+  schedule: "0 */12 * * *" # Every 12 hours
   successfulJobsHistoryLimit: 2
   failedJobsHistoryLimit: 2
   jobTemplate:
@@ -14,7 +14,7 @@ spec:
           containers:
           - name: torrenttickarr-script
             image: bolferdocker/pythonselenium:1.0.1
-            command: ["sh", "-c", "sh /scripts/setup.sh && pip install -r /scripts/requirements.txt && python /scripts/torrenttickarr_script.py"]
+            command: ["sh", "-c", "python /scripts/torrenttickarr_script.py"]
             volumeMounts:
             - name: script-volume
               mountPath: /scripts
