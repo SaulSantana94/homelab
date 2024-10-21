@@ -8,6 +8,14 @@ oauth2-proxy:
       upstreams = [ "file:///dev/null" ]
       oidc_issuer_url = "https://accounts.google.com"
       redirect_url = "https://kubeadmin.auth.dbcloud.org/oauth2/callback"
+      oidc_jwks_url = "https://www.googleapis.com/oauth2/v3/certs"
+      provider = "google"
+      skip_jwt_bearer_tokens = true
+      set_xauthrequest = true
+      pass_access_token = true
+      pass_authorization_header = true
+      pass_user_headers = true
+      set_authorization_header = true
 
   replicaCount: 1
 
