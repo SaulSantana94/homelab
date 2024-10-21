@@ -115,15 +115,15 @@ minio:
   ## OpenID Identity Management
   ## The following section documents environment variables for enabling external identity management using an OpenID Connect (OIDC)-compatible provider.
   ## See https://min.io/docs/minio/linux/operations/external-iam/configure-openid-external-identity-management.html for a tutorial on using these variables.
-  # oidc:
-  #   enabled: true
-  #   configUrl: https://accounts.google.com/.well-known/openid-configuration
-  #   existingClientSecretName: minio-oidc
-  #   existingClientIdKey: clientId
-  #   existingClientSecretKey: clientSecret
-  #   scopes: openid,profile,email
-  #   redirectUri: https://mc-s3.internal.dbcloud.org/oauth_callback
-  #   displayName: Google
+  oidc:
+    enabled: true
+    configUrl: https://kubeadmin.auth.dbcloud.org/oauth2/auth
+    existingClientSecretName: minio-oidc
+    existingClientIdKey: clientId
+    existingClientSecretKey: clientSecret
+    scopes: openid,profile,email
+    redirectUri: https://mc-s3.internal.dbcloud.org/oauth_callback
+    displayName: Google
 
   metrics:
     serviceMonitor:
