@@ -15,3 +15,37 @@ spec:
           - name: torrenttickarr-script
             image: bolferdocker/pythonselenium:1.0.1
             command: ["sh", "-c", "python /scripts/torrenttickarr_script.py"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+            env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: USERNAME
+            - name: PASSWORD_HDO
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_HDO
+            - name: PASSWORD_TORRENTEROS
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_TORRENTEROS
+            - name: PASSWORD_TORRENTLAND
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_TORRENTLAND
+            - name: PASSWORD_TORRENTLEECH
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_TORRENTLEECH
+          volumes:
+          - name: script-volume
+            configMap:
+              name: python-script
+          restartPolicy: OnFailure

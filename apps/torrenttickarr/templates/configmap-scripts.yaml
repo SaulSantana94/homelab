@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: torrenttickarr-script
-data:
-# this removes subdirectories hiterarchy
-{{ (.Files.Glob "src/torrenttickarr_script.py").AsConfig | indent 2 }}
