@@ -14,7 +14,7 @@ spec:
           containers:
           - name: torrenttickarr-script
             image: bolferdocker/pythonselenium:1.0.1
-            command: ["sh", "-c", "sleep infinity && python /scripts/torrenttickarr_script.py"]
+            command: ["sh", "-c", "python /scripts/torrenttickarr_script.py"]
             volumeMounts:
             - name: script-volume
               mountPath: /scripts
