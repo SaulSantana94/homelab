@@ -6,6 +6,8 @@ oauth2-proxy:
     configFile: |-
       email_domains = []
       upstreams = [ "file:///dev/null" ]
+      oidc_issuer_url = "https://accounts.google.com"
+      redirect_url = "https://kubeadmin.auth.dbcloud.org/oauth2/callback"
 
   replicaCount: 1
 
