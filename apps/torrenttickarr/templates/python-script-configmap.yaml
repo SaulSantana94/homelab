@@ -5,4 +5,4 @@ metadata:
   namespace: torrenttickarr
 data:
   torrenttickarr_script.py: |-
-    {{ .Files.Get "src/torrenttickarr_script.py" | indent 4 | quote }}
+    {{ .Files.Get "src/torrenttickarr_script.py" | indent 4 }}
