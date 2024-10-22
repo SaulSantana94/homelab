@@ -28,7 +28,7 @@ app-template:
                 secretKeyRef:
                   name: keycloak.keycloak-postgres.credentials.postgresql.acid.zalan.do
                   key: password
-            KC_DB_URL: "jdbc:postgresql://${KC_DB_USERNAME}:${KC_DB_PASSWORD}@keycloak-postgres/keycloak" #"jdbc:postgresql://postgres:5432/keycloak"
+            KC_DB_URL: "jdbc:postgresql://keycloak:$(KC_DB_PASSWORD)@keycloak-postgres/keycloak" #"jdbc:postgresql://postgres:5432/keycloak"
           envFrom:
           - secretRef:
               name: keycloak-secret
