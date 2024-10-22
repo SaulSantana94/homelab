@@ -108,9 +108,3 @@ app-template:
       fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
 
-  persistence:
-    data:
-      enabled: true
-      globalMounts:
-      - path: /opt/keycloak/data
-      existingClaim: data-keycloak
