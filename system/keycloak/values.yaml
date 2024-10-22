@@ -115,24 +115,24 @@ app-template:
       type: emptyDir
       sizeLimit: 5Gi
       advancedMounts:
-        whisper:
-          whisper:
+        keycloak:
+          keycloak:
             - path: /opt/keycloak/data
     providers:
       enabled: true
       type: emptyDir
       sizeLimit: 5Gi
       advancedMounts:
-        whisper:
-          whisper:
+        keycloak:
+          keycloak:
             - path: /opt/keycloak/providers
     themes:
       enabled: true
       type: emptyDir
       sizeLimit: 5Gi
       advancedMounts:
-        whisper:
-          whisper:
+        keycloak:
+          keycloak:
             - path: /opt/keycloak/themes
     
     ##data:
