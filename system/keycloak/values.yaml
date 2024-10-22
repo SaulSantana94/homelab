@@ -11,7 +11,7 @@ app-template:
             repository:  quay.io/keycloak/keycloak
             tag: 26.0.1
           command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 3600; done"] #/opt/keycloak/bin/kc.sh
+          args: ["-c", "while true; do sleep 3600; done"] #/opt/keycloak/bin/kc.sh 
 
           env:
             KC_DB: postgres
@@ -112,6 +112,31 @@ app-template:
   persistence:
     data:
       enabled: true
-      globalMounts:
-      - path: /opt/keycloak
-      existingClaim: data-keycloak
+      type: emptyDir
+      sizeLimit: 5Gi
+      advancedMounts:
+        whisper:
+          whisper:
+            - path: /opt/keycloak/data
+    providers:
+      enabled: true
+      type: emptyDir
+      sizeLimit: 5Gi
+      advancedMounts:
+        whisper:
+          whisper:
+            - path: /opt/keycloak/providers
+    themes:
+      enabled: true
+      type: emptyDir
+      sizeLimit: 5Gi
+      advancedMounts:
+        whisper:
+          whisper:
+            - path: /opt/keycloak/themes
+    
+    ##data:
+    ##  enabled: true
+    ##  globalMounts:
+    ##  - path: /opt/keycloak
+    ##  existingClaim: data-keycloak
