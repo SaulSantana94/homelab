@@ -10,10 +10,8 @@ app-template:
           image:
             repository:  quay.io/keycloak/keycloak
             tag: 26.0.1
-          command:
-            -  sleep 999999 ##/opt/keycloak/bin/kc.sh
-          ##args:
-          ##  - start-dev
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do sleep 3600; done"]
 
           env:
             KC_DB: postgres
