@@ -11,7 +11,7 @@ app-template:
             repository:  quay.io/keycloak/keycloak
             tag: 26.0.1
           command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 3600; done"]
+          args: ["-c", "while true; do sleep 3600; done"] #/opt/keycloak/bin/kc.sh
 
           env:
             KC_DB: postgres
@@ -113,5 +113,5 @@ app-template:
     data:
       enabled: true
       globalMounts:
-      - path: /opt/keycloak/data
+      - path: /opt/keycloak
       existingClaim: data-keycloak
