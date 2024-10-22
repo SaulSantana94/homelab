@@ -10,23 +10,24 @@ app-template:
           image:
             repository:  quay.io/keycloak/keycloak
             tag: 26.0.1
+          command: ["start-dev", "--import-realm"]
 
           env:
-              KC_DB: postgres
-              KC_METRICS_ENABLED: true
-              KC_LOG_LEVEL: INFO
-              TZ: Europe/Madrid
-              KC_DB_USERNAME:
-                valueFrom:
-                  secretKeyRef:
-                    name: keycloak.keycloak-postgres.credentials.postgresql.acid.zalan.do
-                    key: username
-              KC_DB_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: keycloak.keycloak-postgres.credentials.postgresql.acid.zalan.do
-                    key: password
-              KC_DB_URL: "jdbc:postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@keycloak-postgres/keycloak" #"jdbc:postgresql://postgres:5432/keycloak"
+            KC_DB: postgres
+            KC_METRICS_ENABLED: true
+            KC_LOG_LEVEL: INFO
+            TZ: Europe/Madrid
+            KC_DB_USERNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak.keycloak-postgres.credentials.postgresql.acid.zalan.do
+                  key: username
+            KC_DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak.keycloak-postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+            KC_DB_URL: "jdbc:postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@keycloak-postgres/keycloak" #"jdbc:postgresql://postgres:5432/keycloak"
           envFrom:
           - secretRef:
               name: keycloak-secret
@@ -63,7 +64,7 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         nginx.ingress.kubernetes.io/auth-url: https://kubeadmin.auth.dbcloud.org/oauth2/auth
         nginx.ingress.kubernetes.io/auth-signin: https://kubeadmin.auth.dbcloud.org/oauth2/start
-        
+
       hosts:
       - host: &host keycloak.internal.dbcloud.org
         paths:
