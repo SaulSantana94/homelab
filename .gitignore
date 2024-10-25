@@ -14,3 +14,4 @@ book/
 Chart.lock
 charts
 system/keycloack/values_sample.yaml
+system/keycloack/keycloak-default-values.yaml
