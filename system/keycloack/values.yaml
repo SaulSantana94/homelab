@@ -93,10 +93,6 @@ ingress:
       service:
         identifier: keycloak
         port: http
-  tls:
-  - hosts:
-    - *host
-    secretName: keycloak-external-tls-certificate
 
 networkPolicy:
   enabled: true
