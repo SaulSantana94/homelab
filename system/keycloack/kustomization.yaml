@@ -4,12 +4,12 @@ namespace: keycloak
 
 resources:
   - resources/external-secrets.yaml
-  - resources/postgres.yaml
+  - resources/postgresql.yaml
   
 helmCharts:
   - name: keycloak
-    repo: https://charts.bitnami.com/bitnami
-    version: 22.0.0
     namespace: keycloak
     releaseName: keycloak
+    repo: https://charts.bitnami.com/bitnami
     valuesFile: values.yaml
+    version: 22.0.0
