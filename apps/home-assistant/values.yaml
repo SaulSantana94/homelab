@@ -39,7 +39,7 @@ app-template:
           resources:
             requests:
               cpu: 10m
-              memory: 350Mi
+              memory: 450Mi
             limits:
               memory: 1Gi
 
@@ -74,9 +74,9 @@ app-template:
           resources:
             requests:
               cpu: 30m
-              memory: 50Mi
+              memory: 64Mi
             limits:
-              memory: 200Mi
+              memory: 2560Mi
           probes:
             liveness:
               enabled: true
@@ -110,7 +110,7 @@ app-template:
           resources:
             requests:
               cpu: 15m
-              memory: 600Mi
+              memory: 2500Mi
             limits:
               nvidia.com/gpu: "1"
           probes:

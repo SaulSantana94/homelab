@@ -52,10 +52,10 @@ app-template:
           resources:
             requests:
               cpu: 10m
-              memory: 128Mi
+              memory: 350Mi
             limits:
               cpu: "2"
-              memory: 2Gi
+              memory: 1Gi
           probes: &probes
             liveness:
               enabled: true
@@ -83,7 +83,7 @@ app-template:
           resources:
             requests:
               cpu: 10m
-              memory: 128Mi
+              memory: 256Mi
               nvidia.com/gpu: "1"
             limits:
               cpu: "10"
@@ -111,7 +111,7 @@ app-template:
               nvidia.com/gpu: "1"
             limits:
               cpu: "4"
-              memory: 10Gi
+              memory: 2Gi
               nvidia.com/gpu: "1"
           probes: *probes
     redis:
