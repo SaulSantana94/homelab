@@ -17,10 +17,10 @@ app-template:
 
           resources:
             requests:
-              cpu: 600m
+              cpu: 1000m
               memory: 5.0Gi
             limits:
-              memory: 5.0Gi
+              memory: 20.0Gi
 
           probes:
             liveness: &probe
