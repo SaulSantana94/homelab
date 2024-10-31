@@ -6,9 +6,9 @@ metallb:
     resources:
       requests:
         cpu: 10m
-        memory: 54Mi
+        memory: 128Mi
       limits:
-        memory: 100Mi
+        memory: 256Mi
     livenessProbe:
       enabled: true
       periodSeconds: 30

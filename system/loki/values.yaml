@@ -57,8 +57,8 @@ singleBinary:
       cpu: 2
       memory: 4Gi
     requests:
-      cpu: 40m
-      memory: 200Mi
+      cpu: 200m
+      memory: 500Mi
 
 write:
   replicas: 0
