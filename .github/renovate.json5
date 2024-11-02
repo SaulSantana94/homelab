@@ -1,6 +1,8 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["config:recommended", ":dependencyDashboard", ":preserveSemverRanges", ":disableRateLimiting"],
+  username: "renovate-dabol-homelab[bot]",
+  repositories: ["Daniel-Boluda/homelab"],
   gitAuthor: "Renovate <4646670+renovate85-bot[bot]@users.noreply.github.com>",
   forkProcessing: "enabled",
   rebaseWhen: "conflicted",
@@ -56,7 +58,14 @@
       ignoreTests: true,
       automergeType: "pr",
       platformAutomerge: true,
-      excludePackageNames: ["nextcloud"],
+    },
+    {
+      matchDatasources: ["docker"],
+      matchUpdateTypes: ["minor"],
+      matchCurrentVersion: "!/^0/",
+      automerge: false,
+      ignoreTests: false,
+      platformAutomerge: false,
     },
     {
       matchDatasources: ["docker"],
