@@ -5,26 +5,11 @@ argo-cd:
       url: https://argocd.internal.dbcloud.org
       exec.enabled: "true"
       oidc.config: |
-        name: Google
-        issuer: https://accounts.google.com
-        clientID: $oidc.kanidm.clientID
-        clientSecret: $oidc.kanidm.clientSecret
-
-        
-        requestedScopes: ["openid", "email", "profile"]
-        requestedIDTokenClaims:
-          email:
-            essential: true
-          name:
-            essential: true    
-          groups:
-            essential: true
-        redirectURI: https://argocd.internal.dbcloud.org/auth/callback
-
-        # Optional. If false, tokens without an audience will always fail validation. If true, tokens without an audience
-        # will always pass validation.
-        # Defaults to true for Argo CD < 2.6.0. Defaults to false for Argo CD >= 2.6.0.
-        skipAudienceCheckWhenTokenHasNoAudience: false
+        name: Keycloak
+        issuer: https://keycloak.dbcloud.org/realms/master
+        clientID: $oidc.keycloak.clientID
+        clientSecret: $oidc.keycloak.clientSecret
+        requestedScopes: ["openid", "profile", "email", "groups"]
 
       # Disable git polling
       timeout.reconciliation: "0"
@@ -60,12 +45,7 @@ argo-cd:
       create: true
       policy.default: role:''
       policy.csv: |
-        # Allow specific user to be admin
-        g, daniel.boluda.fdez@gmail.com, role:admin
-        # Deny all other users
-        g, *, role:none
-        
-      scopes: "[groups, email]"
+        g, ArgoCDAdmins, role:admin
 
     secret:
       createSecret: true
