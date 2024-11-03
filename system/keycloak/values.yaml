@@ -19,6 +19,16 @@ extraEnvVars:
     value: "true"
   - name: KC_HOSTNAME_STRICT_HTTPS
     value: "true"
+  - name: KC_HOSTNAME
+    value: "keycloak.dbcloud.org"
+  - name: KC_HOSTNAME_STRICT
+    value: "true"
+  - name: KC_HTTP_RELATIVE_PATH
+    value: "/"
+  - name: KC_PROXY
+    value: "edge"
+  - name: KC_HOSTNAME_URL
+    value: "https://keycloak.dbcloud.org"
 
 auth:
   createAdminUser: true
@@ -86,6 +96,7 @@ ingress:
     nginx.ingress.kubernetes.io/auth-url: https://kubeadmin.auth.dbcloud.org/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://kubeadmin.auth.dbcloud.org/oauth2/start
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     external-dns.alpha.kubernetes.io/enabled: "true"
     external-dns.alpha.kubernetes.io/target: dbcloud.org
     cert-manager.io/cluster-issuer: letsencrypt-prod-dns
@@ -101,6 +112,7 @@ adminIngress:
     nginx.ingress.kubernetes.io/auth-url: https://kubeadmin.auth.dbcloud.org/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://kubeadmin.auth.dbcloud.org/oauth2/start
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     external-dns.alpha.kubernetes.io/enabled: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
