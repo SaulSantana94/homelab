@@ -78,8 +78,6 @@ ingress:
   enabled: true
   ingressClassName: nginx-external
   hostname: keycloak.dbcloud.org
-  # because we're using proxy: reencrypt, we need to set the backend protocol to HTTPS
-  servicePort: https
   annotations:
     nginx.ingress.kubernetes.io/auth-url: https://kubeadmin.auth.dbcloud.org/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://kubeadmin.auth.dbcloud.org/oauth2/start
@@ -94,8 +92,6 @@ adminIngress:
   enabled: true
   ingressClassName: nginx-internal
   hostname: keycloakadmin.internal.dbcloud.org
-  # because we're using proxy: reencrypt, we need to set the backend protocol to HTTPS
-  servicePort: https
   annotations:
     nginx.ingress.kubernetes.io/auth-url: https://kubeadmin.auth.dbcloud.org/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://kubeadmin.auth.dbcloud.org/oauth2/start
