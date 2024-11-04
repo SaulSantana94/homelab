@@ -4,16 +4,17 @@ app-template:
       labels:
         backup/retain: quaterly
       replicas: 1
+      type: statefulset
       containers:
         qbittorrent:
           image:
             repository: ghcr.io/onedr0p/qbittorrent
-            tag: 4.6.5@sha256:60bbc09640953f5c218b9a217b905f5f5b2f9b31cca9b6fdfed6409ceeb315af
+            tag: 5.0.0@sha256:4ba2360b71b95afe7d2b4459c54e5146ed682f37a1c1703eba0f29684636de50
 
           env:
             UMASK: "022"
-            QBITTORRENT__PORT: &port 8080
-            QBITTORRENT__USE_PROFILE: "true"
+            QBT_TORRENTING_PORT: &torrent_port 50413
+            QBT_WEBUI_PORT: &port 8080
 
           resources:
             requests:
@@ -36,7 +37,7 @@ app-template:
         metrics:
           image:
             repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
-            tag: latest@sha256:73ed61a10034987e626b86430d0f8d781fdcc33319b77ed58a8d9d6e6c84fe57
+            tag: latest@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842
           env:
             QBITTORRENT_HOST: localhost
             QBITTORRENT_PORT: *port
@@ -48,9 +49,9 @@ app-template:
               memory: 100Mi
 
           ports:
-          - name: metrics
-            containerPort: &metrics_port 8000
-            protocol: TCP
+            - name: metrics
+              containerPort: &metrics_port 8000
+              protocol: TCP
 
           probes:
             liveness: &metrics_probe
@@ -67,8 +68,8 @@ app-template:
   defaultPodOptions:
     securityContext:
       runAsUser: 995
-      runAsGroup: 991
-      fsGroup: 991
+      runAsGroup: 501
+      fsGroup: 501
       fsGroupChangePolicy: "OnRootMismatch"
 
     hostname: qbittorrent
@@ -92,9 +93,22 @@ app-template:
       ports:
         bittorrent:
           enabled: true
-          port: 50413
+          port: *torrent_port
           protocol: TCP
-          targetPort: 50413
+          targetPort: *torrent_port
+
+  serviceMonitor:
+    qbittorrent:
+      enabled: true
+      serviceName: qbittorrent
+      labels:
+        release: monitoring
+      endpoints:
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 1m
+          scrapeTimeout: 30s
 
   ingress:
     qbittorrent:
@@ -104,17 +118,17 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         external-dns.alpha.kubernetes.io/enabled: "true"
       hosts:
-      - host: &host qbittorrent.internal.dbcloud.org
-        paths:
-        - path: /
-          pathType: Prefix
-          service:
-            identifier: qbittorrent
-            port: http
+        - host: &host qbittorrent.internal.dbcloud.org
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: qbittorrent
+                port: http
       tls:
-      - hosts:
-        - *host
-        secretName: qbittorrent-tls-certificate
+        - hosts:
+            - *host
+          secretName: qbittorrent-tls-certificate
 
     external:
       enabled: true
@@ -125,23 +139,24 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         nginx.ingress.kubernetes.io/auth-url: https://mediaserver.auth.dbcloud.org/oauth2/auth
         nginx.ingress.kubernetes.io/auth-signin: https://mediaserver.auth.dbcloud.org/oauth2/start
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
       hosts:
-      - host: &host qbittorrent.dbcloud.org
-        paths:
-        - path: /
-          service:
-            identifier: qbittorrent
-            port: http
+        - host: &host qbittorrent.dbcloud.org
+          paths:
+            - path: /
+              service:
+                identifier: qbittorrent
+                port: http
       tls:
-      - hosts:
-        - *host
-        secretName: qbittorrent-external-tls-certificate
+        - hosts:
+            - *host
+          secretName: qbittorrent-external-tls-certificate
 
   persistence:
     config:
       enabled: true
       globalMounts:
-      - path: /config
+        - path: /config
       existingClaim: config-qbittorrent
 
     series:
@@ -149,25 +164,25 @@ app-template:
       type: hostPath
       hostPath: /datasets/series/download
       globalMounts:
-      - path: /datasets/series/download
+        - path: /datasets/series/download
 
     peliculas:
       enabled: true
       type: hostPath
       hostPath: /datasets/peliculas/download
       globalMounts:
-      - path: /datasets/peliculas/download
+        - path: /datasets/peliculas/download
 
     music:
       enabled: true
       type: hostPath
       hostPath: /datasets/music/download
       globalMounts:
-      - path: /datasets/music/download
+        - path: /datasets/music/download
 
     download:
       enabled: true
       type: hostPath
       hostPath: /datasets/download
       globalMounts:
-      - path: /datasets/download
+        - path: /datasets/download
