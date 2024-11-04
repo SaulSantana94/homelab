@@ -231,7 +231,7 @@ nextcloud:
         valueFrom:
           secretKeyRef:
             name: nextcloud
-            key: client-secret
+            key: keycloak-client-secret
 
     mail:
       enabled: true
