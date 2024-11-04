@@ -230,8 +230,8 @@ nextcloud:
       - name: KEYCLOAK_CLIENT_SECRET
         valueFrom:
           secretKeyRef:
-            name: nextcloud-oidc-secret
-            key: keycloak-client-secret
+            name: nextcloud
+            key: client-secret
 
     mail:
       enabled: true
