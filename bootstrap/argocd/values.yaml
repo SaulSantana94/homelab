@@ -7,7 +7,7 @@ argo-cd:
       oidc.config: |
         name: Keycloak
         issuer: https://keycloak.dbcloud.org/realms/master
-        clientID: $oidc.keycloak.clientID
+        clientID: argocd
         clientSecret: $oidc.keycloak.clientSecret
         requestedScopes: ["openid", "profile", "email", "groups"]
 
