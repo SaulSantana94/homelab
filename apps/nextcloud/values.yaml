@@ -178,6 +178,21 @@ nextcloud:
         <?php
         $CONFIG = array (
           'overwriteprotocol' => 'https',
+          'allow_user_to_change_display_name' => false,
+          'lost_password_link' => 'disabled',
+          'oidc_login_provider_url' => 'https://keycloak.dbcloud.org/auth/realms/master',
+          'oidc_login_client_id' => 'nextcloud',
+          'oidc_login_client_secret' => getenv('KEYCLOAK_CLIENT_SECRET'),
+          'oidc_login_auto_redirect' => false,
+          'oidc_login_logout_url' => 'https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fnextcloud.dbcloud.org',
+          'oidc_login_button_text' => 'Log in with Keycloak',
+          'oidc_login_hide_password_form' => false,
+          'oidc_login_use_id_token' => true,
+          'oidc_login_attributes' => array(
+            'id' => 'preferred_username',
+            'name' => 'name',
+            'mail' => 'email',
+          ),
         );
       cron.config.php: |-
         <?php
@@ -210,6 +225,13 @@ nextcloud:
           secretKeyRef:
             name: nextcloud
             key: passwordsalt
+      - name: NEXTCLOUD_TRUSTED_DOMAINS
+        value: "nextcloud.dbcloud.org"
+      - name: KEYCLOAK_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: nextcloud
+            key: keycloak-client-secret
 
     mail:
       enabled: true
