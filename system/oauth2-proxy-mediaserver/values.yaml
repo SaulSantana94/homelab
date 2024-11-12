@@ -15,6 +15,7 @@ oauth2-proxy:
     # One email per line
     restricted_access: |
       daniel.boluda.fdez@gmail.com  
+      daniel.boludafernandez@holcim.com  
       alexander.gil.casas@gmail.com
       algomar8@gmail.com
       dianacastillo.ideas@gmail.com
