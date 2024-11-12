@@ -32,7 +32,7 @@ extraEnvVars:
 
 auth:
   createAdminUser: true
-  adminUser: admin
+  adminUser: daniel.boluda.fdez@gmail.com
   existingSecret: keycloak-secrets
   passwordSecretKey: KEYCLOAK_PASSWORD
 
