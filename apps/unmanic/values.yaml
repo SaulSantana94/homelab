@@ -23,7 +23,6 @@ app-template:
             requests:
               cpu: 100m
               memory: 1800Mi
-              nvidia.com/gpu: "1"
             limits:
               cpu: 10000m #limit to 10 cores
               memory: 4000Mi
