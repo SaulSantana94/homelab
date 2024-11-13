@@ -84,7 +84,7 @@ app-template:
             requests:
               cpu: 10m
               memory: 256Mi
-              nvidia.com/gpu: "1"
+              #nvidia.com/gpu: "1"
             limits:
               cpu: "10"
               memory: 20Gi
@@ -108,7 +108,7 @@ app-template:
             requests:
               cpu: 300m
               memory: 1Gi
-              nvidia.com/gpu: "1"
+              #nvidia.com/gpu: "1"
             limits:
               cpu: "4"
               memory: 2Gi
