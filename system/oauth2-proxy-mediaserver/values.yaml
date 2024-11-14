@@ -44,8 +44,11 @@ oauth2-proxy:
       secretName: oauth2-proxy-mediaserver-tls-certificate
 
   extraArgs:
-    provider: google
-    provider-display-name: Google
+    provider: "keycloak-oidc"
+    provider_display_name: "Keycloak"
+    redirect_url: "https://mediaserver.auth.dbcloud.org/oauth2/callback"
+    oidc_issuer_url: "https://keycloak.dbcloud.org/auth/realms/master"
+    scope: "openid profile email groups"
     skip-provider-button: "false"
     pass-basic-auth: "false"
     cookie-domain: .dbcloud.org

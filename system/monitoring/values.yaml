@@ -129,14 +129,14 @@ grafana:
     # AA: esto hay que adaptarlo a google.
     auth.generic_oauth:
       enabled: true
-      allow_sign_up: true
-      name: Google
+      allow_sign_up: false
+      name: Keycloak
       client_id: $__env{GRAFANA_SSO_CLIENT_ID}
       client_secret: $__env{GRAFANA_SSO_CLIENT_SECRET}
       scopes: openid profile email
-      auth_url: https://accounts.google.com/o/oauth2/auth
-      token_url: https://oauth2.googleapis.com/token
-      api_url: https://openidconnect.googleapis.com/v1/userinfo
+      auth_url: https://keycloak.dbcloud.org/realms/master/protocol/openid-connect/auth
+      token_url: https://keycloak.dbcloud.org/realms/master/protocol/openid-connect/token
+      api_url: https://keycloak.dbcloud.org/realms/master/protocol/openid-connect/userinfo
       use_pkce: true
       email_attribute_path: email
       role_attribute_path: contains(['daniel.boludafernandez@holcim.com', 'daniel.boluda.fdez@gmail.com', 'serverdabol@gmail.com'], email) && 'Admin' || 'Viewer'
