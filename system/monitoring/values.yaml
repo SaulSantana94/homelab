@@ -129,7 +129,7 @@ grafana:
     # AA: esto hay que adaptarlo a google.
     auth.generic_oauth:
       enabled: true
-      allow_sign_up: false
+      allow_sign_up: true
       name: Keycloak
       client_id: $__env{GRAFANA_SSO_CLIENT_ID}
       client_secret: $__env{GRAFANA_SSO_CLIENT_SECRET}
