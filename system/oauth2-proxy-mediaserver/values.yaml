@@ -32,7 +32,7 @@ oauth2-proxy:
     pass-access-token: true
     set-authorization-header: true
     pass-authorization-header: true
-    oidc-issuer-url: https://keycloak.dbcloud.org/auth/realms/master
+    oidc-issuer-url: https://keycloak.dbcloud.org/realms/master
     code-challenge-method: S256
     skip-provider-button: true
     reverse-proxy: true
