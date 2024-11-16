@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 QB_HOST = 'https://qbittorrent.internal.dbcloud.org/'
 QB_USERNAME = os.getenv('USERNAME_QB')
 QB_PASSWORD = os.getenv('PASSWORD_QB')
-DAYS_LIMIT = 15
+DAYS_LIMIT = 14
 
 def main():
     # Instantiate qBittorrent client
@@ -28,6 +28,10 @@ def main():
     try:
         qbt_client.auth_log_in()
         logging.info("Successfully logged in to qBittorrent")
+        
+        # Disable "Trash torrent files" option
+        qbt_client.app_set_preferences({"delete_to_trash": False})
+        logging.info("Disabled 'Trash torrent files' option")
     except qbittorrentapi.LoginFailed as e:
         logging.error(f"Failed to log in: {e}")
         return
