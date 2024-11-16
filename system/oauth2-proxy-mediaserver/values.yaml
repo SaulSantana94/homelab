@@ -43,8 +43,8 @@ oauth2-proxy:
     cookie-expire: 168h
     cookie-secure: true
     scope: "openid profile email groups"
-    session-store-type: redis
-    redis-connection-url: redis://redis:6379
+    # session-store-type: redis
+    # redis-connection-url: redis://redis:6379
     ## dex needs to support RFC2307bis
     # allowed-groups: wheel
 
