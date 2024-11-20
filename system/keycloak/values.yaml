@@ -4,31 +4,31 @@ logging:
 production: true
 
 extraEnvVars:
-  - name: KC_SPI_EVENTS_LISTENER_JBOSS_LOGGING_SUCCESS_LEVEL
-    value: info
-  - name: KC_SPI_EVENTS_LISTENER_JBOSS_LOGGING_ERROR_LEVEL
-    value: warn
-  - name: KC_SPI_CONTENT_SECURITY_POLICY_RESPONSE_HEADER
-    value: "frame-src 'self' https:; frame-ancestors 'self' https:; object-src 'none';"
-  - name: KC_HTTP_MANAGEMENT_PORT
-    value: "9000"
-  # Since 25.0.0 they run on port 9000
-  - name: KC_HEALTH_ENABLED
-    value: "true"
-  - name: KC_METRICS_ENABLED
-    value: "true"
-  - name: KC_HOSTNAME_STRICT_HTTPS
-    value: "true"
-  - name: KC_HOSTNAME
-    value: "keycloak.dbcloud.org"
-  - name: KC_HOSTNAME_STRICT
-    value: "true"
-  - name: KC_HTTP_RELATIVE_PATH
-    value: "/"
-  - name: KC_PROXY
-    value: "edge"
-  - name: KC_HOSTNAME_URL
-    value: "https://keycloak.dbcloud.org"
+- name: KC_SPI_EVENTS_LISTENER_JBOSS_LOGGING_SUCCESS_LEVEL
+  value: info
+- name: KC_SPI_EVENTS_LISTENER_JBOSS_LOGGING_ERROR_LEVEL
+  value: warn
+- name: KC_SPI_CONTENT_SECURITY_POLICY_RESPONSE_HEADER
+  value: "frame-src 'self' https:; frame-ancestors 'self' https:; object-src 'none';"
+- name: KC_HTTP_MANAGEMENT_PORT
+  value: "9000"
+# Since 25.0.0 they run on port 9000
+- name: KC_HEALTH_ENABLED
+  value: "true"
+- name: KC_METRICS_ENABLED
+  value: "true"
+- name: KC_HOSTNAME_STRICT_HTTPS
+  value: "true"
+- name: KC_HOSTNAME
+  value: "keycloak.dbcloud.org"
+- name: KC_HOSTNAME_STRICT
+  value: "true"
+- name: KC_HTTP_RELATIVE_PATH
+  value: "/"
+- name: KC_PROXY
+  value: "edge"
+- name: KC_HOSTNAME_URL
+  value: "https://keycloak.dbcloud.org"
 
 auth:
   createAdminUser: true
@@ -48,17 +48,17 @@ tls:
 # proxy: reencrypt
 
 extraContainerPorts:
-  - name: admin
-    containerPort: 9000
-    protocol: TCP
+- name: admin
+  containerPort: 9000
+  protocol: TCP
 
 extraVolumes:
-  - name: shared
-    emptyDir: {}
+- name: shared
+  emptyDir: {}
 
 extraVolumeMounts:
-  - mountPath: /shared
-    name: shared
+- mountPath: /shared
+  name: shared
 
 replicaCount: 1
 resources:
@@ -84,9 +84,9 @@ service:
   type: ClusterIP
   # health endpoint in the admin port
   extraPorts:
-    - name: admin
-      port: 9000
-      targetPort: admin
+  - name: admin
+    port: 9000
+    targetPort: admin
 
 ingress:
   enabled: true
@@ -106,8 +106,8 @@ ingress:
 networkPolicy:
   enabled: true
   extraIngress:
-    - ports:
-        - port: 9000
+  - ports:
+    - port: 9000
 
 autoscaling:
   enabled: false
@@ -127,14 +127,14 @@ metrics:
     labels:
       release: monitoring
     groups:
-      - name: Keycloak
-        rules:
-          - alert: KeycloakInstanceNotAvailable
-            annotations:
-              message: |
-                Keycloak instance in namespace {{ include "common.names.namespace" . }} has not been available for the last 5 minutes.
-            expr: |
-              absent(kube_pod_status_ready{namespace="{{ include "common.names.namespace" . }}", condition="true"} * on (pod) kube_pod_labels{pod=~"{{ include "common.names.fullname" . }}-\\d+", namespace="{{ include "common.names.namespace" . }}"}) != 0
-            for: 5m
-            labels:
-              severity: critical
+    - name: Keycloak
+      rules:
+      - alert: KeycloakInstanceNotAvailable
+        annotations:
+          message: |
+            Keycloak instance in namespace {{ include "common.names.namespace" . }} has not been available for the last 5 minutes.
+        expr: |
+          sum(kube_pod_status_ready{namespace="{{ include "common.names.namespace" . }}", condition="true"} * on (pod) kube_pod_labels{pod=~"{{ include "common.names.fullname" . }}-\\d+", namespace="{{ include "common.names.namespace" . }}"}) == 0
+        for: 5m
+        labels:
+          severity: critical
