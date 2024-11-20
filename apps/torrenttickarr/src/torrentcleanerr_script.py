@@ -22,7 +22,7 @@ def main():
         host=QB_HOST,
         username=QB_USERNAME,
         password=QB_PASSWORD,
-        VERIFY_WEBUI_CERTIFICATE=False
+        VERIFY_WEBUI_CERTIFICATE=True
     )
 
     try:
