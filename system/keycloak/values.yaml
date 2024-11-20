@@ -134,7 +134,7 @@ metrics:
           message: |
             Keycloak instance in namespace {{ include "common.names.namespace" . }} has not been available for the last 5 minutes.
         expr: |
-          sum(kube_pod_status_ready{namespace="{{ include "common.names.namespace" . }}", condition="true"} * on (pod) kube_pod_labels{pod=~"{{ include "common.names.fullname" . }}-\\d+", namespace="{{ include "common.names.namespace" . }}"}) == 0
+          sum(kube_pod_status_ready{namespace="{{ include "common.names.namespace" . }}", condition="false", pod=~"{{ include "common.names.fullname" . }}-\\d+"}) > 0
         for: 5m
         labels:
           severity: critical
