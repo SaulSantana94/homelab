@@ -6,3 +6,5 @@ metadata:
 data:
   torrenttickarr_script.py: |-
 {{ .Files.Get "src/torrenttickarr_script.py" | nindent 4 }}
+  torrentcleanerr_script.py: |-
+{{ .Files.Get "src/torrentcleanerr_script.py" | nindent 4 }}

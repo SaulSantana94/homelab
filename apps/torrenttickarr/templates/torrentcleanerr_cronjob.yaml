@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: torrenttickarr-script-cronjob
+  namespace: torrenttickarr
+spec:
+  schedule: "0 */24 * * *" # Every 24 hours
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: torrenttickarr-script
+            image: bolferdocker/pythonselenium:1.0.2
+            command: ["sh", "-c", "python /scripts/torrentcleanerr_script.py"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+            env:
+            - name: USERNAME_QB
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: USERNAME_QB
+            - name: PASSWORD_QB
+              valueFrom:
+                secretKeyRef:
+                  name: torrenttickarr-secrets
+                  key: PASSWORD_QB
+          volumes:
+          - name: script-volume
+            configMap:
+              name: python-script
+          restartPolicy: OnFailure

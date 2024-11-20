@@ -41,6 +41,3 @@ WORKDIR /app
 
 # Copy the rest of the application code
 COPY . /app
-
-# Default command to run your application
-CMD ["python", "torrenttickarr_script.py"]
