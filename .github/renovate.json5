@@ -27,14 +27,5 @@
         "#\\s*renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\\s.*?[\":](?<currentValue>\\S+)[\"\\s]"
       ]
     }
-  ],
-  **"packageRules": [
-    {
-      // Remove the automerge rule or set it to false
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchCurrentVersion": "!/^0/",
-      // Set automerge to true
-      "automerge": true
-    }
-  ]**
+  ]
 }
