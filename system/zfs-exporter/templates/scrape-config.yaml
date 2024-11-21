@@ -7,6 +7,6 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - 192.168.1.248:9134
+        - dabol-fractal:9134
   scrapeInterval: 30s
   scrapeTimeout: 3s
