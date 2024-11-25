@@ -23,7 +23,7 @@ variables:
           name: immich.immich-postgres.credentials.postgresql.acid.zalan.do
           key: password
     DB_URL: postgresql://$(A_REPLACE_DB_USERNAME):$(A_REPLACE_DB_PASSWORD)@$(A_REPLACE_DB_HOSTNAME):5432/$(A_REPLACE_DB_DATABASE_NAME)?sslmode=no-verify
-    IMMICH_METRICS: true
+    IMMICH_TELEMETRY_INCLUDE: all
 
 app-template:
   controllers:
@@ -41,7 +41,7 @@ app-template:
         main:
           image: &image
             repository: ghcr.io/immich-app/immich-server
-            tag: v1.117.0
+            tag: v1.120.2
           env:
             <<: *env
             IMMICH_WORKERS_INCLUDE: 'api'
@@ -55,7 +55,7 @@ app-template:
               memory: 350Mi
             limits:
               cpu: "2"
-              memory: 1Gi
+              memory: 2Gi
           probes: &probes
             liveness:
               enabled: true
@@ -84,7 +84,7 @@ app-template:
             requests:
               cpu: 10m
               memory: 256Mi
-              #nvidia.com/gpu: "1"
+              nvidia.com/gpu: "1"
             limits:
               cpu: "10"
               memory: 20Gi
@@ -98,7 +98,7 @@ app-template:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
-            tag: v1.117.0
+            tag: v1.120.2
           env:
             <<: *env
             NVIDIA_VISIBLE_DEVICES: all
@@ -108,10 +108,10 @@ app-template:
             requests:
               cpu: 300m
               memory: 1Gi
-              #nvidia.com/gpu: "1"
+              nvidia.com/gpu: "1"
             limits:
               cpu: "4"
-              memory: 2Gi
+              memory: 10Gi
               nvidia.com/gpu: "1"
           probes: *probes
     redis:
@@ -119,10 +119,10 @@ app-template:
         main:
           image:
             repository: public.ecr.aws/docker/library/redis
-            tag: 7.4.0
+            tag: 7.4.1
           env:
             REDIS_REPLICATION_MODE: master
-          command: ["redis-server"]
+          command: [ "redis-server" ]
           probes: *probes
 
   service:
@@ -159,17 +159,17 @@ app-template:
         nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
         nginx.ingress.kubernetes.io/proxy-body-size: 35G
       hosts:
-        - host: &host photos.internal.dbcloud.org
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: server
-                port: http
+      - host: &host photos.internal.dbcloud.org
+        paths:
+        - path: /
+          pathType: Prefix
+          service:
+            identifier: server
+            port: http
       tls:
-        - hosts:
-            - *host
-          secretName: immich-tls-certificate
+      - hosts:
+        - *host
+        secretName: immich-tls-certificate
     external:
       enabled: true
       className: nginx-external
@@ -187,17 +187,17 @@ app-template:
         nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
         nginx.ingress.kubernetes.io/proxy-body-size: 35G
       hosts:
-        - host: &host photos.dbcloud.org
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: server
-                port: http
+      - host: &host photos.dbcloud.org
+        paths:
+        - path: /
+          pathType: Prefix
+          service:
+            identifier: server
+            port: http
       tls:
-        - hosts:
-            - *host
-          secretName: immich-external-tls-certificate
+      - hosts:
+        - *host
+        secretName: immich-external-tls-certificate
 
   persistence:
     library:
@@ -205,26 +205,26 @@ app-template:
       advancedMounts:
         server:
           main:
-            - path: /usr/src/app/upload
+          - path: /usr/src/app/upload
         microservices:
           main:
-            - path: /usr/src/app/upload
+          - path: /usr/src/app/upload
     transformers-cache:
       type: emptyDir
       advancedMounts:
         server:
           main:
-            - path: /usr/src/app/.transformers_cache
+          - path: /usr/src/app/.transformers_cache
         microservices:
           main:
-            - path: /usr/src/app/.transformers_cache
+          - path: /usr/src/app/.transformers_cache
     model-cache:
       type: emptyDir
       advancedMounts:
         ml:
           main:
-            - path: /cache
-            - path: /.config/matplotlib
+          - path: /cache
+          - path: /.config/matplotlib
 
   serviceMonitor:
     server:
@@ -233,8 +233,8 @@ app-template:
       labels:
         release: monitoring
       endpoints:
-        - port: metrics
-          scheme: http
-          path: /metrics
-          interval: 30s
-          scrapeTimeout: 10s
+      - port: metrics
+        scheme: http
+        path: /metrics
+        interval: 30s
+        scrapeTimeout: 10s
