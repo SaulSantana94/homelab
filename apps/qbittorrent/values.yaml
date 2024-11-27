@@ -9,7 +9,7 @@ app-template:
         qbittorrent:
           image:
             repository: ghcr.io/onedr0p/qbittorrent
-            tag: 5.0.0@sha256:4ba2360b71b95afe7d2b4459c54e5146ed682f37a1c1703eba0f29684636de50
+            tag: 5.0.2@sha256:b905a9e4eef9ffabd10ad8618ffdc2661d20c1a910441e5f921c851c10974444
 
           env:
             UMASK: "022"
@@ -37,7 +37,7 @@ app-template:
         metrics:
           image:
             repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
-            tag: latest@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842
+            tag: latest@sha256:51fdb9a948e89ad0e44d48d5fc6949bef0a0ab8eda8280c0d03293a912862256
           env:
             QBITTORRENT_HOST: localhost
             QBITTORRENT_PORT: *port
