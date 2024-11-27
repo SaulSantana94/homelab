@@ -314,10 +314,10 @@ app-template:
         hass:
           hass:
             - path: /config/gitops/script
-    configmap-custom_fan:
+    configmap-customfan:
       enabled: true
       type: configMap
-      name: home-assistant-config-custom_fan
+      name: home-assistant-config-customfan
       advancedMounts:
         hass:
           hass:
