@@ -1,0 +1,9 @@
+{
+    "domain": "custom_fan",
+    "name": "Custom Fan",
+    "documentation": "https://github.com/yourusername/custom_fan",
+    "dependencies": [],
+    "codeowners": ["@yourusername"],
+    "requirements": [],
+    "version": "0.1.0"
+  }

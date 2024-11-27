@@ -13,6 +13,7 @@
         "**/templates/**/*.yaml": "helm",
         "*.yaml.gotmpl": "helm",
         "*.tf": "terraform",
-        "50unattended-upgrades": "cpp"
+        "50unattended-upgrades": "cpp",
+        "editor.formatOnSave": false
     }
 }
