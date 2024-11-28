@@ -85,6 +85,7 @@ class CustomFan(FanEntity):
     async def async_turn_on(self, percentage: int = None, preset_mode: str = None, **kwargs):
         """Turn on the fan."""
         _LOGGER.info("Turning on fan: %s", self._attr_name)
+        self._attr_is_on = True
         
         if percentage is not None:
             _LOGGER.debug("Received percentage for %s: %d%%", self._attr_name, percentage)
@@ -92,7 +93,6 @@ class CustomFan(FanEntity):
         else :
             await self.async_set_percentage(self._attr_percentage)
         
-        self._attr_is_on = True
         self.async_write_ha_state()  # Notify Home Assistant of the state change
 
     async def async_turn_off(self, **kwargs):
