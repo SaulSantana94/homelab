@@ -148,5 +148,5 @@ class CustomFan(FanEntity):
             encoded_command = commands[self._attr_unique_id][command]
             await self.hass.async_add_executor_job(
                 self._broadlink_device.send_data, 
-                broadlink.decode(encoded_command)
+                bytes.fromhex(encoded_command)
             )
