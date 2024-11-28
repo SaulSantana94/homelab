@@ -321,7 +321,7 @@ app-template:
       advancedMounts:
         hass:
           hass:
-          - path: /config/gitops/custom_components/custom_fan
+          - path: /config/custom_components/custom_fan
     appdaemon:
       enabled: true
       type: configMap
