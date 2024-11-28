@@ -47,24 +47,27 @@ class CustomFan(FanEntity):
     async def async_set_percentage(self, percentage):
         """Set the speed of the fan, as a percentage."""
         _LOGGER.debug("Setting percentage for %s to %d%%", self._attr_name, percentage)
-        
-        if not self._attr_is_on:
-            _LOGGER.warning("Fan %s is off. Turning it on before setting percentage.", self._attr_name)
-            await self.async_turn_on()
-        
         self._attr_percentage = percentage
-        speed_command = f"velocidad_{self.calculate_speed(percentage)}"
-        await self.send_command(speed_command)
-        _LOGGER.info("Fan %s set to speed command: %s", self._attr_name, speed_command)
+        
+        if self._attr_is_on:
+            speed_command = f"velocidad_{self.calculate_speed(percentage)}"
+            await self.send_command(speed_command)
+            _LOGGER.info("Fan %s set to speed command: %s", self._attr_name, speed_command)
+        else :
+            _LOGGER.info("Fan %s is off", self._attr_name)            
 
     def calculate_speed(self, percentage):
-        """Calculate speed based on percentage."""
+        """Calculate speed based on percentage, clamped to SPEED_RANGE."""
         # Calculate the raw speed based on percentage
         raw_speed = percentage_to_ranged_value(SPEED_RANGE, percentage)
         speed = round(raw_speed)
-        
+
+        # Clamp the speed within the defined range
+        speed = max(SPEED_RANGE[0], min(speed, SPEED_RANGE[1]))
+
         _LOGGER.debug("Calculated speed for percentage %d is %d", percentage, speed)
         return speed
+
 
     async def async_set_direction(self, direction: str):
         """Set the direction of the fan."""
@@ -74,7 +77,7 @@ class CustomFan(FanEntity):
         await self.send_command("reverse")
         _LOGGER.info("Fan %s direction set to %s", self._attr_name, direction)
 
-    async def async_turn_on(self, speed=None, percentage=None, preset_mode=None, **kwargs):
+    async def async_turn_on(self, **kwargs):
         """Turn on the fan."""
         _LOGGER.info("Turning on fan: %s", self._attr_name)
         
@@ -86,7 +89,7 @@ class CustomFan(FanEntity):
         _LOGGER.info("Turning off fan: %s", self._attr_name)
         
         self._attr_is_on = False
-        await self.async_set_percentage(self._attr_percentage)
+        await self.send_command("off")
 
     async def send_command(self, command):
         """Send command to Broadlink device."""
