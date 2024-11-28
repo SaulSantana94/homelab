@@ -54,12 +54,9 @@ class CustomFan(FanEntity):
 
     async def async_set_percentage(self, percentage):
         """Set the speed of the fan, as a percentage."""
-        if percentage == 0:
-            self._attr_is_on = False
-            self._attr_percentage = 0
+        if self._attr_is_on == False:
             await self.send_command('off')
         else:
-            self._attr_is_on = True
             self._attr_percentage = percentage
             speed_command = f"velocidad_{self.calculate_speed(percentage)}"
             await self.send_command(speed_command)
@@ -75,13 +72,13 @@ class CustomFan(FanEntity):
 
     async def async_turn_on(self, speed=None, percentage=None, preset_mode=None, **kwargs):
         """Turn on the fan."""
-        if percentage is None:
-            percentage = 17  # Default to lowest speed (1/6 ≈ 17%)
-        await self.async_set_percentage(percentage)
+        self._attr_is_on = True
+        await self.async_set_percentage(self._attr_percentage)
 
     async def async_turn_off(self, **kwargs):
         """Turn the fan off."""
-        await self.async_set_percentage(0)
+        self._attr_is_on = False
+        await self.async_set_percentage(self._attr_percentage)
 
     async def send_command(self, command):
         """Send command to Broadlink device."""
@@ -146,7 +143,9 @@ class CustomFan(FanEntity):
         
         if self._attr_unique_id in commands and command in commands[self._attr_unique_id]:
             encoded_command = commands[self._attr_unique_id][command]
+            if encoded_command.startswith("sc"):
+                encoded_command = encoded_command[2:]  # Remove 'sc' prefix
             await self.hass.async_add_executor_job(
                 self._broadlink_device.send_data, 
-                bytes.fromhex(encoded_command)
+                bytes.fromhex(encoded_command)  # Convert hex string to bytes
             )
