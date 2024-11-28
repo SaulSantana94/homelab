@@ -1,48 +1,51 @@
-from homeassistant.components.fan import FanEntity, SUPPORT_SET_SPEED
-from homeassistant.helpers.entity import Entity
+from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.util.percentage import (
-    ordered_list_item_to_percentage,
-    percentage_to_ordered_list_item,
+    int_states_in_range,
+    percentage_to_ranged_value,
+    ranged_value_to_percentage,
 )
 
-SPEED_LIST = ["off", "speed_1", "speed_2", "speed_3", "speed_4", "speed_5", "speed_6"]
+DOMAIN = "custom_fan"
+SPEED_RANGE = (1, 6)  # 6 speeds
 
-async def async_setup_entry(hass, config_entry, async_add_entities):
+async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+    """Set up the Custom Fan platform."""
     async_add_entities([CustomFan()])
 
 class CustomFan(FanEntity):
     def __init__(self):
-        self._state = False
-        self._speed = SPEED_LIST[0]
-
-    @property
-    def name(self):
-        return "Custom Fan"
-
-    @property
-    def is_on(self):
-        return self._state
+        """Initialize the fan."""
+        self._attr_name = "Custom Fan"
+        self._attr_unique_id = "custom_fan_01"
+        self._attr_is_on = False
+        self._attr_percentage = 0
+        self._attr_supported_features = FanEntityFeature.SET_SPEED
 
     @property
     def percentage(self):
-        return ordered_list_item_to_percentage(SPEED_LIST, self._speed)
+        """Return the current speed percentage."""
+        return self._attr_percentage
 
     @property
     def speed_count(self):
-        return len(SPEED_LIST) - 1
-
-    async def async_turn_on(self, speed=None, percentage=None, preset_mode=None, **kwargs):
-        self._state = True
-        if percentage is not None:
-            self._speed = percentage_to_ordered_list_item(SPEED_LIST, percentage)
-        self.async_write_ha_state()
-
-    async def async_turn_off(self, **kwargs):
-        self._state = False
-        self._speed = SPEED_LIST[0]
-        self.async_write_ha_state()
+        """Return the number of speeds the fan supports."""
+        return int_states_in_range(SPEED_RANGE)
 
     async def async_set_percentage(self, percentage):
-        self._speed = percentage_to_ordered_list_item(SPEED_LIST, percentage)
-        self._state = self._speed != SPEED_LIST[0]
-        self.async_write_ha_state()
+        """Set the speed of the fan, as a percentage."""
+        if percentage == 0:
+            self._attr_is_on = False
+            self._attr_percentage = 0
+        else:
+            self._attr_is_on = True
+            self._attr_percentage = percentage
+
+    async def async_turn_on(self, speed=None, percentage=None, preset_mode=None, **kwargs):
+        """Turn on the fan."""
+        if percentage is None:
+            percentage = 17  # Default to lowest speed (1/6 ≈ 17%)
+        await self.async_set_percentage(percentage)
+
+    async def async_turn_off(self, **kwargs):
+        """Turn the fan off."""
+        await self.async_set_percentage(0)
