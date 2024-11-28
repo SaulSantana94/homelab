@@ -59,7 +59,10 @@ class CustomFan(FanEntity):
 
     def calculate_speed(self, percentage):
         """Calculate speed based on percentage."""
-        speed = percentage_to_ranged_value(SPEED_RANGE, percentage)
+        # Calculate the raw speed based on percentage
+        raw_speed = percentage_to_ranged_value(SPEED_RANGE, percentage)
+        speed = round(raw_speed)
+        
         _LOGGER.debug("Calculated speed for percentage %d is %d", percentage, speed)
         return speed
 
