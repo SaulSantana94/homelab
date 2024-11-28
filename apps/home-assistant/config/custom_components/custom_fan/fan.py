@@ -13,21 +13,21 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     """Set up the Custom Fan platform with multiple entities."""
     try:
         broadlink_device = broadlink.gendevice(0x2737, (BROADLINK_IP, 80), BROADLINK_MAC)
-        broadlink_device.auth()
+        await hass.async_add_executor_job(broadlink_device.auth)
     except Exception as e:
         _LOGGER.error(f"Failed to initialize Broadlink device: {e}")
         return
     
     fans = [
-        CustomFan("ventilador_salon", "ventilador_salon"),
-        CustomFan("ventilador_dormitorio", "ventilador_dormitorio"),
-        CustomFan("ventilador_invitados", "ventilador_invitados"),
-        CustomFan("ventilador_despacho", "ventilador_despacho")
+        CustomFan("ventilador_salon", "ventilador_salon", broadlink_device),
+        CustomFan("ventilador_dormitorio", "ventilador_dormitorio", broadlink_device),
+        CustomFan("ventilador_invitados", "ventilador_invitados", broadlink_device),
+        CustomFan("ventilador_despacho", "ventilador_despacho", broadlink_device)
     ]
     async_add_entities(fans)
 
 class CustomFan(FanEntity):
-    def __init__(self, name, unique_id):
+    def __init__(self, name, unique_id, broadlink_device):
         """Initialize the fan."""
         self._attr_name = name
         self._attr_unique_id = unique_id
@@ -36,8 +36,11 @@ class CustomFan(FanEntity):
         self._attr_supported_features = (
             FanEntityFeature.SET_SPEED
             | FanEntityFeature.DIRECTION
+            | FanEntityFeature.TURN_ON
+            | FanEntityFeature.TURN_OFF
         )
         self._attr_direction = "forward"
+        self._broadlink_device = broadlink_device
 
     @property
     def percentage(self):
@@ -143,4 +146,7 @@ class CustomFan(FanEntity):
         
         if self._attr_unique_id in commands and command in commands[self._attr_unique_id]:
             encoded_command = commands[self._attr_unique_id][command]
-            broadlink_device.send_data(broadlink.decode(encoded_command))
+            await self.hass.async_add_executor_job(
+                self._broadlink_device.send_data, 
+                broadlink.decode(encoded_command)
+            )
