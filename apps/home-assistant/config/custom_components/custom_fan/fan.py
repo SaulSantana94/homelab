@@ -35,6 +35,11 @@ class CustomFan(FanEntity):
         _LOGGER.debug("Initialized fan: %s with unique ID: %s", name, unique_id)
 
     @property
+    def state(self):
+        """Return the state of the fan."""
+        return "on" if self._attr_is_on else "off"
+
+    @property
     def percentage(self):
         """Return the current speed percentage."""
         return self._attr_percentage
@@ -80,16 +85,18 @@ class CustomFan(FanEntity):
     async def async_turn_on(self, **kwargs):
         """Turn on the fan."""
         _LOGGER.info("Turning on fan: %s", self._attr_name)
+        await self.async_set_percentage(self._attr_percentage)
         
         self._attr_is_on = True
-        await self.async_set_percentage(self._attr_percentage)
+        self.async_write_ha_state()  # Notify Home Assistant of the state change
 
     async def async_turn_off(self, **kwargs):
         """Turn the fan off."""
         _LOGGER.info("Turning off fan: %s", self._attr_name)
+        await self.send_command("off")
         
         self._attr_is_on = False
-        await self.send_command("off")
+        self.async_write_ha_state()  # Notify Home Assistant of the state change
 
     async def send_command(self, command):
         """Send command to Broadlink device."""
