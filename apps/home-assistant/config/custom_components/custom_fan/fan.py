@@ -1,7 +1,9 @@
 import broadlink
+import logging
 from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.util.percentage import int_states_in_range, percentage_to_ranged_value
 
+_LOGGER = logging.getLogger(__name__)
 DOMAIN = "custom_fan"
 SPEED_RANGE = (1, 6)  # 6 speeds
 
@@ -32,7 +34,7 @@ class CustomFan(FanEntity):
         self._attr_name = name
         self._attr_unique_id = unique_id
         self._attr_is_on = False
-        self._attr_percentage = 0
+        self._attr_percentage = 20  # Initialize with speed 1
         self._attr_supported_features = (
             FanEntityFeature.SET_SPEED
             | FanEntityFeature.DIRECTION
@@ -143,9 +145,22 @@ class CustomFan(FanEntity):
         
         if self._attr_unique_id in commands and command in commands[self._attr_unique_id]:
             encoded_command = commands[self._attr_unique_id][command]
+            _LOGGER.debug("Command found for unique_id '%s': %s", self._attr_unique_id, command)
+            
+            # Check and remove the 'sc' prefix if present
             if encoded_command.startswith("sc"):
-                encoded_command = encoded_command[2:]  # Remove 'sc' prefix
-            await self.hass.async_add_executor_job(
-                self._broadlink_device.send_data, 
-                bytes.fromhex(encoded_command)  # Convert hex string to bytes
-            )
+                _LOGGER.debug("Removing 'sc' prefix from command: %s", encoded_command)
+                encoded_command = encoded_command[2:]
+            
+            try:
+                # Convert hex string to bytes and send the command
+                _LOGGER.debug("Sending encoded command to device: %s", encoded_command)
+                await self.hass.async_add_executor_job(
+                    self._broadlink_device.send_data,
+                    bytes.fromhex(encoded_command)
+                )
+                _LOGGER.info("Command sent successfully to device for unique_id '%s'", self._attr_unique_id)
+            except Exception as e:
+                _LOGGER.error("Failed to send command '%s' for unique_id '%s': %s", command, self._attr_unique_id, e)
+        else:
+            _LOGGER.warning("Command '%s' not found for unique_id '%s'", command, self._attr_unique_id)
