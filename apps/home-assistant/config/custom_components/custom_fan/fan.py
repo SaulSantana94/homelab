@@ -7,14 +7,17 @@ SPEED_RANGE = (1, 6)  # 6 speeds
 
 # Broadlink device setup (replace with your actual IP and MAC)
 BROADLINK_IP = "192.168.1.68"  # Replace with your Broadlink device IP
-BROADLINK_MAC = "E8:16:56:A1:AE:F2"  # Replace with your Broadlink device MAC
-
-# Connect to Broadlink device
-broadlink_device = broadlink.gendevice(0x2737, (BROADLINK_IP, 80), BROADLINK_MAC)  # Replace with correct device type
-broadlink_device.auth()
+BROADLINK_MAC = "E81656A1AEF2"  # Replace with your Broadlink device MAC
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up the Custom Fan platform with multiple entities."""
+    try:
+        broadlink_device = broadlink.gendevice(0x2737, (BROADLINK_IP, 80), BROADLINK_MAC)
+        broadlink_device.auth()
+    except Exception as e:
+        _LOGGER.error(f"Failed to initialize Broadlink device: {e}")
+        return
+    
     fans = [
         CustomFan("ventilador_salon", "ventilador_salon"),
         CustomFan("ventilador_dormitorio", "ventilador_dormitorio"),
