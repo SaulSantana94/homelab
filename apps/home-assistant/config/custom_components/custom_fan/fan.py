@@ -82,10 +82,15 @@ class CustomFan(FanEntity):
         await self.send_command("reverse")
         _LOGGER.info("Fan %s direction set to %s", self._attr_name, direction)
 
-    async def async_turn_on(self, **kwargs):
+    async def async_turn_on(self, percentage: int = None, preset_mode: str = None, **kwargs):
         """Turn on the fan."""
         _LOGGER.info("Turning on fan: %s", self._attr_name)
-        await self.async_set_percentage(self._attr_percentage)
+        
+        if percentage is not None:
+            _LOGGER.debug("Received percentage for %s: %d%%", self._attr_name, percentage)
+            await self.async_set_percentage(percentage)
+        else :
+            await self.async_set_percentage(self._attr_percentage)
         
         self._attr_is_on = True
         self.async_write_ha_state()  # Notify Home Assistant of the state change
