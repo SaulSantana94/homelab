@@ -19,7 +19,11 @@ class CustomFan(FanEntity):
         self._attr_unique_id = "custom_fan_01"
         self._attr_is_on = False
         self._attr_percentage = 0
-        self._attr_supported_features = FanEntityFeature.SET_SPEED
+        self._attr_supported_features = (
+            FanEntityFeature.SET_SPEED
+            | FanEntityFeature.TURN_ON
+            | FanEntityFeature.TURN_OFF
+        )
 
     @property
     def percentage(self):
