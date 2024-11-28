@@ -8,6 +8,7 @@ SPEED_RANGE = (1, 6)  # 6 speeds
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up the Custom Fan platform with multiple entities."""
+    _LOGGER.debug("Setting up custom fan platform.")
     fans = [
         CustomFan("ventilador_salon", "ventilador_salon"),
         CustomFan("ventilador_dormitorio", "ventilador_dormitorio"),
@@ -15,6 +16,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         CustomFan("ventilador_despacho", "ventilador_despacho")
     ]
     async_add_entities(fans)
+    _LOGGER.info("Custom fan platform setup complete with %d fans.", len(fans))
 
 class CustomFan(FanEntity):
     def __init__(self, name, unique_id):
@@ -30,6 +32,7 @@ class CustomFan(FanEntity):
             | FanEntityFeature.TURN_OFF
         )
         self._attr_direction = "forward"
+        _LOGGER.debug("Initialized fan: %s with unique ID: %s", name, unique_id)
 
     @property
     def percentage(self):
@@ -43,29 +46,42 @@ class CustomFan(FanEntity):
 
     async def async_set_percentage(self, percentage):
         """Set the speed of the fan, as a percentage."""
-        if self._attr_is_on == False:
-            await self.send_command('off')
-        else:
-            self._attr_percentage = percentage
-            speed_command = f"velocidad_{self.calculate_speed(percentage)}"
-            await self.send_command(speed_command)
+        _LOGGER.debug("Setting percentage for %s to %d%%", self._attr_name, percentage)
+        
+        if not self._attr_is_on:
+            _LOGGER.warning("Fan %s is off. Turning it on before setting percentage.", self._attr_name)
+            await self.async_turn_on()
+        
+        self._attr_percentage = percentage
+        speed_command = f"velocidad_{self.calculate_speed(percentage)}"
+        await self.send_command(speed_command)
+        _LOGGER.info("Fan %s set to speed command: %s", self._attr_name, speed_command)
 
     def calculate_speed(self, percentage):
         """Calculate speed based on percentage."""
-        return percentage_to_ranged_value(SPEED_RANGE, percentage)
+        speed = percentage_to_ranged_value(SPEED_RANGE, percentage)
+        _LOGGER.debug("Calculated speed for percentage %d is %d", percentage, speed)
+        return speed
 
     async def async_set_direction(self, direction: str):
         """Set the direction of the fan."""
+        _LOGGER.debug("Setting direction for %s to %s", self._attr_name, direction)
+        
         self._attr_direction = direction
         await self.send_command("reverse")
+        _LOGGER.info("Fan %s direction set to %s", self._attr_name, direction)
 
     async def async_turn_on(self, speed=None, percentage=None, preset_mode=None, **kwargs):
         """Turn on the fan."""
+        _LOGGER.info("Turning on fan: %s", self._attr_name)
+        
         self._attr_is_on = True
         await self.async_set_percentage(self._attr_percentage)
 
     async def async_turn_off(self, **kwargs):
         """Turn the fan off."""
+        _LOGGER.info("Turning off fan: %s", self._attr_name)
+        
         self._attr_is_on = False
         await self.async_set_percentage(self._attr_percentage)
 
@@ -78,4 +94,11 @@ class CustomFan(FanEntity):
             "num_repeats": 1,
             "delay_secs": 0.4
         }
-        await self.hass.services.async_call("remote", "send_command", service_data)
+        
+        _LOGGER.debug("Sending command '%s' to device '%s'", command, self._attr_unique_id)
+        
+        try:
+            await self.hass.services.async_call("remote", "send_command", service_data)
+            _LOGGER.info("Command '%s' sent successfully to device '%s'", command, self._attr_unique_id)
+        except Exception as e:
+            _LOGGER.error("Failed to send command '%s' to device '%s': %s", command, self._attr_unique_id, e)
