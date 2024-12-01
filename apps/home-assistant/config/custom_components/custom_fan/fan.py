@@ -64,6 +64,10 @@ class CustomFan(FanEntity):
                 self.async_write_ha_state()
 
     @property
+    def icon(self):
+        return "local:custom_fan"
+
+    @property
     def state(self):
         """Return the state of the fan."""
         return "on" if self._attr_is_on else "off"
