@@ -61,6 +61,7 @@ class CustomFan(FanEntity):
             new_percentage = new_state.attributes.get('percentage')
             if new_percentage is not None and new_percentage != self._attr_percentage:
                 await self.async_set_percentage(new_percentage)
+                self.async_write_ha_state()
 
     @property
     def state(self):
