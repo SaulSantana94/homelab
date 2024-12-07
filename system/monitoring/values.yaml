@@ -102,10 +102,10 @@ grafana:
   sidecar:
     resources:
       limits:
-        memory: 128Mi
+        memory: 256Mi
       requests:
         cpu: 10m
-        memory: 64Mi
+        memory: 128Mi
     dashboards:
       enabled: true
       label: grafana_dashboard
@@ -190,6 +190,10 @@ prometheus-node-exporter:
           sourceLabels:
             - __meta_kubernetes_pod_node_name
           targetLabel: instance
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
 ## smart disk data metrics
 #  extraArgs:
 #    - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
