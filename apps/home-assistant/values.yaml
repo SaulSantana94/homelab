@@ -11,7 +11,7 @@ app-template:
         hass:
           image:
             repository: ghcr.io/onedr0p/home-assistant
-            tag: 2024.11.3@sha256:f45f502b1738e46eb435fbc8947cdcc2574f3713b156c6738129ea2ea9b49018
+            tag: 2024.12.3@sha256:09bcc0786ef5a57af1e0fff16bebfd6bd0b969d2a07e06127e12b41ab740a3b4
           env:
             TZ: Europe/Madrid
             POSTGRES_USER:
@@ -97,7 +97,7 @@ app-template:
         whisper:
           image:
             repository: rhasspy/wyoming-whisper
-            tag: 2.2.0
+            tag: 2.4.0
           args:
             - --model
             - large-v3
