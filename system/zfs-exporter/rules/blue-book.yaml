@@ -89,13 +89,13 @@
   # TODO: clean this because the second part is a workaround for missing data points
   expr: |
     (
-        (zfs_dataset_snapshot_bytes / zfs_dataset_used_by_dataset_bytes > 2 and zfs_dataset_snapshot_bytes > 100e6)
+        (zfs_dataset_snapshot_bytes / zfs_dataset_used_by_dataset_bytes > 2.5 and zfs_dataset_snapshot_bytes > 100e6)
         or
         (
             (
                 predict_linear(zfs_dataset_snapshot_bytes[5m], 60 * 5) /
                 predict_linear(zfs_dataset_used_by_dataset_bytes[5m], 60 * 5
-            ) > 2
+            ) > 2.5
           and predict_linear(zfs_dataset_snapshot_bytes[5m], 60 * 5)  > 100e6)
         )
     )
@@ -103,5 +103,5 @@
   labels:
     severity: warning
   annotations:
-    summary: The snapshots of the dataset {{ $labels.filesystem }} at {{ $labels.hostname }} use more than two times the data space
-    description: "The snapshots of the dataset {{ $labels.filesystem }} at {{ $labels.hostname }} use more than two times the data space\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    summary: The snapshots of the dataset {{ $labels.filesystem }} at {{ $labels.hostname }} use more than two and a half times the data space
+    description: "The snapshots of the dataset {{ $labels.filesystem }} at {{ $labels.hostname }} use more than two and a half times the data space\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
