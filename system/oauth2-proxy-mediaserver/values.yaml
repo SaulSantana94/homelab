@@ -28,6 +28,7 @@ oauth2-proxy:
       m.bolfer@gmail.com
       Alemartmart.92@gmail.com
       georgepogan1993@gmail.com
+      pizarroservanlucia@gmail.com
 
   ingress:
     enabled: true
