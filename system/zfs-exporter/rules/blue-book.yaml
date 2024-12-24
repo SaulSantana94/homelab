@@ -2,7 +2,15 @@
 - record: zfs_dataset_snapshot_bytes
   # This expression is not real for datasets that have children, so we're going to create this metric only for those datasets that don't have children
   # I'm also going to assume that the datasets that have children don't hold data or less than 500MB
-  expr: zfs_dataset_used_bytes - zfs_dataset_used_by_dataset_bytes and zfs_dataset_used_by_dataset_bytes > 500e6
+  expr: |
+    (
+      zfs_dataset_used_by_dataset_bytes > 500e6
+      and (zfs_dataset_used_bytes - zfs_dataset_used_by_dataset_bytes)
+    ) or
+    (
+      zfs_dataset_used_by_dataset_bytes <= 500e6
+      and last_over_time(zfs_dataset_used_by_dataset_bytes[1d]) > 500e6
+    )
 
 - alert: ZfsDatasetWithNoSnapshotsError
   expr: zfs_dataset_used_by_dataset_bytes{type="filesystem"} > 200e3 unless on (hostname,filesystem) count by (hostname, filesystem, job) (zfs_dataset_used_bytes{type="snapshot"}) > 1
