@@ -8,8 +8,8 @@
       and (zfs_dataset_used_bytes - zfs_dataset_used_by_dataset_bytes)
     ) or
     (
-      zfs_dataset_used_by_dataset_bytes < 500e6
-      and last_over_time(zfs_dataset_snapshot_bytes) > 1      
+      zfs_dataset_used_by_dataset_bytes <= 500e6
+      and last_over_time(zfs_dataset_snapshot_bytes[1d]) > 1
       and 1
     )
 
