@@ -85,11 +85,34 @@ minio:
       - "s3:GetBucketLocation"
       - "s3:ListBucket"
       - "s3:ListBucketMultipartUploads"
+  - name: dibolmaReadWritePolicy
+    statements:
+    - effect: Allow
+      resources:
+      - 'arn:aws:s3:::dibolma/*'
+      actions:
+      - "s3:AbortMultipartUpload"
+      - "s3:GetObject"
+      - "s3:DeleteObject"
+      - "s3:PutObject"
+      - "s3:ListMultipartUploadParts"
+    - resources:
+      - 'arn:aws:s3:::dibolma/'
+      actions:
+      - "s3:CreateBucket"
+      - "s3:DeleteBucket"
+      - "s3:GetBucketLocation"
+      - "s3:ListBucket"
+      - "s3:ListBucketMultipartUploads"
   users:
   - accessKey: pando
     existingSecret: cross-backups-users
     existingSecretKey: pandoPassword
     policy: pandoReadWritePolicy
+  - accessKey: dibolma
+    existingSecret: cross-backups-users
+    existingSecretKey: dibolmaPassword
+    policy: dibolmaReadWritePolicy
   ## Username, password and policy to be assigned to the user
   ## Default policies are [readonly|readwrite|writeonly|consoleAdmin|diagnostics]
   ## Add new policies as explained here https://min.io/docs/minio/kubernetes/upstream/administration/identity-access-management.html#access-management
@@ -106,6 +129,14 @@ minio:
 
   buckets:
   - name: pando
+    # Policy to be set on the
+    # bucket [none|download|upload|public]
+    policy: none
+    # Purge if bucket exists already
+    purge: false
+    versioning: false
+    objectlocking: false
+  - name: dibolma
     # Policy to be set on the
     # bucket [none|download|upload|public]
     policy: none
