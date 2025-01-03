@@ -12,5 +12,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 4Ti
+      storage: 8Ti
   storageClassName: backups-zfspv  # Add this line to specify the new storage class
