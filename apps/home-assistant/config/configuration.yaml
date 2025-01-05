@@ -4,6 +4,8 @@ default_config:
 homeassistant:
   # Load packages
   packages: !include_dir_named integrations
+  media_dirs:
+    media: /media
 
 script: !include_dir_merge_named script
 
