@@ -33,6 +33,6 @@ fan:
 
 google_assistant:
   project_id: dbcloud-423717  # Replace with your actual Google Cloud project ID
-  service_account: !include SERVICE_ACCOUNT.JSON  # Replace with your actual service account JSON file
+  service_account: !include /config/SERVICE_ACCOUNT.JSON  # Replace with your actual service account JSON file
   report_state: true
   expose_by_default: true
