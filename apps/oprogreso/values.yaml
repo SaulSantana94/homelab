@@ -81,11 +81,3 @@ app-template:
       runAsGroup: 991
       fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
-
-  persistence:
-    downloads:
-      enabled: true
-      type: hostPath
-      hostPath: /datasets/music
-      globalMounts:
-      - path: /app/Downloads
