@@ -26,32 +26,6 @@ app-template:
             limits:
               memory: 4000Mi
 
-    worker:
-      labels:
-        backup/retain: quaterly
-      type: statefulset
-      containers:
-        worker:
-          image:
-            repository: bolferdocker/oprogreso
-            tag: latest
-          command: ["python", "scheduled_task.py"]
-          env:
-            TZ: Europe/Madrid
-            POSTGRES_DB: oprogreso
-            POSTGRES_HOST: oprogreso-postgres
-            POSTGRES_PORT: 5432
-          envFrom:
-          - secretRef:
-              name: oprogreso-secrets
-         
-          resources:
-            requests:
-              cpu: 500m
-              memory: 1800Mi
-            limits:
-              memory: 4000Mi
-
   service:
     oprogreso:
       controller: oprogreso
