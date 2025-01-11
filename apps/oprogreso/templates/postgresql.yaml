@@ -1,0 +1,45 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: oprogreso-postgres
+  labels:
+    backup/retain: weekly
+spec:
+  teamId: oprogreso
+
+  numberOfInstances: 1
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  volume:
+    # We have to manually define label velero.io/exclude-from-backup=true
+    # https://github.com/zalando/postgres-operator/issues/2222
+    size: 6Gi
+
+  users:
+    oprogreso:
+      - superuser
+      - createdb
+  databases:
+    oprogreso: oprogreso
+
+  postgresql:
+    version: "16"
+    parameters:
+      archive_mode: "off"
+      max_connections: "4"
+      shared_buffers: 32MB
+      log_checkpoints: "off"
+      log_connections: "off"
+      log_disconnections: "off"
+      log_lock_waits: "off"
+      log_min_duration_statement: "-1"
+      log_statement: none
+      # ZFS settings:
+      full_page_writes: "off"
