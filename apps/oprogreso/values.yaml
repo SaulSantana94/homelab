@@ -61,8 +61,8 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        nginx.ingress.kubernetes.io/auth-url: https://oprogreso.auth.dbcloud.org/oauth2/auth
-        nginx.ingress.kubernetes.io/auth-signin: https://oprogreso.auth.dbcloud.org/oauth2/start
+        nginx.ingress.kubernetes.io/auth-url: https://mediaserver.auth.dbcloud.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://mediaserver.auth.dbcloud.org/oauth2/start
       hosts:
       - host: &host oprogreso.dbcloud.org
         paths:
