@@ -8,13 +8,14 @@ app-template:
         oprogreso:
           image:
             repository: bolferdocker/oprogreso
-            tag: 0.0.1
+            tag: 0.0.2
 
           env:
             TZ: Europe/Madrid
             POSTGRES_DB: oprogreso
             POSTGRES_HOST: oprogreso-postgres
             POSTGRES_PORT: 5432
+            DEBUG: False
           envFrom:
           - secretRef:
               name: oprogreso-secrets
