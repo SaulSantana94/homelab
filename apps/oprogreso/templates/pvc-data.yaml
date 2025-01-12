@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: oprogreso
+    app.kubernetes.io/name: oprogreso
+    backup: oprogreso-zfs
+    backup/retain: quaterly
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+  name: data-oprogreso
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

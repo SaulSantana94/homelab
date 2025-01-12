@@ -82,3 +82,10 @@ app-template:
       runAsGroup: 991
       fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
+
+  persistence:
+    data:
+      enabled: true
+      globalMounts:
+      - path: /static
+      existingClaim: data-oprogreso
