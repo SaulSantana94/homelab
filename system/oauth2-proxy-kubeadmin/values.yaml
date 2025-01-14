@@ -35,6 +35,7 @@ oauth2-proxy:
   extraArgs:
     provider: keycloak
     provider-display-name: keycloak
+    oidc-issuer-url: https://keycloak.dbcloud.org/realms/master
     login-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/auth
     redeem-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/token
     profile-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/userinfo
