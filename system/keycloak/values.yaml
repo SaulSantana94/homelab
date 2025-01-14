@@ -56,16 +56,16 @@ extraVolumes:
 - name: shared
   emptyDir: {}
 
-- name: keycloak-providers-pvc
+- name: keycloak-providers
   persistentVolumeClaim:
-    claimName: keycloak-providers-pvc
+    claimName: keycloak-providers
 
 extraVolumeMounts:
 - mountPath: /shared
   name: shared
 
 - mountPath: /opt/bitnami/keycloak/providers
-  name: keycloak-providers-pvc
+  name: keycloak-providers
   subPath: providers
 
 replicaCount: 1
