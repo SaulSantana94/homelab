@@ -5,6 +5,7 @@ namespace: keycloak
 resources:
   - resources/external-secrets.yaml
   - resources/postgresql.yaml
+  - templates/pvc.yaml
   
 helmCharts:
   - name: keycloak
