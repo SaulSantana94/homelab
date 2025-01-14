@@ -8,7 +8,7 @@ metadata:
     backup/retain: quaterly
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
-  name: providers-keycloak
+  name: keycloak-providers-pvc
 spec:
   accessModes:
     - ReadWriteOnce
