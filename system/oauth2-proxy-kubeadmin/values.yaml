@@ -33,8 +33,14 @@ oauth2-proxy:
       secretName: oauth2-proxy-kubeadmin-tls-certificate
 
   extraArgs:
-    provider: google
-    provider-display-name: Google
+    provider: keycloak
+    provider-display-name: keycloak
+    login-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/auth
+    redeem-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/token
+    profile-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/userinfo
+    validate-url: https://keycloak.dbcloud.org/auth/realms/master/protocol/openid-connect/userinfo
+    #keycloak-group: <first_allowed_user_group>
+    #keycloak-group: <second_allowed_user_group>
     skip-provider-button: "false"
     pass-basic-auth: "false"
     cookie-domain: .dbcloud.org
