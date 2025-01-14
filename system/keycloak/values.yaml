@@ -58,7 +58,7 @@ extraVolumes:
 
 - name: providers-keycloak
   persistentVolumeClaim:
-    claimName: keycloak-providers-pvc
+    claimName: keycloak-providers
 
 extraVolumeMounts:
 - mountPath: /shared
