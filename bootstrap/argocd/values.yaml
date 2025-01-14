@@ -9,7 +9,7 @@ argo-cd:
         issuer: https://keycloak.dbcloud.org/realms/master
         clientID: argocd
         clientSecret: $oidc.keycloak.clientSecret
-        requestedScopes: ["openid", "profile", "email", "groups"]
+        requestedScopes: ["openid", "profile", "email", "groups", "argocd-access"]
 
       # Disable git polling
       timeout.reconciliation: "0"
