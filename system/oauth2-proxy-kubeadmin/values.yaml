@@ -1,22 +1,5 @@
 oauth2-proxy:
-
-  config:
-    existingSecret: oauth2-proxy-kubeadmin
-    # Override configFile to disable all email domains to be used
-    configFile: |-
-      email_domains = []
-      upstreams = [ "file:///dev/null" ]
-
   replicaCount: 1
-
-  # Won't work if email_domains = "*"
-  authenticatedEmailsFile:
-    enabled: true
-    # One email per line
-    restricted_access: |
-      daniel.boluda.fdez@gmail.com
-      daniel.boludafernandez@holcim.com
-
   ingress:
     enabled: true
     className: nginx-external
@@ -24,21 +7,44 @@ oauth2-proxy:
       external-dns.alpha.kubernetes.io/enabled: "true"
       external-dns.alpha.kubernetes.io/target: dbcloud.org
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+      nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     path: /oauth2
     hosts:
-    - &host kubeadmin.auth.dbcloud.org
+      - &host kubeadmin.auth.dbcloud.org
     tls:
-    - hosts:
-      - *host
-      secretName: oauth2-proxy-kubeadmin-tls-certificate
+      - hosts:
+          - *host
+        secretName: oauth2-proxy-kubeadmin-tls-certificate
+
+  proxyVarsAsSecrets: true
+
+  deploymentAnnotations:
+    secret.reloader.stakater.com/reload: oauth2-proxy-kubeadmin
+
+  config:
+    existingSecret: oauth2-proxy-kubeadmin
 
   extraArgs:
-    provider: google
-    provider-display-name: Google
-    skip-provider-button: "false"
-    pass-basic-auth: "false"
+    provider: oidc
+    provider-display-name: Protected by Kanidm
+    set-xauthrequest: true
+    # Add X-Auth-Request-Access-Token to NginX response
+    pass-access-token: true
+    set-authorization-header: true
+    pass-authorization-header: true
+    oidc-issuer-url:  https://keycloak.dbcloud.org/realms/master/protocol/openid-connect
+    code-challenge-method: S256
+    skip-provider-button: true
+    reverse-proxy: true
+    email-domain: "*"
     cookie-domain: .dbcloud.org
     whitelist-domain: .dbcloud.org
+    cookie-refresh: 24h
+    cookie-expire: 168h
+    cookie-secure: true
+    scope: "openid profile email groups"
+    ## dex needs to support RFC2307bis
+    # allowed-groups: wheel
 
   resources:
     requests:
