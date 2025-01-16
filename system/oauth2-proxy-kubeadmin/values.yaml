@@ -26,7 +26,7 @@ oauth2-proxy:
 
   extraArgs:
     provider: oidc
-    provider-display-name: Protected by Kanidm
+    provider-display-name: Protected by Keycloak
     set-xauthrequest: true
     # Add X-Auth-Request-Access-Token to NginX response
     pass-access-token: true
@@ -43,6 +43,8 @@ oauth2-proxy:
     cookie-expire: 168h
     cookie-secure: true
     scope: "openid profile email groups"
+    session-store-type: redis
+    redis-connection-url: redis://redis:6379
     ## dex needs to support RFC2307bis
     # allowed-groups: wheel
 
@@ -52,3 +54,36 @@ oauth2-proxy:
       memory: 14Mi
     limits:
       memory: 32Mi
+
+app-template:
+  global:
+    fullnameOverride: redis
+  controllers:
+    redis:
+      containers:
+        redis:
+          image:
+            repository: redis
+            tag: 7.4.2
+
+          command:
+            - sh
+          args:
+            - -c
+            - >-
+              redis-server
+          resources:
+            requests:
+              cpu: 23m
+              memory: 64M
+            limits:
+              cpu: 500m
+              memory: 64M
+
+  service:
+    redis:
+      controller: redis
+      ports:
+        redis:
+          enabled: true
+          port: 6379
