@@ -7,7 +7,7 @@ metadata:
 spec:
   teamId: keycloak
 
-  numberOfInstances: 0
+  numberOfInstances: 1
 
   resources:
     requests:
