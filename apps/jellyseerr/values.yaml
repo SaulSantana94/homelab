@@ -47,8 +47,6 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        #nginx.ingress.kubernetes.io/auth-url: https://mediaserver.auth.dbcloud.org/oauth2/auth
-        #nginx.ingress.kubernetes.io/auth-signin: https://mediaserver.auth.dbcloud.org/oauth2/start
         nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
         nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
