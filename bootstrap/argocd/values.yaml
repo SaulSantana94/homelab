@@ -65,8 +65,6 @@ argo-cd:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         external-dns.alpha.kubernetes.io/enabled: "true"
-        nginx.ingress.kubernetes.io/auth-url: https://kubeadmin.auth.dbcloud.org/oauth2/auth
-        nginx.ingress.kubernetes.io/auth-signin: https://kubeadmin.auth.dbcloud.org/oauth2/start
       hostname: argocd.internal.dbcloud.org
       tls: true
     metrics: &metrics
