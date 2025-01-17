@@ -68,7 +68,7 @@ extraVolumeMounts:
   name: keycloak-providers
   subPath: providers
 
-replicaCount: 0
+replicaCount: 1
 resources:
   requests:
     memory: "512Mi"
