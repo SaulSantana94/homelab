@@ -1,5 +1,5 @@
 apiVersion: v2
-name: oauth2-proxy-kubeadmin
+name: oauth2-proxy
 version: 0.0.0
 dependencies:
   - name: oauth2-proxy

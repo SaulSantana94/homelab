@@ -10,19 +10,19 @@ oauth2-proxy:
       nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     path: /oauth2
     hosts:
-      - &host kubeadmin.auth.dbcloud.org
+      - &host auth.dbcloud.org
     tls:
       - hosts:
           - *host
-        secretName: oauth2-proxy-kubeadmin-tls-certificate
+        secretName: oauth2-proxy-tls-certificate
 
   proxyVarsAsSecrets: true
 
   deploymentAnnotations:
-    secret.reloader.stakater.com/reload: oauth2-proxy-kubeadmin
+    secret.reloader.stakater.com/reload: oauth2-proxy
 
   config:
-    existingSecret: oauth2-proxy-kubeadmin
+    existingSecret: oauth2-proxy
 
   extraArgs:
     provider: oidc
