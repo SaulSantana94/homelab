@@ -4,10 +4,14 @@ ingress-nginx:
       timeoutSeconds: 30
 
     replicaCount: 2
+    extraArgs:
+      # Disable until PR merged: https://github.com/kubernetes/ingress-nginx/pull/12626
+      enable-annotation-validation: "false"
 
     config:
       # auto value takes all nodes in cgroups v2 (dell_v2)
       worker-processes: 1
+      hsts: "true"
       http-snippet: |
         proxy_cache_path /dev/shm levels=1:2 keys_zone=static-cache:2m max_size=300m inactive=7d use_temp_path=off;
         proxy_cache_key $scheme$proxy_host$request_uri;
@@ -15,6 +19,12 @@ ingress-nginx:
         proxy_cache_use_stale updating;
       use-forwarded-headers: true
       allow-snippet-annotations: true
+      annotations-risk-level: Critical
+      enable-brotli: "true"
+      brotli-level: "6"
+      # Added text/html and application/vnd.api+json + default ones:
+      # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-types
+      brotli-types: text/html and application/vnd.api+json application/xml+rss application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component
 
     ingressClassResource:
       name: nginx-external
@@ -72,15 +82,8 @@ ingress-nginx:
         annotations: {}
 
     extraVolumeMounts:
-    - name: dshm
-      mountPath: /dev/shm
-
-    extraVolumes:
-    - name: dshm
-      emptyDir:
-        medium: Memory
-        # not working until v1.21? https://github.com/kubernetes/kubernetes/issues/63126
-        sizeLimit: 303Mi
+      - name: dshm
+        mountPath: /dev/shm
 
     metrics:
       enabled: true
@@ -88,3 +91,10 @@ ingress-nginx:
         enabled: true
         additionalLabels:
           release: monitoring
+
+    extraVolumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          # not working until v1.21? https://github.com/kubernetes/kubernetes/issues/63126
+          sizeLimit: 303Mi
