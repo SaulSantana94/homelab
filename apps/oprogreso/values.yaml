@@ -8,7 +8,7 @@ app-template:
         oprogreso:
           image:
             repository: bolferdocker/oprogreso
-            tag: 0.0.6
+            tag: 0.0.7
 
           env:
             TZ: Europe/Madrid
@@ -19,7 +19,7 @@ app-template:
           envFrom:
           - secretRef:
               name: oprogreso-secrets
-         
+
           resources:
             requests:
               cpu: 500m
