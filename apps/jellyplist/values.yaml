@@ -12,7 +12,7 @@ app-template:
 
           env:
             TZ: Europe/Madrid
-            JELLYFIN_SERVER_URL: http://192.168.178.14:8096  # local Jellyfin server
+            JELLYFIN_SERVER_URL: https://pelis.dbcloud.org
             JELLYPLIST_DB_HOST: jellyplist-postgres #Hostname of the db Container
             MUSIC_STORAGE_BASE_PATH: '/music' # The base path where your music library is located. Must be the same value as your music library in jellyfin
           envFrom:
@@ -26,12 +26,41 @@ app-template:
             limits:
               memory: 4000Mi
 
+
+    redis:
+      containers:
+        redis:
+          image:
+            repository: redis
+            tag: 7.4.2
+
+          command:
+            - sh
+          args:
+            - -c
+            - >-
+              redis-server
+          resources:
+            requests:
+              cpu: 23m
+              memory: 64M
+            limits:
+              cpu: 500m
+              memory: 64M
+
   service:
     jellyplist:
       controller: jellyplist
       ports:
         http:
           port: 8000
+    
+    redis:
+      controller: redis
+      ports:
+        redis:
+          enabled: true
+          port: 6379
 
   ingress:
     jellyplist:
