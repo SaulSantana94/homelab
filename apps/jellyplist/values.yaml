@@ -13,7 +13,7 @@ app-template:
           env:
             TZ: Europe/Madrid
             JELLYFIN_SERVER_URL: http://192.168.178.14:8096  # local Jellyfin server
-            JELLYPLIST_DB_HOST: postgres-jellyplist #Hostname of the db Container
+            JELLYPLIST_DB_HOST: jellyplist-postgres #Hostname of the db Container
             MUSIC_STORAGE_BASE_PATH: '/storage/media/music' # The base path where your music library is located. Must be the same value as your music library in jellyfin
           envFrom:
           - secretRef:
