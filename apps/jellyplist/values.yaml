@@ -84,11 +84,11 @@ app-template:
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
-    data:
-      enabled: true
-      globalMounts:
-      - path: /jellyplist
-      existingClaim: data-jellyplist
+    #data:
+    #  enabled: true
+    #  globalMounts:
+    #  - path: /jellyplist
+    #  existingClaim: data-jellyplist
     music:
       enabled: true
       type: hostPath
