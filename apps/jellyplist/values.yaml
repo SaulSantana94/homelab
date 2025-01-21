@@ -27,6 +27,12 @@ app-template:
             limits:
               memory: 4000Mi
 
+      podOptions:
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          fsGroup: 0
+          fsGroupChangePolicy: "OnRootMismatch"
 
     redis:
       containers:
