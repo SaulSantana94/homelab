@@ -14,7 +14,7 @@ app-template:
             TZ: Europe/Madrid
             JELLYFIN_SERVER_URL: https://pelis.dbcloud.org
             JELLYPLIST_DB_HOST: jellyplist-postgres #Hostname of the db Container
-            REDIS_URL: redis:6379
+            REDIS_URL: redis
             MUSIC_STORAGE_BASE_PATH: '/music' # The base path where your music library is located. Must be the same value as your music library in jellyfin
           envFrom:
           - secretRef:
