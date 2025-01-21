@@ -125,3 +125,8 @@ app-template:
       globalMounts:
       - path: /music
         readOnly: false
+    data:
+      enabled: true
+      redis:
+      - path: /data
+      existingClaim: data-redis
