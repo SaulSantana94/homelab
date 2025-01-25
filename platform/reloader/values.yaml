@@ -1,0 +1,6 @@
+reloader:
+  reloader:
+    podMonitor:
+      enabled: true
+      labels:
+        release: monitoring
