@@ -7,8 +7,8 @@ app-template:
       containers:
         jellyplist:
           image:
-            repository: bolferdocker/jellyplist
-            tag: 0.0.0
+            repository: ghcr.io/kamilkosek/jellyplist
+            tag: v0.1.9
 
           env:
             TZ: Europe/Madrid
