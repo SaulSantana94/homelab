@@ -53,7 +53,7 @@ app-template:
       controller: jellyplist
       ports:
         http:
-          port: 8000
+          port: 5055
     
     redis:
       controller: redis
