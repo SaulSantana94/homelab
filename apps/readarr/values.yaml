@@ -35,7 +35,7 @@ app-template:
       controller: readarr
       ports:
         http:
-          port: 7878
+          port: 8787
 
   ingress:
     readarr:
@@ -93,9 +93,9 @@ app-template:
       globalMounts:
       - path: /config
       existingClaim: config-readarr
-    peliculas:
+    books:
       enabled: true
       type: hostPath
-      hostPath: /datasets/peliculas
+      hostPath: /datasets/books
       globalMounts:
-      - path: /datasets/peliculas
+      - path: /datasets/books
