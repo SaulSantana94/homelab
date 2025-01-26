@@ -180,6 +180,14 @@ app-template:
       globalMounts:
         - path: /datasets/music/download
 
+    books:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/books/download
+      globalMounts:
+      - path: /datasets/books/download
+        readOnly: false
+
     download:
       enabled: true
       type: hostPath
