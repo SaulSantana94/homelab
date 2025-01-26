@@ -127,3 +127,10 @@ app-template:
       globalMounts:
       - path: /music
         readOnly: false
+    books:
+      enabled: true
+      type: hostPath
+      hostPath: /datasets/books
+      globalMounts:
+      - path: /datasets/books
+        readOnly: false
