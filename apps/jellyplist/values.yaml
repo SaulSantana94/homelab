@@ -7,14 +7,15 @@ app-template:
       containers:
         jellyplist:
           image:
-            repository: ghcr.io/kamilkosek/jellyplist
-            tag: v0.1.9
+            repository: bolferdocker/jellyplist
+            tag: 0.0.0
 
           env:
             TZ: Europe/Madrid
             JELLYFIN_SERVER_URL: https://pelis.dbcloud.org
             JELLYPLIST_DB_HOST: jellyplist-postgres #Hostname of the db Container
             REDIS_URL: redis://jellyplist-redis:6379/0
+            REDIS_HOST: jellyplist-redis
             MUSIC_STORAGE_BASE_PATH: '/music' # The base path where your music library is located. Must be the same value as your music library in jellyfin
           envFrom:
           - secretRef:
