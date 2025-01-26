@@ -29,7 +29,8 @@ app-template:
               memory: 4000Mi
 
     redis:
-      name: redis
+      metadata:
+          name: redis
       containers:
         redis:
           image:
