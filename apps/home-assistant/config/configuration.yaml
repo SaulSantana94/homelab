@@ -43,6 +43,8 @@ alexa:
         - switch.luz_despacho
         - switch.luz_ventilador_salon
         - switch.luz_lampara_salon
+        - switch.luz_izquierda_sofa
+        - switch.luz_derecha_sofa
         - cover.persiana_salon
         - cover.persiana_invitados
         - cover.persiana_dormitorio
@@ -54,6 +56,14 @@ alexa:
         - binary_sensor.puerta_entrada
         - switch.riego_terraza
     entity_config:
+      switch.luz_izquierda_sofa:
+        name: "Lámpara izquierda del sofa del salón"
+        description: "Controla la luz de la lámpara izquierda del sofa del salón"
+        display_categories: LIGHT
+      switch.luz_derecha_sofa:
+        name: "Lámpara derecha del sofa del salón"
+        description: "Controla la luz de la lámpara derecha del sofa del salón"
+        display_categories: LIGHT
       switch.luz_lampara_salon:
         name: "Lámpara del salón"
         description: "Controla la luz de la lámpara del salón"
