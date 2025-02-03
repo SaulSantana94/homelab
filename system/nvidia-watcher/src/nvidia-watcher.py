@@ -27,7 +27,8 @@ def monitor_nvidia_pods():
     try:
         for event in w.stream(v1.list_pod_for_all_namespaces, label_selector=label_selector):
             pod = event['object']
-            if pod.status.phase == 'Failed' and any(condition.reason == 'UnexpectedAdmissionError' for condition in pod.status.conditions if condition.reason):
+            pod._status.reason
+            if pod.status.phase == 'Failed' and pod.status.reason == 'UnexpectedAdmissionError':
                 logger.info(f"UnexpectedAdmissionError detected - Pod: {pod.metadata.name}, Namespace: {pod.metadata.namespace}")
                 try:
                     v1.delete_namespaced_pod(
