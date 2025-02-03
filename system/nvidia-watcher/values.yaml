@@ -1,0 +1,22 @@
+app-template:
+  controllers:
+    nvidia-watcher:
+      labels:
+        backup/retain: quaterly
+      type: statefulset
+      containers:
+        nvidia-watcher:
+          image:
+            repository: bolferdocker/nvidia-watcher
+            tag: 0.0.0
+
+          env:
+            TZ: Europe/Madrid
+            DOMAIN_NAME: dbcloud.org
+
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1800Mi
+            limits:
+              memory: 4000Mi
