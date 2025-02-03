@@ -29,10 +29,13 @@ def monitor_nvidia_pods():
     try:
         for event in w.stream(v1.list_pod_for_all_namespaces, label_selector=label_selector):
             pod = event['object']
-            pod._status.reason
             if pod.status.phase == pod_status_phase and pod.status.reason == pod_status_reason:
                 logger.info(f"UnexpectedAdmissionError detected - Pod: {pod.metadata.name}, Namespace: {pod.metadata.namespace}")
                 try:
+                    # Verify if the pod still exists
+                    v1.read_namespaced_pod(name=pod.metadata.name, namespace=pod.metadata.namespace)
+                    
+                    # If the pod exists, attempt to delete it
                     v1.delete_namespaced_pod(
                         name=pod.metadata.name,
                         namespace=pod.metadata.namespace,
@@ -40,7 +43,10 @@ def monitor_nvidia_pods():
                     )
                     logger.info(f"Deleted pod {pod.metadata.name} in namespace {pod.metadata.namespace}")
                 except client.exceptions.ApiException as e:
-                    logger.error(f"Failed to delete pod {pod.metadata.name}: {e}")
+                    if e.status == 404:
+                        logger.info(f"Pod {pod.metadata.name} in namespace {pod.metadata.namespace} not found, skipping deletion")
+                    else:
+                        logger.error(f"Failed to delete pod {pod.metadata.name}: {e}")
     except Exception as e:
         logger.error(f"Error in watch stream: {e}")
 
