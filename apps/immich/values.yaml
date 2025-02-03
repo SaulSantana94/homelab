@@ -41,7 +41,7 @@ app-template:
         main:
           image: &image
             repository: ghcr.io/immich-app/immich-server
-            tag: v1.125.3
+            tag: v1.125.7
           env:
             <<: *env
             IMMICH_WORKERS_INCLUDE: 'api'
@@ -102,7 +102,7 @@ app-template:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
-            tag: v1.125.3
+            tag: v1.125.7
           env:
             <<: *env
             NVIDIA_VISIBLE_DEVICES: all
