@@ -22,13 +22,15 @@ def monitor_nvidia_pods():
     v1 = client.CoreV1Api()
     w = watch.Watch()
 
-    label_selector = "runtime-class=nvidia"  # Asume que los pods de NVIDIA tienen esta etiqueta
+    label_selector = os.getenv('LABEL_SELECTOR', 'runtime-class=nvidia')  # Asume que los pods de NVIDIA tienen esta etiqueta
+    pod_status_reason = os.getenv('POD_STATUS_REASON', 'UnexpectedAdmissionError')
+    pod_status_phase = os.getenv('POD_STATUS_PHASE', 'Failed')
 
     try:
         for event in w.stream(v1.list_pod_for_all_namespaces, label_selector=label_selector):
             pod = event['object']
             pod._status.reason
-            if pod.status.phase == 'Failed' and pod.status.reason == 'UnexpectedAdmissionError':
+            if pod.status.phase == pod_status_phase and pod.status.reason == pod_status_reason:
                 logger.info(f"UnexpectedAdmissionError detected - Pod: {pod.metadata.name}, Namespace: {pod.metadata.namespace}")
                 try:
                     v1.delete_namespaced_pod(

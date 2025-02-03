@@ -6,11 +6,14 @@ app-template:
         nvidia-watcher:
           image:
             repository: bolferdocker/nvidia-watcher
-            tag: 0.0.1
+            tag: 0.0.2
 
           env:
             TZ: Europe/Madrid
             DOMAIN_NAME: dbcloud.org
+            LABEL_SELECTOR: runtime-class=nvidia  # Asume que los pods de NVIDIA tienen esta etiqueta
+            POD_STATUS_REASON: UnexpectedAdmissionError
+            POD_STATUS_PHASE: Failed
 
           resources:
             requests:
