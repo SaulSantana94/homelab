@@ -93,6 +93,8 @@ app-template:
       replicas: 1
       pod:
         runtimeClassName: nvidia
+        labels:
+          runtimeClassNvidia: "true"
       containers:
         whisper:
           image:

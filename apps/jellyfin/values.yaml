@@ -6,7 +6,6 @@ app-template:
       type: statefulset
       pod:
         enableServiceLinks: false
-        #runtimeClassName: nvidia
       containers:
         jellyfin:
           image:
