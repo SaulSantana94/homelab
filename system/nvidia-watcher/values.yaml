@@ -18,7 +18,7 @@ app-template:
               memory: 1800Mi
             limits:
               memory: 4000Mi
-      spec:
-        template:
-          spec:
-            serviceAccountName: nvidia-watcher
+
+      serviceAccount:
+        create: false  # O true si quieres que Helm lo cree
+        name: nvidia-watcher
