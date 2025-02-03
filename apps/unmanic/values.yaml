@@ -8,7 +8,7 @@ app-template:
         enableServiceLinks: false
         runtimeClassName: nvidia
         labels:
-          runtimeClassNvidia: "true"
+          runtime-class: nvidia
       containers:
         unmanic:
           image:

@@ -94,7 +94,7 @@ app-template:
       pod:
         runtimeClassName: nvidia
         labels:
-          runtimeClassNvidia: "true"
+          runtime-class: nvidia
       containers:
         whisper:
           image:
