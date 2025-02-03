@@ -75,11 +75,11 @@
       ],
       versioning: 'loose',
       matchPackageNames: [
-        '/plex/',
+        '/lidarr/',
+        '/prowlarr/',
         '/qbittorrent/',
         '/radarr/',
         '/sonarr/',
-        '/prowlarr/',
       ],
     },
     {
