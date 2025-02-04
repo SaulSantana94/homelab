@@ -8,7 +8,7 @@ app-template:
         oprogreso:
           image:
             repository: bolferdocker/oprogreso
-            tag: 0.0.7
+            tag: 0.0.8
 
           env:
             TZ: Europe/Madrid
