@@ -96,4 +96,4 @@ By understanding these concepts and their roles within MetalLB, you can effectiv
 - 192.168.1.235 : #prowlarr
 - 192.168.1.236 : qbittorrent
 - 192.168.1.237 : unifi
-- 192.168.1.238 : 
+- 192.168.1.238 : hass
