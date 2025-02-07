@@ -193,6 +193,19 @@ app-template:
       ports:
         http:
           port: 8123
+    hass-coiot:
+      controller: hass
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: "192.168.1.238"
+        external-dns.alpha.kubernetes.io/enabled: "true"
+      externalTrafficPolicy: Local
+      ports:
+        hass-coiot:
+          enabled: true
+          port: 5683
+          protocol: UDP
+          targetPort: 5683
     appdaemon:
       controller: appdaemon
       ports:
