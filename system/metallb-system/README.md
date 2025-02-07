@@ -84,7 +84,7 @@ By understanding these concepts and their roles within MetalLB, you can effectiv
 
 - 192.168.1.241 : ingres internal
 - 192.168.1.242 : ingres external
-- 192.168.1.243 : kanidmd
+- 192.168.1.243 : #kanidmd
 - 192.168.1.244 : wireguard
 - 192.168.1.245 : 
 
