@@ -41,7 +41,7 @@ app-template:
         main:
           image: &image
             repository: ghcr.io/immich-app/immich-server
-            tag: v1.125.7
+            tag: v1.125.7-cuda
           env:
             <<: *env
             IMMICH_WORKERS_INCLUDE: 'api'
@@ -52,7 +52,7 @@ app-template:
           resources:
             requests:
               cpu: 10m
-              memory: 350Mi
+              memory: 128Mi
             limits:
               cpu: "2"
               memory: 2Gi
@@ -102,11 +102,15 @@ app-template:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
-            tag: v1.125.7
+            # GPU use require cuda image. E.g.: v1.124.2-cuda
+            tag: v1.125.7-cuda
           env:
             <<: *env
             NVIDIA_VISIBLE_DEVICES: all
             MPLCONFIGDIR: /.config/matplotlib
+            # Guide to choose the model: https://github.com/immich-app/immich/discussions/11862
+            # MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "immich-app/ViT-H-14-quickgelu__dfn5b"
+            # MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "immich-app/ViT-H-14-quickgelu__dfn5b"
           envFrom: *envFrom
           resources:
             requests:
@@ -126,7 +130,7 @@ app-template:
             tag: 7.4.2
           env:
             REDIS_REPLICATION_MODE: master
-          command: [ "redis-server" ]
+          command: ["redis-server"]
           probes: *probes
 
   service:
@@ -163,23 +167,23 @@ app-template:
         nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
         nginx.ingress.kubernetes.io/proxy-body-size: 35G
       hosts:
-      - host: &host photos.internal.dbcloud.org
-        paths:
-        - path: /
-          pathType: Prefix
-          service:
-            identifier: server
-            port: http
+        - host: &host photos.internal.dbcloud.org
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: server
+                port: http
       tls:
-      - hosts:
-        - *host
-        secretName: immich-tls-certificate
+        - hosts:
+            - *host
+          secretName: immich-tls-certificate
     external:
       enabled: true
       className: nginx-external
       annotations:
         external-dns.alpha.kubernetes.io/enabled: "true"
-        external-dns.alpha.kubernetes.io/target: dbcloud.org   
+        external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
         nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
@@ -189,17 +193,17 @@ app-template:
         nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
         nginx.ingress.kubernetes.io/proxy-body-size: 35G
       hosts:
-      - host: &host photos.dbcloud.org
-        paths:
-        - path: /
-          pathType: Prefix
-          service:
-            identifier: server
-            port: http
+        - host: &host photos.dbcloud.org
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: server
+                port: http
       tls:
-      - hosts:
-        - *host
-        secretName: immich-external-tls-certificate
+        - hosts:
+            - *host
+          secretName: immich-external-tls-certificate
 
   persistence:
     library:
@@ -207,26 +211,26 @@ app-template:
       advancedMounts:
         server:
           main:
-          - path: /usr/src/app/upload
+            - path: /usr/src/app/upload
         microservices:
           main:
-          - path: /usr/src/app/upload
+            - path: /usr/src/app/upload
     transformers-cache:
       type: emptyDir
       advancedMounts:
         server:
           main:
-          - path: /usr/src/app/.transformers_cache
+            - path: /usr/src/app/.transformers_cache
         microservices:
           main:
-          - path: /usr/src/app/.transformers_cache
+            - path: /usr/src/app/.transformers_cache
     model-cache:
-      type: emptyDir
+      existingClaim: immich-models
       advancedMounts:
         ml:
           main:
-          - path: /cache
-          - path: /.config/matplotlib
+            - path: /cache
+            - path: /.config/matplotlib
 
   serviceMonitor:
     server:
@@ -235,8 +239,8 @@ app-template:
       labels:
         release: monitoring
       endpoints:
-      - port: metrics
-        scheme: http
-        path: /metrics
-        interval: 30s
-        scrapeTimeout: 10s
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 30s
+          scrapeTimeout: 10s
