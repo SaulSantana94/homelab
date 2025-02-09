@@ -1,5 +1,5 @@
-- alias: "Turn on entrance light when door opens"
-  description: "Turns on the entrance light for 30 seconds when the entrance door opens"
+automation:
+  alias: Turn on entrance light when door opens
   trigger:
     - platform: state
       entity_id: binary_sensor.puerta_entrada
