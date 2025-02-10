@@ -9,7 +9,7 @@ automation:
       target:
         entity_id: switch.luz_entrada
     - delay:
-        seconds: 30
+        seconds: 60
     - service: switch.turn_off
       target:
         entity_id: switch.luz_entrada
