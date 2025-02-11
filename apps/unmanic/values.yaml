@@ -24,11 +24,11 @@ app-template:
 
           resources:
             requests:
-              cpu: 100m
-              memory: 1800Mi
+              cpu: 50m
+              memory: 500Mi
             limits:
-              cpu: 10000m #limit to 10 cores
-              memory: 4000Mi
+              cpu: 2000m #limit to 2 cores
+              memory: 4000Mi #limit to 4 Gb
               nvidia.com/gpu: "1"
           probes:
             liveness:
