@@ -46,6 +46,8 @@ alexa:
         - switch.luz_lampara_salon
         - switch.luz_izquierda_sofa
         - switch.luz_derecha_sofa
+        - switch.luz_mesa_cocina
+        - switch.luz_entrada
         - cover.persiana_salon
         - cover.persiana_invitados
         - cover.persiana_dormitorio
@@ -92,6 +94,14 @@ alexa:
       switch.luz_ventilador_salon:
         name: "Luz del ventilador del salón"
         description: "Controla la luz del ventilador del salón"
+        display_categories: LIGHT
+      switch.luz_mesa_cocina:
+        name: "Luz de la mesa de la cocina"
+        description: "Controla la luz de la mesa de la cocina"
+        display_categories: LIGHT
+      switch.luz_entrada:
+        name: "Luz de la entrada"
+        description: "Controla la luz de la entrada"
         display_categories: LIGHT
       cover.persiana_despacho:
         name: "Persiana del despacho"
