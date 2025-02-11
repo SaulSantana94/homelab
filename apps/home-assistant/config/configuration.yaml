@@ -27,6 +27,7 @@ prometheus:
 
 telegram_bot: !include secrets/telegram_bot.yaml
 notify: !include secrets/notify.yaml
+auth_providers: !include secrets/auth_providers.yaml
 
 fan:
   - platform: custom_fan
