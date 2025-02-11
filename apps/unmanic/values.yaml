@@ -15,11 +15,12 @@ app-template:
             repository: josh5/unmanic
             tag: latest
 
+          command: ["/usr/local/bin/unmanic-service"] # Hard requirement for running rootless
+        
           env:
             TZ: Europe/Madrid
-            PUID: 995
-            PGID: 991
             NVIDIA_VISIBLE_DEVICES: 0
+            HOME: "/config" # Hard requirement for running rootless
 
           resources:
             requests:
@@ -92,9 +93,9 @@ app-template:
 
   defaultPodOptions:
     securityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 0
+      runAsUser: 995
+      runAsGroup: 991
+      fsGroup: 991
       fsGroupChangePolicy: "OnRootMismatch"
 
   persistence:
