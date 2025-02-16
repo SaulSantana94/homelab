@@ -15,3 +15,9 @@ zfs-localpv:
     # requests:
     #   cpu: 10m
     #   memory: 32Mi
+    snapshotter:
+      extraArgs:
+        - -v=1
+    snapshotController:
+      extraArgs:
+        - -v=1
