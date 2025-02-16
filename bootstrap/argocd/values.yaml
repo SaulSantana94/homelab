@@ -1,4 +1,7 @@
 argo-cd:
+  global:
+    logging:
+      level: warn
   configs:
     cm:
       create: true
