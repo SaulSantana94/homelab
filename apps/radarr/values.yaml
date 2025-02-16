@@ -29,6 +29,31 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
+        metrics:
+          image:
+            repository: ghcr.io/onedr0p/exportarr
+            tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644
+          args:
+            - radarr
+            - --enable-additional-metrics
+            - --enable-unknown-queue-items
+          env:
+            PORT: &port 9707
+            URL: radarr:7878
+          envFrom:
+            - secretRef:
+                name: radarr-exporter-secret
+          resources:
+            requests:
+              cpu: 5m
+              memory: 36Mi
+            limits:
+              memory: 128Mi
+
+          ports:
+            - name: metrics
+              containerPort: &metrics_port 8000
+              protocol: TCP
 
   service:
     radarr:
@@ -36,6 +61,19 @@ app-template:
       ports:
         http:
           port: 7878
+
+  serviceMonitor:
+    radarr:
+      enabled: true
+      serviceName: radarr
+      labels:
+        release: monitoring
+      endpoints:
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 1m
+          scrapeTimeout: 30s
 
   ingress:
     radarr:
