@@ -34,12 +34,62 @@ app-template:
               spec:
                 failureThreshold: 60
                 periodSeconds: 10
+        metrics:
+          image:
+            repository: ghcr.io/onedr0p/exportarr
+            tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644
+          args:
+            - sonarr
+            - --enable-additional-metrics
+            - --enable-unknown-queue-items
+          env:
+            PORT: &metrics_port 9707
+            URL: http://sonarr:8989
+          envFrom:
+            - secretRef:
+                name: sonarr-secrets
+          resources:
+            requests:
+              cpu: 5m
+              memory: 36Mi
+            limits:
+              memory: 128Mi
+
+          ports:
+            - name: metrics
+              containerPort: *metrics_port
+              protocol: TCP
+
+          probes:
+            liveness: &metrics_probe
+              enabled: true
+              custom: true
+              spec:
+                failureThreshold: 3
+                periodSeconds: 30
+                tcpSocket:
+                  port: *metrics_port
+                timeoutSeconds: 1
+            readiness: *metrics_probe
   service:
     sonarr:
       controller: sonarr
       ports:
         http:
           port: *port
+
+  serviceMonitor:
+    sonarr:
+      enabled: true
+      serviceName: sonarr
+      labels:
+        release: monitoring
+      endpoints:
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 1m
+          scrapeTimeout: 30s
 
   ingress:
     sonarr:
