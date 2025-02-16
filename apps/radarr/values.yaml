@@ -38,7 +38,7 @@ app-template:
             - --enable-additional-metrics
             - --enable-unknown-queue-items
           env:
-            PORT: &port 9707
+            PORT: &metrics_port 9707
             URL: radarr:7878
           envFrom:
             - secretRef:
@@ -52,8 +52,20 @@ app-template:
 
           ports:
             - name: metrics
-              containerPort: &metrics_port 8000
+              containerPort: *metrics_port
               protocol: TCP
+
+          probes:
+            liveness: &metrics_probe
+              enabled: true
+              custom: true
+              spec:
+                failureThreshold: 3
+                periodSeconds: 30
+                tcpSocket:
+                  port: *metrics_port
+                timeoutSeconds: 1
+            readiness: *metrics_probe
 
   service:
     radarr:
