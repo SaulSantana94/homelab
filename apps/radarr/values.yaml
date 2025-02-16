@@ -42,7 +42,7 @@ app-template:
             URL: radarr:7878
           envFrom:
             - secretRef:
-                name: radarr-exporter-secret
+                name: radarr-secrets
           resources:
             requests:
               cpu: 5m
