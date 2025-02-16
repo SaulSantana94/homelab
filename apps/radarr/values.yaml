@@ -39,7 +39,7 @@ app-template:
             - --enable-unknown-queue-items
           env:
             PORT: &metrics_port 9707
-            URL: radarr:7878
+            URL: http://radarr:7878
           envFrom:
             - secretRef:
                 name: radarr-secrets
