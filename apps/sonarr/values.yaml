@@ -77,11 +77,16 @@ app-template:
       ports:
         http:
           port: *port
+    metrics:
+      controller: metrics
+      ports:
+        metrics:
+          port: *metrics_port
 
   serviceMonitor:
-    sonarr:
+    metrics:
       enabled: true
-      serviceName: sonarr
+      serviceName: metrics
       labels:
         release: monitoring
       endpoints:
