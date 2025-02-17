@@ -1,0 +1,150 @@
+app-template:
+  controllers:
+    mosquitto:
+      labels:
+        backup/retain: weekly
+      replicas: 1
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+      initContainers:
+        01-init-config:
+          image:
+            repository: public.ecr.aws/docker/library/eclipse-mosquitto
+            tag: 2.0.20
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >
+              cp /tmp/secret/* /mosquitto/external_config/ &&
+              chmod 600 /mosquitto/external_config/mosquitto_pwd &&
+              mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd
+      containers:
+        mosquitto:
+          image:
+            repository: public.ecr.aws/docker/library/eclipse-mosquitto
+            tag: 2.0.20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20M
+            limits:
+              memory: 50M
+          probes:
+            liveness: &probe
+              enabled: true
+              custom: true
+              spec:
+                periodSeconds: 10
+                tcpSocket:
+                  port: &port 1883
+            readiness: *probe
+            startup:
+              enabled: true
+              custom: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
+                tcpSocket:
+                  port: *port
+        exporter:
+          image:
+            repository: sapcc/mosquitto-exporter
+            tag: 0.8.0
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20M
+            limits:
+              memory: 50M
+          env:
+            - name: MQTT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mosquitto-user
+                  key: username
+            - name: MQTT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mosquitto-user
+                  key: password
+          probes:
+            liveness: &metrics_probe
+              enabled: true
+              custom: true
+              spec:
+                periodSeconds: 10
+                tcpSocket:
+                  port: &metrics_port 9234
+            readiness: *metrics_probe
+            startup:
+              enabled: true
+              custom: true
+              spec:
+                failureThreshold: 30
+                periodSeconds: 5
+                tcpSocket:
+                  port: *metrics_port
+  service:
+    mosquitto:
+      type: LoadBalancer
+      controller: mosquitto
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: "192.168.1.239"
+        external-dns.alpha.kubernetes.io/enabled: "true"
+        external-dns.alpha.kubernetes.io/hostname: mosquitto.internal.dbcloud.org
+      externalTrafficPolicy: Local
+      ports:
+        mqtt:
+          port: *port
+        websockets:
+          port: 8083
+        metrics:
+          port: *metrics_port
+
+  defaultPodOptions:
+    securityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+
+  persistence:
+    config:
+      enabled: true
+      globalMounts:
+        - path: /data
+      existingClaim: mosquitto-data
+    config-file:
+      type: configMap
+      name: mosquitto-config
+      advancedMounts:
+        mosquitto:
+          mosquitto:
+            - path: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+    secret-file:
+      type: secret
+      name: mosquitto-user
+      advancedMounts:
+        mosquitto:
+          01-init-config:
+            - path: /tmp/secret
+    external-config:
+      type: emptyDir
+      globalMounts:
+        - path: /mosquitto/external_config
+
+  serviceMonitor:
+    mosquitto:
+      enabled: true
+      serviceName: mosquitto
+      labels:
+        release: monitoring
+      endpoints:
+        - port: metrics
+          scheme: http
+          path: /metrics
+          interval: 30s
+          scrapeTimeout: 10s
