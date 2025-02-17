@@ -60,7 +60,17 @@ alexa:
         - fan.ventilador_salon
         - binary_sensor.puerta_entrada
         - switch.riego_terraza
+        - climate.radiador_despacho
+        - climate.radiador_dormitorio        
     entity_config:
+      climate.radiador_despacho:
+        name: "Radiador del despacho"
+        description: "Controla la luz temperatura del radiador del despacho"
+        display_categories: THERMOSTAT
+      climate.radiador_dormitorio:
+        name: "Radiador del dormitorio"
+        description: "Controla la luz temperatura del radiador del dormitorio"
+        display_categories: THERMOSTAT
       switch.luz_izquierda_sofa:
         name: "Lámpara izquierda del sofa del salón"
         description: "Controla la luz de la lámpara izquierda del sofa del salón"
