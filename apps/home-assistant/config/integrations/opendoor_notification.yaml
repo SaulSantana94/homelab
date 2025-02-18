@@ -1,0 +1,10 @@
+automation:
+  alias: Notify when door opens
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.puerta_entrada
+      to: "on"
+  action:
+      - action: notify.mobile_app_SM-A256B
+        data:
+          message: "Se ha abierto la puerta de la entrada!"
