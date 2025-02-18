@@ -35,14 +35,3 @@ automation:
         data:
           title: Puerta cerrada
           message: "Se ha cerrado la puerta de la entrada"
-
-#  - alias: Notify when door closes
-#    trigger:
-#      - platform: state
-#        entity_id: binary_sensor.puerta_entrada
-#        to: "off"    
-#    action:
-#      - service: notify.mobile_app_iphone_de_lucia
-#        data:
-#          message: Notificacion de prueba
-#          title: Acuerdate de que te quiero mucho!
