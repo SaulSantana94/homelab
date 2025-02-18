@@ -22,8 +22,7 @@ automation:
     action:
       - service: notify.mobile_app_sm_a256b
         data:
-          title: Puerta abierta
-          message: "Se ha abierto la puerta de la entrada"
+          message: "Se ha abierto la puerta de la entrada!"
 
   - alias: Notify when door closes
     trigger:
@@ -33,5 +32,4 @@ automation:
     action:
       - service: notify.mobile_app_sm_a256b
         data:
-          title: Puerta cerrada
-          message: "Se ha cerrado la puerta de la entrada"
+          message: "Se ha cerrado la puerta de la entrada!"
