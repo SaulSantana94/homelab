@@ -262,11 +262,11 @@ app-template:
       ports:
         http:
           port: 10400
-#    motioneye:
-#      controller: motioneye
-#      ports:
-#        http:
-#          port: 8765
+    motioneye:
+      controller: motioneye
+      ports:
+        http:
+          port: 8765
 
   ingress:
     hass:
