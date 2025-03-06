@@ -49,6 +49,9 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
+                tcpSocket:
+                  port: 8123
+                timeoutSeconds: 1
 
           resources:
             requests:
