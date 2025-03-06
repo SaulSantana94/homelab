@@ -28,6 +28,10 @@ app-template:
           probes:
             liveness:
               enabled: true
+              spec:
+                initialDelaySeconds: 30
+                periodSeconds: 5
+                failureThreshold: 30
             readiness:
               enabled: true
             startup:
@@ -38,10 +42,10 @@ app-template:
 
           resources:
             requests:
-              cpu: 50m
-              memory: 450Mi
+              cpu: 500m
+              memory: 750Mi
             limits:
-              memory: 1Gi
+              memory: 2Gi
 
     appdaemon:
       annotations:
