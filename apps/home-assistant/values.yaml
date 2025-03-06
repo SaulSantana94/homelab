@@ -28,12 +28,22 @@ app-template:
           probes:
             liveness:
               enabled: true
-              spec:
-                initialDelaySeconds: 30
-                periodSeconds: 5
-                failureThreshold: 30
+              httpGet:
+                path: /manifest.json
+                port: 8123
+                scheme: HTTP
+                timeoutSeconds: 5
+                periodSeconds: 10
+                failureThreshold: 3
             readiness:
               enabled: true
+              httpGet:
+                path: /manifest.json
+                port: 8123
+                scheme: HTTP
+                timeoutSeconds: 5
+                periodSeconds: 10
+                failureThreshold: 3
             startup:
               enabled: true
               spec:
