@@ -51,6 +51,9 @@ alexa:
         - switch.luz_terraza
         - switch.luz_tendedero
         - switch.luz_encimera
+        - switch.luz_entrada_dormitorio
+        - switch.luz_bano_dormitorio
+        - switch.luz_ducha_dormitorio
         - cover.persiana_salon
         - cover.persiana_invitados
         - cover.persiana_dormitorio
@@ -127,6 +130,18 @@ alexa:
       switch.luz_encimera:
         name: "Luz de la encimera"
         description: "Controla la luz de la encimera"
+        display_categories: LIGHT
+      switch.luz_entrada_dormitorio:
+        name: "Luz de la entrada del dormitorio"
+        description: "Controla la luz de la entrada del dormitorio"
+        display_categories: LIGHT
+      switch.luz_bano_dormitorio:
+        name: "Luz del baño del dormitorio"
+        description: "Controla la luz del baño del dormitorio"
+        display_categories: LIGHT
+      switch.luz_ducha_dormitorio:
+        name: "Luz de la ducha del dormitorio"
+        description: "Controla la luz de la ducha del dormitorio"
         display_categories: LIGHT
       cover.persiana_despacho:
         name: "Persiana del despacho"
