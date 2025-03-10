@@ -555,14 +555,6 @@ app-template:
         frigate:
           frigate:
             - path: /media/frigate
-    frigate-tmp:
-      enabled: true
-      type: emptyDir
-      sizeLimit: 10Gi
-      advancedMounts:
-        frigate:
-          frigate:
-            - path: /dev
 
   serviceMonitor:
     hass:
