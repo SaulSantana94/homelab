@@ -555,10 +555,9 @@ app-template:
         frigate:
           frigate:
             - path: /media/frigate
-    frigate-tmp:
+    frigate-logs:
       enabled: true
-      type: emptyDir
-      sizeLimit: 10Gi
+      existingClaim: frigate-logs
       advancedMounts:
         frigate:
           frigate:

@@ -87,3 +87,19 @@ spec:
   resources:
     requests:
       storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: home-assistant
+    app.kubernetes.io/name: home-assistant
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+  name: frigate-logs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
