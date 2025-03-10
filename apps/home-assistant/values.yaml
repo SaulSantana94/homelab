@@ -210,11 +210,11 @@ app-template:
           envFrom:
             - secretRef:
                 name: hass-frigate
-          #securityContext:
-          #  runAsUser: 0             # Ejecutar como root
-          #  runAsGroup: 0            # Grupo root
-          #  privileged: true         # Permitir privilegios elevados
-          #  allowPrivilegeEscalation: true # Permitir escalación de privilegios
+          securityContext:
+            runAsUser: 0             # Ejecutar como root
+            runAsGroup: 0            # Grupo root
+            privileged: true         # Permitir privilegios elevados
+            allowPrivilegeEscalation: true # Permitir escalación de privilegios
           resources:
             requests:
               cpu: 15m
@@ -566,7 +566,7 @@ app-template:
       advancedMounts:
         frigate:
           frigate:
-            - path: /dev/shm/logs
+            - path: /dev/shm
 
   serviceMonitor:
     hass:
