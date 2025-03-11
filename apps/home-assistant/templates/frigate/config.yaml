@@ -1,0 +1,27 @@
+mqtt:
+  host: 192.168.1.239
+  user: "{FRIGATE_MQTT_USER}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
+
+tls:
+  enabled: false
+
+cameras:
+   camara_descansillo:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:123456@192.168.1.230/live/ch00_1
+          roles:
+            - record
+            - detect
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+    record:
+      enabled: true
+      retain:
+        days: 10
+
+version: 0.15-1

@@ -491,6 +491,14 @@ app-template:
         frigate:
           frigate:
             - path: /dev/shm
+    frigate:
+      enabled: true
+      type: configMap
+      name: hass-frigate
+      advancedMounts:
+        frigate:
+          01-init-config:
+            - path: /config/config.yaml
 
   serviceMonitor:
     hass:
