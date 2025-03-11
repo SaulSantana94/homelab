@@ -29,11 +29,6 @@ telegram_bot: !include secrets/telegram_bot.yaml
 notify: !include secrets/notify.yaml
 # auth_providers: !include secrets/auth_providers.yaml
 
-panel_iframe:
-  Frigate:  # El nombre que quieres que aparezca en el menú
-    title: Frigate
-    icon: mdi:cctv  # Opcional: elige un icono de Material Design Icons https://pictogrammers.com/library/mdi/
-    url: https://frigate.dbcloud.org/  # La URL que quieres mostrar
 
 fan:
   - platform: custom_fan

@@ -230,32 +230,6 @@ app-template:
                 failureThreshold: 30
                 periodSeconds: 5
 
-    motioneye:
-      type: deployment
-      replicas: 1
-      containers:
-        motioneye:
-          image:
-            repository: stixes/motioneye-nvidia
-            tag: latest
-          env:
-            TIMEZONE: Europe/Madrid
-            NVIDIA_VISIBLE_DEVICES: all
-          resources:
-            requests:
-              cpu: 15m
-              memory: 150Mi
-          probes:
-            liveness:
-              enabled: true
-            readiness:
-              enabled: true
-            startup:
-              enabled: true
-              spec:
-                failureThreshold: 30
-                periodSeconds: 5
-
   defaultPodOptions:
     terminationGracePeriodSeconds: 1
 
@@ -314,11 +288,6 @@ app-template:
       ports:
         http:
           port: 10400
-    motioneye:
-      controller: motioneye
-      ports:
-        http:
-          port: 8765
     frigate:
       controller: frigate
       ports:
@@ -390,29 +359,6 @@ app-template:
             - *host
           secretName: hass-appdaemon-tls-certificate
           
-    motioneye:
-      enabled: true
-      className: nginx-external
-      annotations:
-        external-dns.alpha.kubernetes.io/enabled: "true"
-        external-dns.alpha.kubernetes.io/target: dbcloud.org
-        cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth?allowed_groups=motioneyeUsers
-        nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
-        nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
-      hosts:
-        - host: &host motioneye.dbcloud.org
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: motioneye
-                port: http
-      tls:
-        - hosts:
-            - *host
-          secretName: hass-motioneye-tls-certificate
-          
     frigate:
       enabled: true
       className: nginx-external
@@ -420,7 +366,7 @@ app-template:
         external-dns.alpha.kubernetes.io/enabled: "true"
         external-dns.alpha.kubernetes.io/target: dbcloud.org
         cert-manager.io/cluster-issuer: letsencrypt-prod-dns
-        nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth?allowed_groups=motioneyeUsers
+        nginx.ingress.kubernetes.io/auth-url: https://auth.dbcloud.org/oauth2/auth?allowed_groups=frigateUsers
         nginx.ingress.kubernetes.io/auth-signin: https://auth.dbcloud.org/oauth2/start
         nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
       hosts:
@@ -524,28 +470,6 @@ app-template:
         piper:
           piper:
             - path: /data
-    motioneye-config:
-      enabled: true
-      existingClaim: motioneye-config
-      advancedMounts:
-        motioneye:
-          motioneye:
-            - path: /etc/motioneye
-    motioneye-files:
-      enabled: true
-      existingClaim: motioneye-files
-      advancedMounts:
-        motioneye:
-          motioneye:
-            - path: /var/lib/motioneye
-    motioneye-tmp:
-      enabled: true
-      type: emptyDir
-      sizeLimit: 100Gi
-      advancedMounts:
-        motioneye:
-          motioneye:
-            - path: /tmp
     frigate-config:
       enabled: true
       existingClaim: frigate-config
