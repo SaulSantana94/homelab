@@ -205,7 +205,7 @@ app-template:
             repository: ghcr.io/blakeblackshear/frigate
             tag: stable
           env:
-            TIMEZONE: Europe/Madrid
+            TZ: Europe/Madrid
             NVIDIA_VISIBLE_DEVICES: all
           envFrom:
             - secretRef:
