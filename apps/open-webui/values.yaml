@@ -1,0 +1,108 @@
+open-webui:
+  ollama:
+    enabled: false
+  ollamaUrls:
+    - http://ollama.ollama:11434
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+
+  pipelines:
+    enabled: true
+    affinity: &affinity
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - open-webui
+            topologyKey: kubernetes.io/hostname
+
+    persistence:
+      enabled: true
+      existingClaim: pipelines-data
+
+  websocket:
+    enabled: true
+    manager: redis
+    url: redis://open-webui-redis:6379/0
+    redis:
+      enabled: true
+      name: open-webui-redis
+      image:
+        repository: redis
+        tag: 7.4.2-alpine3.21
+      affinity: *affinity
+
+  image:
+    repository: ghcr.io/open-webui/open-webui
+    tag: 0.5.20
+
+  ingress:
+    enabled: true
+    class: nginx-external
+    annotations:
+      external-dns.alpha.kubernetes.io/enabled: "true"
+      external-dns.alpha.kubernetes.io/target: dbcloud.org
+      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+    host: open-webui.dbcloud.org
+    tls: true
+
+  nodeSelector:
+    kubernetes.io/hostname: prusik
+  persistence:
+    enabled: true
+    existingClaim: open-webui-data
+
+  extraEnvVars:
+    - name: WEBUI_URL
+      value: https://open-webui.dbcloud.org
+    - name: WEBUI_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: open-webui
+          key: WEBUI_SECRET_KEY
+    - name: ENABLE_SIGNUP
+      value: "false"
+    - name: ENABLE_OAUTH_SIGNUP
+      value: "true"
+    - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
+      value: "true"
+    - name: OPENAI_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: open-webui
+          key: OPENAI_API_KEY
+    - name: OAUTH_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: open-webui
+          key: OAUTH_CLIENT_ID
+    - name: OAUTH_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: open-webui
+          key: OAUTH_CLIENT_SECRET
+    - name: OPENID_PROVIDER_URL
+      value: https://keycloak.dbcloud.org/realms/master/.well-known/openid-configuration
+    - name: OAUTH_PROVIDER_NAME
+      value: keycloak.dbcloud.org
+    - name: OAUTH_SCOPES
+      value: "openid email profile"
+
+  containerSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
