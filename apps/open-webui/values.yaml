@@ -84,11 +84,11 @@ open-webui:
       value: "openid email profile"
 
   containerSecurityContext:
-    runAsUser: 1001
-    runAsGroup: 1001
-    runAsNonRoot: true
-    privileged: false
-    allowPrivilegeEscalation: false
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    privileged: true
+    allowPrivilegeEscalation: true
     readOnlyRootFilesystem: false
     capabilities:
       drop:
