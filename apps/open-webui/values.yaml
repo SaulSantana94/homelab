@@ -54,8 +54,6 @@ open-webui:
     host: open-webui.dbcloud.org
     tls: true
 
-  nodeSelector:
-    kubernetes.io/hostname: prusik
   persistence:
     enabled: true
     existingClaim: open-webui-data
