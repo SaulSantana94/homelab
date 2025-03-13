@@ -106,21 +106,14 @@ app-template:
                 failureThreshold: 30
                 periodSeconds: 5
 
-    whisper:
-      type: deployment
-      replicas: 1
-      pod:
-        runtimeClassName: nvidia
-        labels:
-          runtime-class: nvidia
-      containers:
         whisper:
           image:
-            repository: rhasspy/wyoming-whisper
+            # https://github.com/pando85/wyoming-addons/tree/master/whisper
+            repository: pando85/wyoming-whisper
             tag: 2.4.0
           args:
             - --model
-            - large-v3
+            - large-v3-turbo
             - --language
             - es
             - --device
