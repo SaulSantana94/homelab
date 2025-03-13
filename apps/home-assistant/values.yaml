@@ -120,7 +120,7 @@ app-template:
             tag: 2.4.0
           args:
             - --model
-            - large-v3
+            - large-v3-turbo
             - --language
             - es
             - --device
@@ -129,8 +129,8 @@ app-template:
             - int8
           resources:
             requests:
-              cpu: 50m
-              memory: 2500Mi
+              cpu: 15m
+              memory: 600Mi
             limits:
               nvidia.com/gpu: "1"
           probes:
