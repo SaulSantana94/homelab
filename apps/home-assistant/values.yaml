@@ -106,6 +106,14 @@ app-template:
                 failureThreshold: 30
                 periodSeconds: 5
 
+    whisper:
+      type: deployment
+      replicas: 1
+      pod:
+        runtimeClassName: nvidia
+        labels:
+          pod-cleaner.dbcloud.org/watch: "true"
+      containers:
         whisper:
           image:
             # https://github.com/pando85/wyoming-addons/tree/master/whisper
@@ -136,6 +144,7 @@ app-template:
               spec:
                 failureThreshold: 30
                 periodSeconds: 5
+                
     piper:
       type: deployment
       replicas: 1
