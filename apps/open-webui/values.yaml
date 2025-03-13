@@ -56,7 +56,7 @@ open-webui:
           name: open-webui
           key: WEBUI_SECRET_KEY
     - name: ENABLE_SIGNUP
-      value: "false"
+      value: "true"
     - name: ENABLE_OAUTH_SIGNUP
       value: "true"
     - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
