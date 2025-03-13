@@ -120,7 +120,7 @@ app-template:
             tag: 2.4.0
           args:
             - --model
-            - large-v3-turbo
+            - large-v3
             - --language
             - es
             - --device
