@@ -1,22 +1,35 @@
-scene:
-  - id: modo_pelicula
-    name: Modo Pelicula
-    entities:
-      #cover.persiana_salon:
-      #  position: 20
-      switch.luz_cocina:
-        state: off
-      switch.luz_ventilador_salon:
-        state: off
-      switch.luz_lampara_salon:
-        state: off
-      switch.luz_mesa_cocina:
-        state: off
-      switch.luz_entrada:
-        state: off
-      switch.luz_encimera:
-        state: off
-      switch.luz_izquierda_sofa:
-        state: on
-      switch.luz_derecha_sofa:
-        state: off
+- id: '1742055610362'
+  name: modo_pelicula
+  entities:
+    cover.persiana_salon:
+      current_position: 42
+      device_class: shutter
+      friendly_name: persiana Salon
+      supported_features: 15
+      state: open
+    switch.luz_derecha_sofa:
+      device_class: outlet
+      friendly_name: luz_derecha_sofa Outlet
+      state: 'off'
+    switch.luz_izquierda_sofa:
+      device_class: outlet
+      friendly_name: luz_izquierda_sofa Outlet
+      state: 'on'
+    switch.luz_cocina:
+      friendly_name: luz_cocina
+      state: 'off'
+    switch.luz_mesa_cocina:
+      friendly_name: luz_mesa_cocina
+      state: 'off'
+  metadata:
+    cover.persiana_salon:
+      entity_only: true
+    switch.luz_derecha_sofa:
+      entity_only: true
+    switch.luz_izquierda_sofa:
+      entity_only: true
+    switch.luz_cocina:
+      entity_only: true
+    switch.luz_mesa_cocina:
+      entity_only: true
+  icon: mdi:movie 
