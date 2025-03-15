@@ -1,11 +1,13 @@
 scene:
-  - name: Pelicula derecha
+  - id: "scene_pelicula_derecha"
+    name: Pelicula derecha
     icon: "mdi:flower-tulip"
     entities:
       switch.luz_izquierda_sofa: "off"
       switch.luz_derecha_sofa: "on"
 
-  - name: Pelicula izquierda
+  - id: "scene_pelicula_izquierda"
+    name: Pelicula izquierda
     icon: "mdi:flower-tulip"
     entities:
       switch.luz_izquierda_sofa: "on"
