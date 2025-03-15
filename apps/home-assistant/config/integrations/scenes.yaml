@@ -2,8 +2,8 @@ scene:
   - id: modo_pelicula
     name: Modo Pelicula
     entities:
-      cover.persiana_salon:
-        position: 20
+      #cover.persiana_salon:
+      #  position: 20
       switch.luz_cocina:
         state: off
       switch.luz_ventilador_salon:
