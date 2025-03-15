@@ -1,6 +1,11 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 0.0.0.0/0  # Add the IP address of the proxy server
+
 homeassistant:
   # Load packages
   packages: !include_dir_named integrations
@@ -8,15 +13,11 @@ homeassistant:
     media: /media
 
 script: !include_dir_merge_named script
+scene: !include scenes.yaml
 
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
-
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 0.0.0.0/0  # Add the IP address of the proxy server
 
 recorder:
   db_url: !env_var ZZ_DB_URL
