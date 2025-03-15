@@ -8,6 +8,7 @@ homeassistant:
     media: /media
 
 script: !include_dir_merge_named script
+scene: !include scenes.yaml
 
 # Load frontend themes from the themes folder
 frontend:
