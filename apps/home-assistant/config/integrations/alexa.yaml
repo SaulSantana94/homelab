@@ -148,11 +148,11 @@ alexa:
         description: "Monitoriza el estado de la puerta de entrada"
         display_categories: DOOR
       switch.modo_cocinar_stateful_scene:
-        name: "Modo de cocinar"
+        name: "Modo cocinar"
         description: "Activa el modo cocinar"
         display_categories: SWITCH
       switch.modo_cena_stateful_scene:
-        name: "Modo de cocinar"
+        name: "Modo cena"
         description: "Activa el modo cena"
         display_categories: SWITCH
       switch.modo_pelicula_stateful_scene:
