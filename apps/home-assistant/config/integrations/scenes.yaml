@@ -1,7 +1,0 @@
-#scene:
-#  - id: "scene_pelicula_derecha"
-#    name: Pelicula derecha
-#    icon: "mdi:flower-tulip"
-#    entities:
-#      switch.luz_izquierda_sofa: "off"
-#      switch.luz_derecha_sofa: "on"
