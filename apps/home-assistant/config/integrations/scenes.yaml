@@ -1,0 +1,22 @@
+scene:
+  - id: modo_pelicula
+    name: Modo Pelicula
+    entities:
+      cover.persiana_salon:
+        position: 20
+      switch.luz_cocina:
+        state: off
+      switch.luz_ventilador_salon:
+        state: off
+      switch.luz_lampara_salon:
+        state: off
+      switch.luz_mesa_cocina:
+        state: off
+      switch.luz_entrada:
+        state: off
+      switch.luz_encimera:
+        state: off
+      switch.luz_izquierda_sofa:
+        state: on
+      switch.luz_derecha_sofa:
+        state: off

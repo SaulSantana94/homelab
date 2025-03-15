@@ -1,10 +1,10 @@
 {
     "domain": "custom_fan",
     "name": "Custom Fan",
-    "documentation": "https://github.com/yourusername/custom_fan",
+    "documentation": "https://github.com/dabol/custom_fan",
     "dependencies": [],
-    "codeowners": ["@yourusername"],
+    "codeowners": ["@dabol"],
     "requirements": [],
     "version": "0.1.0",
-    "icons": ["local:custom_fan"]
+    "icons": ["local:custom_fan.svg"]
   }
