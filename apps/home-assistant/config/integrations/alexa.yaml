@@ -30,7 +30,10 @@ alexa:
         - fan.ventilador_salon
         - binary_sensor.puerta_entrada
         - climate.radiador_despacho
-        - climate.radiador_dormitorio        
+        - climate.radiador_dormitorio
+        - switch.modo_cocinar_stateful_scene
+        - switch.modo_cena_stateful_scene
+        - switch.modo_pelicula_stateful_scene
     entity_config:
       climate.radiador_despacho:
         name: "Radiador del despacho"
@@ -144,3 +147,18 @@ alexa:
         name: "Puerta de la entrada"
         description: "Monitoriza el estado de la puerta de entrada"
         display_categories: DOOR
+        - switch.modo_cocinar_stateful_scene
+        - switch.modo_cena_stateful_scene
+        - switch.modo_pelicula_stateful_scene
+      switch.modo_cocinar_stateful_scene:
+        name: "Modo de cocinar"
+        description: "Activa el modo cocinar"
+        display_categories: SWITCH
+      switch.modo_cena_stateful_scene:
+        name: "Modo de cocinar"
+        description: "Activa el modo cena"
+        display_categories: SWITCH
+      switch.modo_pelicula_stateful_scene:
+        name: "Modo pelicula"
+        description: "Activa el modo pelicula o peli"
+        display_categories: SWITCH
