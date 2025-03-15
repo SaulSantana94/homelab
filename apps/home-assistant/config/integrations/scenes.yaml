@@ -4,6 +4,7 @@ scene:
     entities:
       switch.luz_izquierda_sofa: "off"
       switch.luz_derecha_sofa: "on"
+
   - name: Pelicula izquierda
     icon: "mdi:flower-tulip"
     entities:
