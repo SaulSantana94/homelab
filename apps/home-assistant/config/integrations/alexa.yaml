@@ -60,7 +60,7 @@ alexa:
         description: "Controla la luz del dormitorio"
         display_categories: LIGHT
       switch.luz_cocina:
-        name: "Luz de la cocina"
+        name: "Luz cocina"
         description: "Controla la luz de la cocina"
         display_categories: LIGHT
       switch.luz_pasillo:
