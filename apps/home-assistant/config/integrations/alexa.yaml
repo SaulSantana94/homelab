@@ -150,12 +150,12 @@ alexa:
       switch.modo_cocinar_stateful_scene:
         name: "Escena de cocinar"
         description: "Activa la escena de cocinar"
-        display_categories: SCENE_TRIGGER
+        display_categories: LIGHT
       switch.modo_cena_stateful_scene:
         name: "Escena de cenar"
         description: "Activa la escena de cenar"
-        display_categories: SCENE_TRIGGER
+        display_categories: LIGHT
       switch.modo_cine_stateful_scene:
         name: "Escena de cine"
         description: "Activa la escena de cine"
-        display_categories: SCENE_TRIGGER
+        display_categories: LIGHT
