@@ -162,10 +162,10 @@ alexa:
         description: "Activa la escena de cine"
         display_categories: LIGHT
       switch.modo_buenos_dias_stateful_scene:
-        name: "Escena de buenas noches"
-        description: "Activa la escena de buenas noches"
-        display_categories: LIGHT
-      switch.modo_buenas_noches_stateful_scene:
         name: "Escena de buenos dias"
         description: "Activa la escena de buenos dias"
+        display_categories: LIGHT
+      switch.modo_buenas_noches_stateful_scene:
+        name: "Escena de buenas noches"
+        description: "Activa la escena de buenas noches"
         display_categories: LIGHT
