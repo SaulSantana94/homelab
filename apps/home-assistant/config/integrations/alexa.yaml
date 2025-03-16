@@ -34,6 +34,8 @@ alexa:
         - switch.modo_cocinar_stateful_scene
         - switch.modo_cena_stateful_scene
         - switch.modo_pelicula_stateful_scene
+        - switch.modo_buenos_dias_stateful_scene
+        - switch.modo_buenas_noches_stateful_scene
     entity_config:
       climate.radiador_despacho:
         name: "Radiador del despacho"
@@ -158,4 +160,12 @@ alexa:
       switch.modo_cine_stateful_scene:
         name: "Escena de cine"
         description: "Activa la escena de cine"
+        display_categories: LIGHT
+      switch.modo_buenos_dias_stateful_scene:
+        name: "Escena de buenas noches"
+        description: "Activa la escena de buenas noches"
+        display_categories: LIGHT
+      switch.modo_buenas_noches_stateful_scene:
+        name: "Escena de buenos dias"
+        description: "Activa la escena de buenos dias"
         display_categories: LIGHT
