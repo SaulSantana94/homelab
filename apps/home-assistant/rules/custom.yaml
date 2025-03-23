@@ -1,9 +1,0 @@
-- alert: AppDaemonDown
-  expr: time() - hass_last_updated_time_seconds{domain="sensor",entity="sensor.last_appdaemon_connection"} > 120
-  annotations:
-    description: |
-      App daemon is not updating {{ $labels.entity }} since the last 10m. App daemon can be disconnected
-      from Home Assistant or Home Assistant is not serving metrics since {{ $value }} seconds.
-  for: 10m
-  labels:
-    severity: warning

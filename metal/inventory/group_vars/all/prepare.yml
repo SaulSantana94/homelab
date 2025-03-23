@@ -1,8 +1,0 @@
----
-prepare_username: dabol
-prepare_domain: dabol
-
-prepare_password: "{{ lookup('passwordstore', 'k8s.dabol/prepare_password') }}"
-prepare_public_keys:
-  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzfBT3Fv/SvW9gO2iwGt0MuGcBwAdOdELYm4JtKUaNwZqvAV3bHraIbf09yBwqHGx0CK4p6X43SIyjHT+ejlWcU7fr0cn1TikODZU61OhLbCU6945iYqq4OHhQKSa1ex2aBW1xJ3X+uqtQi19hQTei7iHocr4oI5WTmvAM+qc3wgTtQJnOTEwW3ni/3STWrKavXspFemCYfyAK4WXLdO7Ht+kSoul+7EzKYElPpSTz6V7seXy6uk3p4uy3ceidrR8yKCQRJfC1nvogfuFVgmCwCl3HrcsUojJAgjUH3xUU3m/tcHQD7XLA6EXG82JYXj77B14KEV+goMo2sPo/MoFRU3JwcI5ZGGyYvv17P19ZOfryGJUwwNNZFaIIHWY4cjjAk0Uoe54GsFEeN2dYdK/f+BdWXXJjoe/y0h69elyJBIvBTnQGXMIGF7qe54ANyd4xxUgOP3C3MQ6HxHMkG3AmOCHZuj3WxlyduBpp8Zrptay+KshLo7QEAQIb7GutWWs= root@dabol-Precision-5550"  # noqa: yaml[line-length]
-

@@ -1,7 +1,0 @@
-climate_control:
-  module: riego_terraza_control
-  class: RiegoTerrazaControl
-
-last_connection_sensor:
-  module: last_connection_sensor
-  class: LastConnectionSensor

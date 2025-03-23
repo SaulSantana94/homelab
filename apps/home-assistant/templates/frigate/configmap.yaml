@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: hass-frigate
-data:
-{{ (.Files.Glob "frigate/config.yaml").AsConfig | indent 2 }}
