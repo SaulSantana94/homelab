@@ -32,9 +32,11 @@ spec:
       labels:
         app: homeassistant
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: homeassistant
-          image: ghcr.io/home-assistant/home-assistant:2025.7
+          image: ghcr.io/home-assistant/home-assistant:2025.9
           ports:
             - containerPort: 8123
           volumeMounts:
