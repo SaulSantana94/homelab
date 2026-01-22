@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: duckdns-updater
+  namespace: duckdns
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: updater
+              image: curlimages/curl:8.10.1
+              env:
+                - name: DUCKDNS_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: duckdns-secret
+                      key: DUCKDNS_TOKEN
+                - name: DUCKDNS_DOMAINS
+                  valueFrom:
+                    secretKeyRef:
+                      name: duckdns-secret
+                      key: DUCKDNS_DOMAINS
+              command: ["/bin/sh", "-c"]
+              args:
+               - |
+                  set -e
+                  echo "Updating DuckDNS for: $DUCKDNS_DOMAINS"
+                  resp="$(curl -fsS "https://www.duckdns.org/update?domains=${DUCKDNS_DOMAINS}&token=${DUCKDNS_TOKEN}&ip=")"
+                  echo "DuckDNS response: $resp"
+                  test "$resp" = "OK"
+
