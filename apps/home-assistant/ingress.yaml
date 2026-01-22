@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: homeassistant
   namespace: homeassistant
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
     - host: sancebsa.duckdns.org
       http:
