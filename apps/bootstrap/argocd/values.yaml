@@ -1,0 +1,79 @@
+argo-cd:
+  configs:
+    cm:
+      create: true
+      # Logical Argo CD URL (used in links and UI, not exposed here)
+      url: https://argocd.local
+      # Disable OIDC integration for now
+      oidc.config: ""
+
+    params:
+      # Run the Argo CD API server without TLS inside the cluster
+      server.insecure: true
+
+    secret:
+      createSecret: true
+
+  dex:
+    # Dex is not needed unless you're using an external IdP (e.g. Keycloak, Google)
+    enabled: false
+
+  server:
+    ingress:
+      # No ingress for now – K3s has Traefik but we’ll keep it internal
+      enabled: false
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+
+  controller:
+    resources:
+      requests:
+        cpu: 1
+        memory: 512Mi
+      limits:
+        cpu: 3
+        memory: 3Gi
+
+  repoServer:
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 150
+      targetMemoryUtilizationPercentage: 90
+    resources:
+      limits:
+        cpu: 2.5
+        memory: 512Mi
+      requests:
+        cpu: 1
+        memory: 512Mi
+    env:
+      
+  redis:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+
+  applicationSet:
+    enabled: true
+    resources:
+      limits:
+        cpu: 400m
+        memory: 256Mi
+      requests:
+        cpu: 10m
+        memory: 78Mi
+
+  notifications:
+    # Disable notifications until external integrations are available
+    enabled: false
