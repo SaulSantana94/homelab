@@ -1,6 +1,6 @@
 gitops:
   repo: https://github.com/lhpot/pot-prod2-vpc0-usc1-la1-datap-1a1b1
-  revision: main
+  revision: master
 stacks:
 - name: bootstrap
   namespace: argocd
