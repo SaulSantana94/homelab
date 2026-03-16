@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-providers
+  namespace: keycloak
+binaryData:
+  keycloak-restrict-client-auth-v26.1.0.jar: {{ .Files.Get "resources/keycloak-restrict-client-auth-v26.1.0.jar" | b64enc }}
