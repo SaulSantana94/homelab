@@ -100,11 +100,7 @@ ingress-nginx:
 
     metrics:
       enabled: true
-      serviceMonitor:
-        enabled: true
-        additionalLabels:
-          release: monitoring
-
+      
     extraVolumes:
       - name: dshm
         emptyDir:
