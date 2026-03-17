@@ -11,10 +11,6 @@ spec:
         repoURL: {{ $.Values.gitops.repo }}
         revision: {{ $.Values.gitops.revision }}
         directories:
-          {{- if eq $stack.name "platform" }}
-          - path: platform/external-secrets
-            exclude: true
-          {{- end }}
           - path: {{ $stack.name }}/*
   template:
     metadata:
@@ -45,35 +41,4 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
-{{- if eq $stack.name "platform" }}
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: external-secrets
-  namespace: {{ $.Release.Namespace }}
-spec:
-  destination:
-    name: in-cluster
-    namespace: external-secrets
-  project: default
-  source:
-    repoURL: {{ $.Values.gitops.repo }}
-    path: platform/external-secrets
-    targetRevision: {{ $.Values.gitops.revision }}
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      limit: 10
-      backoff:
-        duration: 1m
-        factor: 2
-        maxDuration: 16m
-    syncOptions:
-      - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
-      - ServerSideApply=true
-{{- end }}
 {{- end }}
