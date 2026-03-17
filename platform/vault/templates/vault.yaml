@@ -76,7 +76,7 @@ spec:
     spec:
       ingressClassName: nginx-internal
       rules:
-        - host: &host vault.internal.dbcloud.org
+        - host: &host vault.internal.sasancloud.com
           http:
             paths:
               - backend:

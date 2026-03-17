@@ -12,8 +12,8 @@ app-template:
 
           env:
             TZ: Europe/Madrid
-            DOMAIN_NAME: dbcloud.org
-            CNAME_TAGS: wireguard.dbcloud.org #accepts comma separated tags like wireguard.dbcloud.org,example.dbcloud.org
+            DOMAIN_NAME: sasancloud.com
+            CNAME_TAGS: wireguard.sasancloud.com #accepts comma separated tags like wireguard.sasancloud.com,example.sasancloud.com
           envFrom:
           - secretRef:
               name: dynip-secrets
