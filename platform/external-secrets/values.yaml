@@ -1,4 +1,8 @@
 external-secrets:
+  crds:
+    annotations:
+      argocd.argoproj.io/sync-options: ServerSideApply=true
+
   resources:
     requests:
       cpu: 10m
