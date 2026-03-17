@@ -4,7 +4,7 @@ metadata:
   name: keystudio-iot-dbcloud-org
 spec:
   endpoints:
-    - dnsName: keystudio.iot.dbcloud.org
+    - dnsName: keystudio.iot.sasancloud.com
       recordType: A
       recordTTL: 300
       targets:
@@ -16,7 +16,7 @@ metadata:
   name: switch-salon-iot-dbcloud-org
 spec:
   endpoints:
-    - dnsName: switch-salon.iot.dbcloud.org
+    - dnsName: switch-salon.iot.sasancloud.com
       recordType: A
       recordTTL: 300
       targets:

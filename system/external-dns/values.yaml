@@ -20,7 +20,7 @@ external-dns:
   - crd
   
   domainFilters:
-  - dbcloud.org
+  - sasancloud.com
 
   resources:
     requests:

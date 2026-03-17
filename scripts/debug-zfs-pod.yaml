@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-zfs
+  namespace: default
+spec:
+  hostNetwork: true
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: debug
+    image: ubuntu:24.04
+    command: ["sleep", "infinity"]
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: host-root
+      mountPath: /host
+  volumes:
+  - name: host-root
+    hostPath:
+      path: /
+      type: Directory
