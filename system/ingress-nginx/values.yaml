@@ -4,7 +4,7 @@ ingress-nginx:
       enabled: enable
       timeoutSeconds: 30
 
-    replicaCount: 2
+    replicaCount: 1
     extraArgs:
       # Disable until PR merged: https://github.com/kubernetes/ingress-nginx/pull/12626
       enable-annotation-validation: "false"
