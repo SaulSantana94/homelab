@@ -23,21 +23,21 @@ argo-cd:
       # No ingress for now – K3s has Traefik but we’ll keep it internal
       enabled: false
     resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
       limits:
         cpu: 200m
-        memory: 512Mi
-      requests:
-        cpu: 10m
-        memory: 64Mi
+        memory: 256Mi
 
   controller:
     resources:
       requests:
-        cpu: 1
-        memory: 512Mi
+        cpu: 200m
+        memory: 256Mi
       limits:
-        cpu: 3
-        memory: 3Gi
+        cpu: 600m
+        memory: 768Mi
 
   repoServer:
     autoscaling:
@@ -48,31 +48,31 @@ argo-cd:
       targetMemoryUtilizationPercentage: 90
     resources:
       limits:
-        cpu: 2.5
+        cpu: 400m
         memory: 512Mi
       requests:
-        cpu: 1
-        memory: 512Mi
+        cpu: 100m
+        memory: 256Mi
     env:
       
   redis:
     resources:
       limits:
-        cpu: 200m
+        cpu: 150m
         memory: 128Mi
       requests:
-        cpu: 10m
+        cpu: 50m
         memory: 64Mi
 
   applicationSet:
     enabled: true
     resources:
       limits:
-        cpu: 400m
+        cpu: 200m
         memory: 256Mi
       requests:
-        cpu: 10m
-        memory: 78Mi
+        cpu: 25m
+        memory: 128Mi
 
   notifications:
     # Disable notifications until external integrations are available
