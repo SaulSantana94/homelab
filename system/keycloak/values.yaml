@@ -45,8 +45,11 @@ app-template:
 
           resources:
             requests:
-              cpu: 50m
-              memory: 100Mi
+              cpu: 200m
+              memory: 768Mi
+            limits:
+              cpu: 800m
+              memory: 1500Mi
             
   service:
     keycloak:
